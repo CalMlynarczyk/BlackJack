@@ -1,0 +1,22 @@
+.main-header {
+    text-align: center;
+}
+
+.main-header__first-word {
+    color: hsl(0, 100%, 49%);
+}
+
+.main-header__second-word {
+    color: hsl(0, 0%, 0%);
+}
+
+.main-header__first-word,
+.main-header__second-word {
+    display: inline-block;
+    transform: skew(-18deg);
+    transition: font-size 1s, opacity 1s, transform 1s;
+}
+
+.main-header.animate .main-header__first-word:nth-of-type(1) {
+    
+}

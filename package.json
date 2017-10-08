@@ -1,0 +1,16 @@
+{
+  "name": "blackjack",
+  "version": "1.0.0",
+  "description": "BlackJack portfolio project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "blackjack",
+    "card",
+    "game"
+  ],
+  "author": "Calvin Mlynarczyk",
+  "license": "ISC"
+}
