@@ -21,7 +21,7 @@ const CARD_VALUES = {
     king: 10,
 };
 
-const ACTION = {
+export const ACTION = {
     hit: 0,
     stand: 1,
 };
@@ -31,7 +31,7 @@ const PLAYER_TYPE = {
     dealer: 1,
 };
 
-const RESULT = {
+export const RESULT = {
     player_wins: 0,
     dealer_wins: 1,
     tie: 2,
@@ -59,7 +59,7 @@ function createCard(suit, value) {
     return { suit: suit, value: value };
 }
 
-function init() {
+export function init() {
     let gameDeck = shuffle(DECK);
     let player = createPlayer(PLAYER_TYPE.player);
     let dealer = createPlayer(PLAYER_TYPE.dealer);
@@ -69,20 +69,7 @@ function init() {
     return { gameDeck: gameDeck, player: player, dealer: dealer, keepPlaying: keepPlaying };
 }
 
-function printResult(result) {
-    switch (result) {
-        case RESULT.dealer_wins:
-            return "Dealer wins";
-        case RESULT.player_wins:
-            return "Player wins";
-        case RESULT.tie:
-            return "Tie";
-        default:
-            throw "Invalid result";
-    }
-}
-
-function getResult(player, dealer) {
+export function getResult(player, dealer) {
     const playerTotal = getFinalHandValue(player.hand);
     const dealerTotal = getFinalHandValue(dealer.hand);
 
@@ -121,7 +108,7 @@ function playTurn(deck, player) {
     }
 }
 
-function playRound(deck, player, dealer) {
+export function playRound(deck, player, dealer) {
     playTurn(deck, player);
     playTurn(deck, dealer);
 
@@ -154,7 +141,7 @@ function getHandValue(hand) {
     }, startingTotal); 
 }
 
-function getFinalHandValue(hand) {
+export function getFinalHandValue(hand) {
     const total = getHandValue(hand);
 
     return total.soft <= MAX_SCORE

@@ -1,3 +1,5 @@
+import { init, playRound, getResult, getFinalHandValue, ACTION, RESULT } from "./index.js";
+
 const mainHeader = document.getElementsByClassName("main-header");
 
 mainHeader[0].classList.remove("animate");
@@ -66,6 +68,19 @@ function displayResult() {
     const resultView = document.getElementById("result-message");
     resultView.innerText = printResult(result);
     resultView.classList.remove("hide");
+}
+
+function printResult(result) {
+    switch (result) {
+        case RESULT.dealer_wins:
+            return "Dealer wins";
+        case RESULT.player_wins:
+            return "Player wins";
+        case RESULT.tie:
+            return "Tie";
+        default:
+            throw "Invalid result";
+    }
 }
 
 function reset() {

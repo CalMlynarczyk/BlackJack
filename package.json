@@ -4,6 +4,7 @@
   "description": "BlackJack portfolio project",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,5 +13,15 @@
     "game"
   ],
   "author": "Calvin Mlynarczyk",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "react": "16.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-react": "6.24.1",
+    "webpack": "3.6.0"
+  }
 }
