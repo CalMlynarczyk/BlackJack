@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
-import { init, playRound, getResult, getFinalHandValue, ACTION, RESULT } from "./index.js";
-import renderHand from "./hand.jsx";
+import { init, playRound, getResult, getFinalHandValue, ACTION, RESULT } from "./game.js";
+import renderHand from "./hand/hand.jsx";
 
 const mainHeader = document.getElementsByClassName("main-header");
 

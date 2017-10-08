@@ -1,25 +1,4 @@
-export const CARD_SUITS = {
-    spade: 0,
-    club: 13,
-    heart: 26,
-    diamond: 39
-};
-
-export const CARD_VALUES = {
-    ace: [1, 11],
-    two: 2,
-    three: 3,
-    four: 4,
-    five: 5,
-    six: 6,
-    seven: 7,
-    eight: 8,
-    nine: 9,
-    ten: 10,
-    jack: 10,
-    queen: 10,
-    king: 10,
-};
+import { getShuffledDeck } from "./hand/cards.js";
 
 export const ACTION = {
     hit: 0,
@@ -40,27 +19,8 @@ export const RESULT = {
 const MAX_SCORE = 21;
 const DEALER_MAX_SCORE = 17;
 
-const DECK = createDeck();
-
-function createDeck() {
-    let deck = [];
-
-    for (const suit of Object.keys(CARD_SUITS)) {
-        for (const value of Object.keys(CARD_VALUES)) {
-            const card = createCard(CARD_SUITS[suit], CARD_VALUES[value]);
-            deck.push(card);
-        }
-    }
-
-    return deck;
-}
-
-function createCard(suit, value) {
-    return { suit: suit, value: value };
-}
-
 export function init() {
-    let gameDeck = shuffle(DECK);
+    let gameDeck = getShuffledDeck();
     let player = createPlayer(PLAYER_TYPE.player);
     let dealer = createPlayer(PLAYER_TYPE.dealer);
 
@@ -151,21 +111,4 @@ export function getFinalHandValue(hand) {
 
 function createTotal(hardTotal, softTotal) {
     return { hard: hardTotal, soft: softTotal };
-}
-
-// Knuth Shuffle Algorithm borrowed from https://git.daplie.com/Daplie/knuth-shuffle
-function shuffle(array) {
-    let shuffledArray = Array.from(array);
-    let currentIndex = array.length;
-
-    while (0 !== currentIndex) {
-        const randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        const temporaryValue = shuffledArray[currentIndex];
-        shuffledArray[currentIndex] = shuffledArray[randomIndex];
-        shuffledArray[randomIndex] = temporaryValue;
-    }
-
-    return shuffledArray;
 }

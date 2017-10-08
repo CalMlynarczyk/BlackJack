@@ -1,20 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { CARD_SUITS, CARD_VALUES } from "./index.js";
+import { CARD_SUITS, CARD_VALUES } from "./cards";
 
-const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
-
-class Hand extends React.Component {
+export default class Card extends React.Component {
     render() {
         return (
-            <ul className="hand">
-                {this.props.hand.map(card =>
-                    <li><img src={mapCardToSVG(card)} /></li>
-                )}
-            </ul>
+            <li><img src={mapCardToSVG(this.props.card)} /></li>
         );
     }
 }
+
+const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
 
 function mapCardToSVG(card) {
     const suitCode = mapSuitToCode(card.suit);
@@ -61,11 +57,4 @@ function mapValueToCode(value) {
         default:
             throw "Invalid card value";
     }
-}
-
-export default function renderHand(hand, elementId) {
-    ReactDOM.render(
-        <Hand hand={hand}></Hand>,
-        document.getElementById(elementId)
-    );
 }
