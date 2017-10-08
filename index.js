@@ -1,11 +1,11 @@
-const CARD_SUITS = {
+export const CARD_SUITS = {
     spade: 0,
     club: 13,
-    hear: 26,
+    heart: 26,
     diamond: 39
 };
 
-const CARD_VALUES = {
+export const CARD_VALUES = {
     ace: [1, 11],
     two: 2,
     three: 3,

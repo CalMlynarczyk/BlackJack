@@ -74,3 +74,17 @@ body {
     width: 400px;
     vertical-align: top;
 }
+
+.hand {
+    list-style: none;
+    padding: 0;
+}
+
+.hand > li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.hand > li > img {
+    width: 80px;
+}

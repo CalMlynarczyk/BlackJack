@@ -1,4 +1,6 @@
+import ReactDOM from "react-dom";
 import { init, playRound, getResult, getFinalHandValue, ACTION, RESULT } from "./index.js";
+import renderHand from "./hand.jsx";
 
 const mainHeader = document.getElementsByClassName("main-header");
 
@@ -27,6 +29,9 @@ function playGame() {
 function updateView() {
     document.getElementById("player-score").innerText = getFinalHandValue(player.hand);
     document.getElementById("dealer-score").innerText = getFinalHandValue(dealer.hand);
+
+    renderHand(player.hand, "player-hand");
+    renderHand(dealer.hand, "dealer-hand");
 }
 
 function hitButtonClicked() {
