@@ -61,21 +61,12 @@ function createCard(suit, value) {
 
 function init() {
     let gameDeck = shuffle(DECK);
-
     let player = createPlayer(PLAYER_TYPE.player);
     let dealer = createPlayer(PLAYER_TYPE.dealer);
 
     let keepPlaying = initialDeal(gameDeck, player, dealer);
 
-    while (keepPlaying)
-        keepPlaying = playRound(gameDeck, player, dealer);
-
-    const result = getResult(player, dealer);
-    console.log(`
-Dealer Total: ${getFinalHandValue(dealer.hand)}
-Player Total: ${getFinalHandValue(player.hand)}
-
-${printResult(result)}`);
+    return { gameDeck: gameDeck, player: player, dealer: dealer, keepPlaying: keepPlaying };
 }
 
 function printResult(result) {
@@ -131,14 +122,10 @@ function playTurn(deck, player) {
 }
 
 function playRound(deck, player, dealer) {
-    const keepPlaying = player.status === ACTION.hit || dealer.status === ACTION.hit;
+    playTurn(deck, player);
+    playTurn(deck, dealer);
 
-    if (keepPlaying) {
-        playTurn(deck, player);
-        playTurn(deck, dealer);
-    }
-    
-    return keepPlaying;
+    return player.status === ACTION.hit || dealer.status === ACTION.hit;
 }
 
 function dealCard(deck, hand) {
@@ -195,5 +182,3 @@ function shuffle(array) {
 
     return shuffledArray;
 }
-
-init();
