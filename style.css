@@ -1,3 +1,11 @@
+body {
+    font-family: sans-serif;
+}
+
+.hide {
+    visibility: hidden;
+}
+
 .main-header {
     text-align: center;
     font-size: 3.5em;
@@ -59,4 +67,10 @@
 
 .main-header .main-header__second-word:nth-child(9) {
     transition-delay: 1.6s;
+}
+
+.hand-section {
+    display: inline-block;
+    width: 400px;
+    vertical-align: top;
 }
