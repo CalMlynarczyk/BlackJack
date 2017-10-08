@@ -1,5 +1,6 @@
 .main-header {
     text-align: center;
+    font-size: 3.5em;
 }
 
 .main-header__first-word {
@@ -14,9 +15,48 @@
 .main-header__second-word {
     display: inline-block;
     transform: skew(-18deg);
-    transition: font-size 1s, opacity 1s, transform 1s;
+    opacity: 1;
+    transition: opacity 2s, transform 2s;
 }
 
-.main-header.animate .main-header__first-word:nth-of-type(1) {
-    
+.main-header.animate .main-header__first-word,
+.main-header.animate .main-header__second-word {
+    transform: scale(3);
+    opacity: 0;
+}
+
+.main-header .main-header__first-word:nth-child(1) {
+    transition-delay: 0s;
+}
+
+.main-header .main-header__first-word:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.main-header .main-header__first-word:nth-child(3) {
+    transition-delay: 0.4s;
+}
+
+.main-header .main-header__first-word:nth-child(4) {
+    transition-delay: 0.6s;
+}
+
+.main-header .main-header__first-word:nth-child(5) {
+    transition-delay: 0.8s;
+}
+
+.main-header .main-header__second-word:nth-child(6) {
+    transition-delay: 1.0s;
+}
+
+.main-header .main-header__second-word:nth-child(7) {
+    transition-delay: 1.2s;
+}
+
+.main-header .main-header__second-word:nth-child(8) {
+    transition-delay: 1.4s;
+}
+
+.main-header .main-header__second-word:nth-child(9) {
+    transition-delay: 1.6s;
 }
