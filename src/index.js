@@ -1,21 +1,18 @@
 import { init, playTurn, playAnotherRound } from "./game.js";
-import { RESULT, getResult } from "./player/score.js";
+import { getResult } from "./player/score.js";
 import { ACTION } from "./player/player.js";
 import renderPlayerSection from "./player/playerSection.jsx";
+import renderResultSection from "./result.jsx";
 
 const mainHeader = document.getElementsByClassName("main-header");
-
 mainHeader[0].classList.remove("animate");
-
-const resetButton = document.getElementById("reset-button");
-
-resetButton.addEventListener("click", reset);
 
 let gameDeck, player, dealer, keepPlaying;
 
 playGame();
 
 function playGame() {
+    renderResultSection(null, false, playGame, "result-message");
     ({ gameDeck, player, dealer, keepPlaying } = init());
 
     renderPlayers();
@@ -50,30 +47,6 @@ function dealerTurn() {
 }
 
 function displayResult() {
-    resetButton.classList.remove("hide");
-
     const result = getResult(player, dealer);
-    const resultView = document.getElementById("result-message");
-    resultView.innerText = printResult(result);
-    resultView.classList.remove("hide");
-}
-
-function printResult(result) {
-    switch (result) {
-        case RESULT.dealer_wins:
-            return "Dealer wins";
-        case RESULT.player_wins:
-            return "Player wins";
-        case RESULT.tie:
-            return "Tie";
-        default:
-            throw "Invalid result";
-    }
-}
-
-function reset() {
-    document.getElementById("result-message").classList.add("hide");
-    resetButton.classList.add("hide");
-
-    playGame();
+    renderResultSection(result, true, playGame, "result-message");
 }
