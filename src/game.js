@@ -87,16 +87,16 @@ function getHandValue(hand) {
 
     return hand.reduce((total, card) => { 
         // We are evaluating an Ace
-        if (Array.isArray(card.value)) {
-            const hardValue = card.value[0];
-            const softValue = card.value[1];
+        if (Array.isArray(card.value.val)) {
+            const hardValue = card.value.val[0];
+            const softValue = card.value.val[1];
 
             // Determine if we have already calculated for an Ace in the hand
             return total.hard !== total.soft
                 ? createTotal(total.hard + hardValue, total.soft + softValue)
                 : createTotal(total.hard + hardValue, total.soft + hardValue);
         } else {
-            return createTotal(total.hard + card.value, total.soft + card.value);
+            return createTotal(total.hard + card.value.val, total.soft + card.value.val);
         }
     }, startingTotal); 
 }

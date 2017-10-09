@@ -5,26 +5,26 @@ export const CARD_SUITS = {
     spade: 0,
     club: 13,
     heart: 26,
-    diamond: 39
+    diamond: 39,
 };
 
 /**
  * Fixed enumeration for card values
  */
 export const CARD_VALUES = {
-    ace: [1, 11],
-    two: 2,
-    three: 3,
-    four: 4,
-    five: 5,
-    six: 6,
-    seven: 7,
-    eight: 8,
-    nine: 9,
-    ten: 10,
-    jack: 10,
-    queen: 10,
-    king: 10,
+    ace: { key: "ace", val: [1, 11] },
+    two: { key: "two", val: 2 },
+    three: { key: "three", val: 3 },
+    four: { key: "four", val: 4 },
+    five: { key: "five", val: 5 },
+    six: { key: "six", val: 6 },
+    seven: { key: "seven", val: 7 },
+    eight: { key: "eight", val: 8 },
+    nine: { key: "nine", val: 9 },
+    ten: { key: "ten", val: 10 },
+    jack: { key: "jack", val: 10 },
+    queen: { key: "queen", val: 10 },
+    king: { key: "king", val: 10 },
 };
 
 const DECK = createDeck();

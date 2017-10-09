@@ -45,7 +45,7 @@ function mapValueToCode(value) {
         case CARD_VALUES.eight:
         case CARD_VALUES.nine:
         case CARD_VALUES.ten:
-            return value;
+            return value.val;
         case CARD_VALUES.jack:
             return "J";
         case CARD_VALUES.queen:
