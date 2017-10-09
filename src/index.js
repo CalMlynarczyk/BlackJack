@@ -1,17 +1,14 @@
-import ReactDOM from "react-dom";
-import { init, playRound, getResult, getFinalHandValue, ACTION, RESULT } from "./game.js";
-import renderHand from "./hand/hand.jsx";
+import { init, playTurn, playAnotherRound } from "./game.js";
+import { RESULT, getResult } from "./player/score.js";
+import { ACTION } from "./player/player.js";
+import renderPlayerSection from "./player/playerSection.jsx";
 
 const mainHeader = document.getElementsByClassName("main-header");
 
 mainHeader[0].classList.remove("animate");
 
-const hitButton = document.getElementById("player-hit-button");
-const standButton = document.getElementById("player-stand-button");
 const resetButton = document.getElementById("reset-button");
 
-hitButton.addEventListener("click", hitButtonClicked);
-standButton.addEventListener("click", standButtonClicked);
 resetButton.addEventListener("click", reset);
 
 let gameDeck, player, dealer, keepPlaying;
@@ -20,53 +17,39 @@ playGame();
 
 function playGame() {
     ({ gameDeck, player, dealer, keepPlaying } = init());
-    updateView(player, dealer);
+
+    renderPlayers();
     
     if (!keepPlaying)
         displayResult();
 }
 
-function updateView() {
-    document.getElementById("player-score").innerText = getFinalHandValue(player.hand);
-    document.getElementById("dealer-score").innerText = getFinalHandValue(dealer.hand);
-
-    renderHand(player.hand, "player-hand");
-    renderHand(dealer.hand, "dealer-hand");
+function renderPlayers() {
+    renderPlayerSection(player, (action) => playerTurn(action), "player-section");
+    renderPlayerSection(dealer, null, "dealer-section");
 }
 
-function hitButtonClicked() {
-    playerActionTaken(ACTION.hit);
-}
-
-function standButtonClicked() {
-    playerActionTaken(ACTION.stand);
-}
-
-function playerActionTaken(action) {
+function playerTurn(action) {
     player.status = action;
+    playTurn(player);
 
-    let roundStatus;
+    renderPlayers();
 
-    const gameLoop = () => {
-        roundStatus = playRound(gameDeck, player, dealer);
-        updateView();
-        
-        if (!roundStatus)
-            displayResult();
-    };
+    dealerTurn();
+}
 
-    gameLoop();
+function dealerTurn() {
+    playTurn(dealer);
 
-    if (roundStatus && player.status === ACTION.stand) {
-        while (roundStatus) {
-            gameLoop();
-        }
-    }
+    renderPlayers();
+
+    if (!playAnotherRound(player, dealer))
+        displayResult();
+    else if (player.status === ACTION.stand)
+        dealerTurn();
 }
 
 function displayResult() {
-    hitButton.classList.add("hide");
-    standButton.classList.add("hide");
     resetButton.classList.remove("hide");
 
     const result = getResult(player, dealer);
@@ -90,8 +73,6 @@ function printResult(result) {
 
 function reset() {
     document.getElementById("result-message").classList.add("hide");
-    hitButton.classList.remove("hide");
-    standButton.classList.remove("hide");
     resetButton.classList.add("hide");
 
     playGame();

@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Card from "./card.jsx";
 
-class Hand extends React.Component {
+export default class Hand extends React.Component {
     render() {
         return (
             <ul className="hand">
@@ -12,11 +11,4 @@ class Hand extends React.Component {
             </ul>
         );
     }
-}
-
-export default function renderHand(hand, elementId) {
-    ReactDOM.render(
-        <Hand hand={hand}></Hand>,
-        document.getElementById(elementId)
-    );
 }
