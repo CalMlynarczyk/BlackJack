@@ -4,18 +4,18 @@ import { CARD_SUITS, CARD_VALUES } from "./cards.js";
 export default class Card extends React.Component {
     render() {
         return (
-            <li><img src={mapCardToSVG(this.props.card)} /></li>
+            <li><img src={`${SVG_CARD_DIR}${mapCardToCode(this.props.card)}.svg`} /></li>
         );
     }
 }
 
 const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
 
-function mapCardToSVG(card) {
+export function mapCardToCode(card) {
     const suitCode = mapSuitToCode(card.suit);
     const valueCode = mapValueToCode(card.value);
 
-    return `${SVG_CARD_DIR}${valueCode}${suitCode}.svg`;
+    return `${valueCode}${suitCode}`;
 }
 
 function mapSuitToCode(suit) {
