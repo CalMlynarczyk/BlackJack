@@ -33,25 +33,25 @@ function mapSuitToCode(suit) {
     }
 }
 
-function mapValueToCode(value) {
-    switch (value) {
-        case CARD_VALUES.two:
-        case CARD_VALUES.three:
-        case CARD_VALUES.four:
-        case CARD_VALUES.five:
-        case CARD_VALUES.six:
-        case CARD_VALUES.seven:
-        case CARD_VALUES.eight:
-        case CARD_VALUES.nine:
-        case CARD_VALUES.ten:
-            return value.val;
-        case CARD_VALUES.jack:
+function mapValueToCode(cardValue) {
+    switch (cardValue.key) {
+        case CARD_VALUES.two.key:
+        case CARD_VALUES.three.key:
+        case CARD_VALUES.four.key:
+        case CARD_VALUES.five.key:
+        case CARD_VALUES.six.key:
+        case CARD_VALUES.seven.key:
+        case CARD_VALUES.eight.key:
+        case CARD_VALUES.nine.key:
+        case CARD_VALUES.ten.key:
+            return cardValue.val;
+        case CARD_VALUES.jack.key:
             return "J";
-        case CARD_VALUES.queen:
+        case CARD_VALUES.queen.key:
             return "Q";
-        case CARD_VALUES.king:
+        case CARD_VALUES.king.key:
             return "K";
-        case CARD_VALUES.ace:
+        case CARD_VALUES.ace.key:
             return "A";
         default:
             throw "Invalid card value";

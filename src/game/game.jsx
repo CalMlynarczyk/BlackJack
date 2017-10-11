@@ -7,17 +7,32 @@ import { getResult } from "./score.js";
 import { ACTION } from "../player/player.js";
 
 class Game extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.playerTurn = this.playerTurn.bind(this);
         this.init = this.init.bind(this);
 
+        this.isFirstLoad = true;
         this.state = init();
     }
 
+    componentDidMount() {
+        this.init();
+    }
+
     init() {
-        this.setState(init());
+        const playIfPlayerBlackjacks = () => {
+            if (this.state.keepPlaying && this.state.player.status === ACTION.stand)
+                this.dealerTurn();
+        };
+
+        if (!this.isFirstLoad)
+            this.setState(init(), playIfPlayerBlackjacks);        
+        else {
+            this.isFirstLoad = false;
+            playIfPlayerBlackjacks();
+        }
     }
 
     render() {
