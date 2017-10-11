@@ -1,3 +1,5 @@
+import "./style.css";
+
 import playGame from "./game/game.jsx";
 
 const mainHeader = document.getElementsByClassName("main-header");
