@@ -6,7 +6,10 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --open",
-    "test": "mocha --require babel-register \"src/**/_test/**.test.js\""
+    "test": "mocha --require babel-register \"src/**/_test/**.test.js\"",
+    "lint:js": "eslint --color src/",
+    "lint:css": "stylelint --color **/*.css",
+    "lint": "npm run lint:js && npm run lint:css"
   },
   "keywords": [
     "blackjack",
@@ -26,7 +29,11 @@
     "babel-preset-react": "6.24.1",
     "babel-register": "6.26.0",
     "chai": "4.1.2",
+    "eslint": "4.8.0",
+    "eslint-plugin-react": "7.4.0",
     "mocha": "4.0.1",
+    "stylelint": "8.2.0",
+    "stylelint-config-standard": "17.0.0",
     "webpack": "3.6.0",
     "webpack-dev-server": "2.9.1"
   }

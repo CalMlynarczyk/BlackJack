@@ -54,7 +54,7 @@ body {
 }
 
 .main-header .main-header__second-word:nth-child(6) {
-    transition-delay: 1.0s;
+    transition-delay: 1s;
 }
 
 .main-header .main-header__second-word:nth-child(7) {
