@@ -1,10 +1,20 @@
+/**
+ * The game result enumeration
+ */
 export const RESULT = {
     player_wins: 0,
     dealer_wins: 1,
     tie: 2,
 };
 
+/**
+ * The highest score before going bust
+ */
 export const MAX_SCORE = 21;
+
+/**
+ * The threshold score for the dealer before they stand
+ */
 export const DEALER_MAX_SCORE = 17;
 
 function getHandValue(hand) {
@@ -26,6 +36,11 @@ function getHandValue(hand) {
     }, startingTotal); 
 }
 
+/**
+ * Get the total hand value, picking between the
+ * hard and soft hand total.
+ * @param {*} hand The hand to total
+ */
 export function getFinalHandValue(hand) {
     const total = getHandValue(hand);
 
@@ -38,6 +53,11 @@ function createTotal(hardTotal, softTotal) {
     return { hard: hardTotal, soft: softTotal };
 }
 
+/**
+ * Get the result object based off of the given players
+ * @param {*} player The human player
+ * @param {*} dealer The dealer
+ */
 export function getResult(player, dealer) {
     const playerTotal = getFinalHandValue(player.hand);
     const dealerTotal = getFinalHandValue(dealer.hand);

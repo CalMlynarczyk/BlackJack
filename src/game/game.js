@@ -3,6 +3,9 @@ import { ACTION, adjustPlayerStatus, createPlayer, createDealer } from "../playe
 
 let gameDeck;
 
+/**
+ * Initialize a new game state
+ */
 export function init() {
     gameDeck = getShuffledDeck();
     let player = createPlayer();
@@ -25,6 +28,12 @@ function initialDeal(gameDeck, player, dealer) {
     dealCard(gameDeck, dealer.hand);
 }
 
+/**
+ * Play a turn for the given player using the given action
+ * @param {*} player The player conducting the turn
+ * @param {*} action The desired turn action for the player
+ * @returns The update state of the given player
+ */
 export function playTurn(player, action) {
     player.status = !!action ? action : player.status;
 
@@ -36,10 +45,23 @@ export function playTurn(player, action) {
     return player;
 }
 
+/**
+ * Determine if the game should go for around round
+ * @param {*} player
+ * @param {*} dealer
+ * @returns 'True' if the game should go another round
+ */
 export function shouldPlayAnotherRound(player, dealer) {
     return player.status === ACTION.hit || dealer.status === ACTION.hit;
 }
 
+/**
+ * Deal the "top" (i.e. first) card from the given deck
+ * into the given hand. This is a small and isolated
+ * function, so we allow it to mutate the given objects.
+ * @param {*} deck
+ * @param {*} hand 
+ */
 function dealCard(deck, hand) {
     if (deck.length <= 0)
         throw "Deck is empty";

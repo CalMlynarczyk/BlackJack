@@ -10,10 +10,16 @@ export const PLAYER_TYPE = {
     dealer: 1,
 };
 
+/**
+ * Create a human player object
+ */
 export function createPlayer() {
     return createPlayerType(PLAYER_TYPE.player);
 }
 
+/**
+ * Create a dealer player object
+ */
 export function createDealer() {
     return createPlayerType(PLAYER_TYPE.dealer);
 }
@@ -26,14 +32,18 @@ function createPlayerType(type) {
     };
 }
 
+/**
+ * Change a player's status based on their hand value
+ * @param {*} player 
+ */
+export function adjustPlayerStatus(player) {
+    if (doesPlayerStand(player))
+        player.status = ACTION.stand;
+}
+
 function doesPlayerStand(player) {
     const handTotal = getFinalHandValue(player.hand);
 
     return (player.type === PLAYER_TYPE.player && handTotal >= MAX_SCORE)
         || (player.type === PLAYER_TYPE.dealer && handTotal >= DEALER_MAX_SCORE)
-}
-
-export function adjustPlayerStatus(player) {
-    if (doesPlayerStand(player))
-        player.status = ACTION.stand;
 }
