@@ -1,5 +1,5 @@
 import React from "react";
-import { CARD_SUITS, CARD_VALUES } from "./cards";
+import { CARD_SUITS, CARD_VALUES } from "./cards.js";
 
 export default class Card extends React.Component {
     render() {

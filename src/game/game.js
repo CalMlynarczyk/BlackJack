@@ -1,5 +1,5 @@
-import { getShuffledDeck } from "./hand/cards.js";
-import { ACTION, adjustPlayerStatus, createPlayer, createDealer } from "./player/player.js";
+import { getShuffledDeck } from "../hand/cards.js";
+import { ACTION, adjustPlayerStatus, createPlayer, createDealer } from "../player/player.js";
 
 let gameDeck;
 

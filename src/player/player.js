@@ -1,4 +1,4 @@
-import { getFinalHandValue, MAX_SCORE, DEALER_MAX_SCORE } from "./score.js";
+import { getFinalHandValue, MAX_SCORE, DEALER_MAX_SCORE } from "../game/score.js";
 
 export const ACTION = {
     hit: 0,

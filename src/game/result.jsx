@@ -1,5 +1,5 @@
 import React from "react";
-import { RESULT } from "./player/score.js";
+import { RESULT } from "./score.js";
 
 export default class Result extends React.Component {
     constructor(props) {

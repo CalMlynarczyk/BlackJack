@@ -1,6 +1,6 @@
 import React from "react";
 import { ACTION, PLAYER_TYPE } from "./player.js";
-import { getFinalHandValue } from "./score.js";
+import { getFinalHandValue } from "../game/score.js";
 import Hand from "../hand/hand.jsx";
 
 export default class PlayerSection extends React.Component {

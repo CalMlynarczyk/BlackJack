@@ -13,6 +13,6 @@ module.exports = {
     },
     devtool: "eval-source-map",
     output: {
-        filename: "bundle.js"
+        filename: "./dist/bundle.js"
     }
 };

@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Result from "./result.jsx";
-import PlayerSection from "./player/playerSection.jsx";
+import PlayerSection from "../player/playerSection.jsx";
 import { init, playTurn, shouldPlayAnotherRound } from "./game.js";
-import { getResult } from "./player/score.js";
-import { ACTION } from "./player/player.js";
+import { getResult } from "./score.js";
+import { ACTION } from "../player/player.js";
 
 class Game extends React.Component {
     constructor() {
