@@ -1,5 +1,4 @@
-const env = process.env.NODE_ENV;
-
+const prod = process.argv.indexOf("-p") !== -1;
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -15,7 +14,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: env === "production"
+                use: prod
                     ? ExtractTextPlugin.extract({
                         fallback: "style-loader",
                         use: [
@@ -31,7 +30,7 @@ module.exports = {
             }
         ]
     },
-    devtool: "eval-source-map",
+    devtool: prod ? "source-map" : "eval-source-map",
     output: {
         filename: "./dist/bundle.js"
     },

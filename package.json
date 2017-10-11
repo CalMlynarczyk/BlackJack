@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "build:prod": "webpack -p",
     "start": "webpack-dev-server --open",
     "test": "mocha --require babel-register \"src/**/_test/**.test.js\"",
     "lint:js": "eslint --color src/",
