@@ -1,0 +1,15 @@
+.hand {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+
+    & > li {
+        display: inline-block;
+        margin-right: -50px;
+
+        & > img {
+            width: 100px;
+            box-shadow: 0 0 7px 0 hsl(0, 0%, 62%);
+        }
+    }
+}

@@ -1,3 +1,5 @@
+import "./hand.css";
+
 import React from "react";
 import { default as Card, mapCardToCode } from "./card.jsx";
 

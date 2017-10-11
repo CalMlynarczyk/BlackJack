@@ -1,6 +1,8 @@
+import "./playerSection.css";
+
 import React from "react";
 import { ACTION, PLAYER_TYPE } from "./player.js";
-import { getFinalHandValue } from "../game/score.js";
+import { MAX_SCORE, getFinalHandValue } from "../game/score.js";
 import Hand from "../hand/hand.jsx";
 
 export default class PlayerSection extends React.Component {
@@ -13,22 +15,28 @@ export default class PlayerSection extends React.Component {
 
     render() {
         const player = this.props.player;
+        const score = getFinalHandValue(player.hand);
 
         return (
-            <section className="hand-section">
-                <h2>{getPlayerTypeLabel(player.type)}</h2>
-                <div className="hand">
-                    <Hand hand={player.hand}></Hand>
-                    <h4>{getActionLabel(player.status)}</h4>
-                    <h3 className="player-score">Score: {getFinalHandValue(player.hand)}</h3>
-                </div>
+            <section className="player-section">
+                <div>
+                    <h2 className="player-header">{getPlayerTypeLabel(player.type)}</h2>
+                    <h2 className={"player-score" + (score > MAX_SCORE ? " player-score--bust" : "")}>{score}</h2>
+                    
+                    {player.type === PLAYER_TYPE.player && player.status !== ACTION.stand &&
+                        <div className="player-controls">
+                            <button onClick={this.hit} className="btn btn--green">Hit</button>
+                            <button onClick={this.stand} className="btn btn--red">Stand</button>
+                        </div>
+                    }
 
-                {player.type === PLAYER_TYPE.player && player.status !== ACTION.stand &&
-                    <div>
-                        <button onClick={this.hit}>Hit</button>
-                        <button onClick={this.stand}>Stand</button>
-                    </div>
-                }
+                    {player.status === ACTION.stand &&
+                        <div className="player-controls">
+                            <h4 className="player-status">{getActionLabel(player.status)}</h4>
+                        </div>
+                    }
+                </div>
+                <Hand hand={player.hand}></Hand>
             </section>
         );
     }

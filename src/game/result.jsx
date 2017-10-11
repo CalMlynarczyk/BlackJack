@@ -1,3 +1,5 @@
+import "./result.css";
+
 import React from "react";
 import { RESULT } from "./score.js";
 
@@ -10,9 +12,9 @@ export default class Result extends React.Component {
 
     render() {
         return (
-            <div className={!this.props.doShow ? "hide" : ""}>
+            <div className={"result-message" + (!this.props.doShow ? " hide" : "")}>
                 <h3>{printResult(this.props.result)}</h3>
-                <button onClick={this.reset}>Reset</button>
+                <button onClick={this.reset} className="btn">Reset</button>
             </div>
         );
     }
