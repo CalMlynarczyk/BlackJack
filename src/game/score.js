@@ -1,3 +1,5 @@
+import { CARD_VALUES } from "../hand/cards.js";
+
 /**
  * The game result enumeration
  */
@@ -22,14 +24,14 @@ function getHandValue(hand) {
 
     return hand.reduce((total, card) => { 
         // We are evaluating an Ace
-        if (Array.isArray(card.value.val)) {
+        if (card.value.key === CARD_VALUES.ace.key) {
             const hardValue = card.value.val[0];
             const softValue = card.value.val[1];
 
             // Determine if we have already calculated for an Ace in the hand
             return total.hard !== total.soft
-                ? createTotal(total.hard + hardValue, total.soft + softValue)
-                : createTotal(total.hard + hardValue, total.soft + hardValue);
+                ? createTotal(total.hard + hardValue, total.soft + hardValue)
+                : createTotal(total.hard + hardValue, total.soft + softValue);
         } else {
             return createTotal(total.hard + card.value.val, total.soft + card.value.val);
         }

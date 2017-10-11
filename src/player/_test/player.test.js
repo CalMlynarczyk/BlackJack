@@ -1,5 +1,4 @@
-import chai from "chai";
-const expect = chai.expect;
+import { expect } from "chai";
 
 import { PLAYER_TYPE, ACTION, doesPlayerStand } from "../player.js";
 import { CARD_SUITS, CARD_VALUES, createCard } from "../../hand/cards.js";
