@@ -20,5 +20,28 @@ describe("Player module", () => {
 
             expect(result).to.be.true;
         });
+
+        it("should hit when score is below 17", () => {
+            const dealer = {
+                type: PLAYER_TYPE.dealer,
+                action: ACTION.hit,
+                hand: [
+                    createCard(CARD_SUITS.spade, CARD_VALUES.ten),
+                    createCard(CARD_SUITS.spade, CARD_VALUES.five),
+                ]
+            };
+
+            const result = doesPlayerStand(dealer);
+
+            expect(result).to.be.false;
+        });
+
+        it("should stand when other player busts");
+
+        it("should stand when hand total is higher than other player's hand");
+    });
+
+    describe("Player", () => {
+        it("should stand when dealer busts");
     });
 });
