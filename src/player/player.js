@@ -36,14 +36,25 @@ function createPlayerType(type) {
  * Change a player's status based on their hand value
  * @param {*} player 
  */
-export function adjustPlayerStatus(player) {
-    if (doesPlayerStand(player))
+export function adjustPlayerStatus(player, otherPlayer) {
+    if (doesPlayerStand(player, otherPlayer))
         player.status = ACTION.stand;
 }
 
-export function doesPlayerStand(player) {
-    const handTotal = getFinalHandValue(player.hand);
+export function doesPlayerStand(player, otherPlayer) {
+    const playerHandTotal = getFinalHandValue(player.hand);
+    const hasOtherPlayer = otherPlayer !== undefined;
 
-    return (player.type === PLAYER_TYPE.player && handTotal >= MAX_SCORE)
-        || (player.type === PLAYER_TYPE.dealer && handTotal >= DEALER_MAX_SCORE)
+    const otherPlayerHandTotal = hasOtherPlayer
+        ? getFinalHandValue(otherPlayer.hand)
+        : null;
+
+    const isScoreHigherThanOtherPlayer = !hasOtherPlayer
+        ? false
+        : otherPlayerHandTotal > MAX_SCORE
+            || (otherPlayer.status === ACTION.stand && playerHandTotal > otherPlayerHandTotal);
+
+    return isScoreHigherThanOtherPlayer
+        || (player.type === PLAYER_TYPE.player && playerHandTotal >= MAX_SCORE)
+        || (player.type === PLAYER_TYPE.dealer && playerHandTotal >= DEALER_MAX_SCORE);
 }

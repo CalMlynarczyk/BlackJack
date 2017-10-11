@@ -48,12 +48,12 @@ class Game extends React.Component {
     }
 
     playerTurn(action) {
-        const updatedPlayer = playTurn(this.state.player, action);
+        const updatedPlayer = playTurn(this.state.player, action, this.state.dealer);
         this.setState({ player: updatedPlayer }, this.dealerTurn);
     }
     
     dealerTurn() {
-        const updatedDealer = playTurn(this.state.dealer);
+        const updatedDealer =  playTurn(this.state.dealer, null, this.state.player);
         const keepPlaying = shouldPlayAnotherRound(this.state.player, updatedDealer);
 
         this.setState({ dealer: updatedDealer, keepPlaying: keepPlaying }, () => {

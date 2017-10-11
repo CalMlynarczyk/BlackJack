@@ -13,8 +13,8 @@ export function init() {
 
     initialDeal(gameDeck, player, dealer);
 
-    adjustPlayerStatus(player);
-    adjustPlayerStatus(dealer);
+    adjustPlayerStatus(player, dealer);
+    adjustPlayerStatus(dealer, player);
 
     const keepPlaying = shouldPlayAnotherRound(player, dealer);
 
@@ -34,12 +34,18 @@ function initialDeal(gameDeck, player, dealer) {
  * @param {*} action The desired turn action for the player
  * @returns The update state of the given player
  */
-export function playTurn(player, action) {
-    player.status = !!action ? action : player.status;
+export function playTurn(player, action, otherPlayer) {
+    // First check if we are already winning
+    adjustPlayerStatus(player, otherPlayer);
+
+    // Once the player stands, they can not change their status
+    player.status = player.status !== ACTION.stand && !!action 
+        ? action 
+        : player.status;
 
     if (player.status === ACTION.hit) {
         dealCard(gameDeck, player.hand);
-        adjustPlayerStatus(player);
+        adjustPlayerStatus(player, otherPlayer);
     }
 
     return player;
