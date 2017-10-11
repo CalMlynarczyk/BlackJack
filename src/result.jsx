@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { RESULT } from "./player/score.js";
 
-class Result extends React.Component {
+export default class Result extends React.Component {
     constructor(props) {
         super(props);
 
@@ -11,13 +10,9 @@ class Result extends React.Component {
 
     render() {
         return (
-            <div className="results">
-                {this.props.doShow &&
-                    <h3 className="results">{printResult(this.props.result)}</h3>
-                }
-                {this.props.doShow &&
-                    <button onClick={this.reset}>Reset</button>
-                }
+            <div className={!this.props.doShow ? "hide" : ""}>
+                <h3>{printResult(this.props.result)}</h3>
+                <button onClick={this.reset}>Reset</button>
             </div>
         );
     }
@@ -38,11 +33,4 @@ function printResult(result) {
         default:
             throw "Invalid result";
     }
-}
-
-export default function renderResultSection(result, doShow, onReset, elementId) {
-    ReactDOM.render(
-        <Result result={result} doShow={doShow} onReset={onReset}></Result>,
-        document.getElementById(elementId)
-    );
 }

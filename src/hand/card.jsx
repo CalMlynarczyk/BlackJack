@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { CARD_SUITS, CARD_VALUES } from "./cards";
 
 export default class Card extends React.Component {

@@ -1,39 +1,42 @@
 import { getShuffledDeck } from "./hand/cards.js";
 import { ACTION, adjustPlayerStatus, createPlayer, createDealer } from "./player/player.js";
 
-let gameDeck, player, dealer, currentPlayer;
+let gameDeck;
 
 export function init() {
     gameDeck = getShuffledDeck();
-    player = createPlayer();
-    dealer = createDealer();
-    currentPlayer = player;
+    let player = createPlayer();
+    let dealer = createDealer();
 
-    initialDeal();
+    initialDeal(gameDeck, player, dealer);
 
     adjustPlayerStatus(player);
     adjustPlayerStatus(dealer);
 
-    const keepPlaying = playAnotherRound();
+    const keepPlaying = shouldPlayAnotherRound(player, dealer);
 
-    return { gameDeck: gameDeck, player: player, dealer: dealer, keepPlaying: keepPlaying };
+    return { player: player, dealer: dealer, keepPlaying: keepPlaying };
 }
 
-function initialDeal() {
+function initialDeal(gameDeck, player, dealer) {
     dealCard(gameDeck, player.hand);
     dealCard(gameDeck, dealer.hand);
     dealCard(gameDeck, player.hand);
     dealCard(gameDeck, dealer.hand);
 }
 
-export function playTurn(player) {
+export function playTurn(player, action) {
+    player.status = !!action ? action : player.status;
+
     if (player.status === ACTION.hit) {
         dealCard(gameDeck, player.hand);
         adjustPlayerStatus(player);
     }
+
+    return player;
 }
 
-export function playAnotherRound() {
+export function shouldPlayAnotherRound(player, dealer) {
     return player.status === ACTION.hit || dealer.status === ACTION.hit;
 }
 

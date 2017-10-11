@@ -1,10 +1,9 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import { ACTION, PLAYER_TYPE } from "./player.js";
 import { getFinalHandValue } from "./score.js";
 import Hand from "../hand/hand.jsx";
 
-class PlayerSection extends React.Component {
+export default class PlayerSection extends React.Component {
     constructor(props) {
         super(props);
 
@@ -16,7 +15,7 @@ class PlayerSection extends React.Component {
         const player = this.props.player;
 
         return (
-            <section>
+            <section className="hand-section">
                 <h2>{getPlayerTypeLabel(player.type)}</h2>
                 <div className="hand">
                     <Hand hand={player.hand}></Hand>
@@ -67,11 +66,4 @@ function getActionLabel(action) {
         default:
             throw "Invalid action"
     }
-}
-
-export default function renderPlayerSection(player, onPlayerAction, elementId) {
-    ReactDOM.render(
-        <PlayerSection player={player} onPlayerAction={onPlayerAction}></PlayerSection>,
-        document.getElementById(elementId)
-    );
 }
