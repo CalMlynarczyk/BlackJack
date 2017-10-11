@@ -12,3 +12,7 @@ The styling is sometimes flashy and obnoxious.
 
 1. `npm install`
 2. `npm start`
+
+## Running automated tests
+
+`npm test`

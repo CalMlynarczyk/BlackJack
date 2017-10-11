@@ -41,7 +41,7 @@ export function adjustPlayerStatus(player) {
         player.status = ACTION.stand;
 }
 
-function doesPlayerStand(player) {
+export function doesPlayerStand(player) {
     const handTotal = getFinalHandValue(player.hand);
 
     return (player.type === PLAYER_TYPE.player && handTotal >= MAX_SCORE)
