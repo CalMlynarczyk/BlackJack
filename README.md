@@ -13,6 +13,10 @@ The styling is sometimes flashy and obnoxious.
 1. `npm install`
 2. `npm start`
 
+### Running the application in Docker
+
+`docker-compose up`
+
 ## Running automated tests
 
 `npm test`
