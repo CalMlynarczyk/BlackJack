@@ -1,0 +1,15 @@
+.game-container {
+    position: relative;
+}
+
+.result-message {
+    text-align: center;
+    margin: 0 0 0.8em 0;
+    text-transform: uppercase;
+}
+
+.tie-message {
+    position: absolute;
+    width: 100%;
+    color: hsl(216, 100%, 51%);
+}

@@ -1,4 +1,5 @@
 import { CARD_VALUES } from "../hand/cards.js";
+import { shouldPlayAnotherRound } from "./game.js";
 
 /**
  * The game result enumeration
@@ -7,6 +8,7 @@ export const RESULT = {
     player_wins: 0,
     dealer_wins: 1,
     tie: 2,
+    still_playing: 3,
 };
 
 /**
@@ -61,14 +63,18 @@ function createTotal(hardTotal, softTotal) {
  * @param {*} dealer The dealer
  */
 export function getResult(player, dealer) {
-    const playerTotal = getFinalHandValue(player.hand);
-    const dealerTotal = getFinalHandValue(dealer.hand);
+    if (shouldPlayAnotherRound(player, dealer)) {
+        return RESULT.still_playing;
+    } else {
+        const playerTotal = getFinalHandValue(player.hand);
+        const dealerTotal = getFinalHandValue(dealer.hand);
 
-    if (playerTotal > MAX_SCORE 
-        || (dealerTotal <= MAX_SCORE && playerTotal < dealerTotal))
-        return RESULT.dealer_wins;
-    else if (playerTotal === dealerTotal)
-        return RESULT.tie;
-    else
-        return RESULT.player_wins;
+        if (playerTotal > MAX_SCORE 
+            || (dealerTotal <= MAX_SCORE && playerTotal < dealerTotal))
+            return RESULT.dealer_wins;
+        else if (playerTotal === dealerTotal)
+            return RESULT.tie;
+        else
+            return RESULT.player_wins;
+    }
 }

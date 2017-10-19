@@ -1,9 +1,10 @@
+import "./game.css";
+
 import React from "react";
 import ReactDOM from "react-dom";
-import Result from "./result.jsx";
 import PlayerSection from "../player/playerSection.jsx";
 import { init, playTurn, shouldPlayAnotherRound } from "./game.js";
-import { getResult } from "./score.js";
+import { RESULT, getResult } from "./score.js";
 import { ACTION } from "../player/player.js";
 
 class Game extends React.Component {
@@ -36,13 +37,20 @@ class Game extends React.Component {
     }
 
     render() {
+        const gameResult = getResult(this.state.player, this.state.dealer);
+
         return (
-            <div>
-                <Result doShow={!this.state.keepPlaying} 
-                    result={getResult(this.state.player, this.state.dealer)} 
-                    onReset={this.init}></Result>
-                <PlayerSection player={this.state.player} onPlayerAction={this.playerTurn}></PlayerSection>
-                <PlayerSection player={this.state.dealer}></PlayerSection>
+            <div className="game-container">
+                <h2 className={"result-message tie-message" 
+                    + (gameResult !== RESULT.tie ? " hide" : "")}>Tie</h2>
+                    
+                <PlayerSection player={this.state.player} onPlayerAction={this.playerTurn}
+                    isWinner={gameResult === RESULT.player_wins}></PlayerSection>
+                <PlayerSection player={this.state.dealer} isWinner={gameResult === RESULT.dealer_wins}></PlayerSection>
+
+                {gameResult !== RESULT.still_playing &&
+                    <button onClick={this.init} className="btn">Reset</button>
+                }
             </div>
         );
     }
@@ -60,6 +68,21 @@ class Game extends React.Component {
             if (this.state.keepPlaying && this.state.player.status === ACTION.stand)
                 this.dealerTurn();
         });
+    }
+}
+
+function printResult(result) {
+    switch (result) {
+        case RESULT.dealer_wins:
+            return "Dealer wins";
+        case RESULT.player_wins:
+            return "Player wins";
+        case RESULT.tie:
+            return "Tie";
+        case RESULT.still_playing:
+            return "";
+        default:
+            throw "Invalid result";
     }
 }
 

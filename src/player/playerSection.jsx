@@ -19,24 +19,28 @@ export default class PlayerSection extends React.Component {
 
         return (
             <section className="player-section">
-                <div>
-                    <h2 className="player-header">{getPlayerTypeLabel(player.type)}</h2>
-                    <h2 className={"player-score" + (score > MAX_SCORE ? " player-score--bust" : "")}>{score}</h2>
-                    
-                    {player.type === PLAYER_TYPE.player && player.status !== ACTION.stand &&
-                        <div className="player-controls">
-                            <button onClick={this.hit} className="btn btn--green">Hit</button>
-                            <button onClick={this.stand} className="btn btn--red">Stand</button>
-                        </div>
-                    }
+                <h2 className={"result-message winner-message" + (this.props.isWinner ? "" : " hide")}>Winner</h2>
 
-                    {player.status === ACTION.stand &&
-                        <div className="player-controls">
-                            <h4 className="player-status">{getActionLabel(player.status)}</h4>
-                        </div>
-                    }
+                <div className="player-section__board">
+                    <div>
+                        <h2 className="player-header">{getPlayerTypeLabel(player.type)}</h2>
+                        <h2 className={"player-score" + (score > MAX_SCORE ? " player-score--bust" : "")}>{score}</h2>
+                        
+                        {player.type === PLAYER_TYPE.player && player.status !== ACTION.stand &&
+                            <div className="player-controls">
+                                <button onClick={this.hit} className="btn btn--green">Hit</button>
+                                <button onClick={this.stand} className="btn btn--red">Stand</button>
+                            </div>
+                        }
+
+                        {player.status === ACTION.stand &&
+                            <div className="player-controls">
+                                <h4 className="player-status">{getActionLabel(player.status)}</h4>
+                            </div>
+                        }
+                    </div>
+                    <Hand hand={player.hand}></Hand>
                 </div>
-                <Hand hand={player.hand}></Hand>
             </section>
         );
     }
