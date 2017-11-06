@@ -1,4 +1,4 @@
-import { getFinalHandValue, MAX_SCORE, DEALER_MAX_SCORE } from "../game/score.js";
+import { getFinalHandValue, MAX_SCORE, DEALER_MAX_SCORE } from "../game/score";
 
 export const ACTION = {
     hit: 0,
@@ -10,51 +10,22 @@ export const PLAYER_TYPE = {
     dealer: 1,
 };
 
-/**
- * Create a human player object
- */
-export function createPlayer() {
-    return createPlayerType(PLAYER_TYPE.player);
-}
-
-/**
- * Create a dealer player object
- */
-export function createDealer() {
-    return createPlayerType(PLAYER_TYPE.dealer);
-}
-
-function createPlayerType(type) {
-    return {
-        type: type,
-        hand: [],
-        status: ACTION.hit,
-    };
-}
-
-/**
- * Change a player's status based on their hand value
- * @param {*} player 
- */
-export function adjustPlayerStatus(player, otherPlayer) {
-    if (doesPlayerStand(player, otherPlayer))
-        player.status = ACTION.stand;
-}
-
-export function doesPlayerStand(player, otherPlayer) {
+export function doesPlayerStand(player, opponent) {
     const playerHandTotal = getFinalHandValue(player.hand);
-    const hasOtherPlayer = otherPlayer !== undefined;
+    const opponentHandTotal = getFinalHandValue(opponent.hand);
 
-    const otherPlayerHandTotal = hasOtherPlayer
-        ? getFinalHandValue(otherPlayer.hand)
-        : null;
+    const isScoreHigherThanOpponent = 
+        opponentHandTotal > MAX_SCORE
+        || (opponent.status === ACTION.stand && playerHandTotal > opponentHandTotal);
 
-    const isScoreHigherThanOtherPlayer = !hasOtherPlayer
-        ? false
-        : otherPlayerHandTotal > MAX_SCORE
-            || (otherPlayer.status === ACTION.stand && playerHandTotal > otherPlayerHandTotal);
+    return isScoreHigherThanOpponent || doesPlayerBustOrHave21(player);
+}
 
-    return isScoreHigherThanOtherPlayer
-        || (player.type === PLAYER_TYPE.player && playerHandTotal >= MAX_SCORE)
-        || (player.type === PLAYER_TYPE.dealer && playerHandTotal >= DEALER_MAX_SCORE);
+export function doesDealerStand(dealer, players) {
+    return getFinalHandValue(dealer.hand) >= DEALER_MAX_SCORE
+        || players.every(player => doesPlayerStand(dealer, player));
+}
+
+export function doesPlayerBustOrHave21(player) {
+    return getFinalHandValue(player.hand) >= MAX_SCORE;
 }

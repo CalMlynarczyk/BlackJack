@@ -42,7 +42,7 @@ function createDeck() {
     return deck;
 }
 
-export function createCard(suit, value) {
+function createCard(suit, value) {
     return { suit: suit, value: value };
 }
 

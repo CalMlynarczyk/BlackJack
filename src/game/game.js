@@ -1,76 +1,30 @@
-import { getShuffledDeck } from "../hand/cards.js";
-import { ACTION, adjustPlayerStatus, createPlayer, createDealer } from "../player/player.js";
+import { getShuffledDeck } from "../hand/cards";
+import { ACTION } from "../player/player";
 
-let gameDeck;
-
-/**
- * Initialize a new game state
- */
-export function init() {
-    gameDeck = getShuffledDeck();
-    let player = createPlayer();
-    let dealer = createDealer();
-
-    initialDeal(gameDeck, player, dealer);
-
-    adjustPlayerStatus(player, dealer);
-    adjustPlayerStatus(dealer, player);
-
-    const keepPlaying = shouldPlayAnotherRound(player, dealer);
-
-    return { player: player, dealer: dealer, keepPlaying: keepPlaying };
-}
-
-function initialDeal(gameDeck, player, dealer) {
-    dealCard(gameDeck, player.hand);
-    dealCard(gameDeck, dealer.hand);
-    dealCard(gameDeck, player.hand);
-    dealCard(gameDeck, dealer.hand);
-}
-
-/**
- * Play a turn for the given player using the given action
- * @param {*} player The player conducting the turn
- * @param {*} action The desired turn action for the player
- * @returns The update state of the given player
- */
-export function playTurn(player, action, otherPlayer) {
-    // First check if we are already winning
-    adjustPlayerStatus(player, otherPlayer);
-
-    // Once the player stands, they can not change their status
-    player.status = player.status !== ACTION.stand && !!action 
-        ? action 
-        : player.status;
-
-    if (player.status === ACTION.hit) {
-        dealCard(gameDeck, player.hand);
-        adjustPlayerStatus(player, otherPlayer);
-    }
-
-    return player;
+export function getInitialState() {
+    return {
+        deck: getShuffledDeck(),
+        dealer: {
+            hand: [],
+            status: ACTION.hit,
+        },
+        players: [
+            {
+                hand: [],
+                status: ACTION.hit,
+            },
+        ],
+        playerTurn: 0,
+    };
 }
 
 /**
  * Determine if the game should go for around round
- * @param {*} player
  * @param {*} dealer
+ * @param {*} players
  * @returns 'True' if the game should go another round
  */
-export function shouldPlayAnotherRound(player, dealer) {
-    return player.status === ACTION.hit || dealer.status === ACTION.hit;
-}
-
-/**
- * Deal the "top" (i.e. first) card from the given deck
- * into the given hand. This is a small and isolated
- * function, so we allow it to mutate the given objects.
- * @param {*} deck
- * @param {*} hand 
- */
-function dealCard(deck, hand) {
-    if (deck.length <= 0)
-        throw "Deck is empty";
-
-    hand.push(deck.pop());
+export function isStillPlaying(dealer, players) {
+    return dealer.status === ACTION.hit
+        || players.some(player => player.status === ACTION.hit);
 }

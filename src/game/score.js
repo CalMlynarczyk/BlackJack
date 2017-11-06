@@ -1,5 +1,6 @@
-import { CARD_VALUES } from "../hand/cards.js";
-import { shouldPlayAnotherRound } from "./game.js";
+import { CARD_VALUES } from "../hand/cards";
+import { shouldPlayAnotherRound } from "./game";
+import { ACTION } from "../player/player";
 
 /**
  * The game result enumeration
@@ -62,19 +63,39 @@ function createTotal(hardTotal, softTotal) {
  * @param {*} player The human player
  * @param {*} dealer The dealer
  */
-export function getResult(player, dealer) {
-    if (shouldPlayAnotherRound(player, dealer)) {
-        return RESULT.still_playing;
-    } else {
-        const playerTotal = getFinalHandValue(player.hand);
-        const dealerTotal = getFinalHandValue(dealer.hand);
+export function isPlayerWinner(player, dealer) {
+    const playerTotal = getFinalHandValue(player.hand);
+    const dealerTotal = getFinalHandValue(dealer.hand);
 
-        if (playerTotal > MAX_SCORE 
-            || (dealerTotal <= MAX_SCORE && playerTotal < dealerTotal))
-            return RESULT.dealer_wins;
-        else if (playerTotal === dealerTotal)
-            return RESULT.tie;
-        else
-            return RESULT.player_wins;
-    }
+    return playerTotal <= MAX_SCORE 
+        && (dealerTotal > MAX_SCORE || playerTotal > dealerTotal);
+}
+
+/**
+ * Get the result object based off of the given players
+ * @param {*} player The human player
+ * @param {*} dealer The dealer
+ */
+export function isDealerWinner(dealer, players) {
+    const dealerTotal = getFinalHandValue(dealer.hand);
+
+    return players.every(player => {
+        const playerTotal = getFinalHandValue(player.hand);
+
+        return playerTotal > MAX_SCORE 
+            || (dealerTotal <= MAX_SCORE && playerTotal < dealerTotal);
+    });
+}
+
+export function isTie(dealer, players) {
+    const dealerTotal = getFinalHandValue(dealer.hand);
+
+    return dealer.status === ACTION.stand
+        && players.every(player => {
+            const playerTotal = getFinalHandValue(player.hand);
+
+            return player.status === ACTION.stand
+                && dealerTotal === playerTotal
+                || (playerTotal > MAX_SCORE && dealerTotal > MAX_SCORE);
+        });
 }

@@ -1,94 +1,70 @@
 import "./game.css";
 
 import React from "react";
-import ReactDOM from "react-dom";
-import PlayerSection from "../player/playerSection.jsx";
-import { init, playTurn, shouldPlayAnotherRound } from "./game.js";
-import { RESULT, getResult } from "./score.js";
-import { ACTION } from "../player/player.js";
+import { render } from "react-dom";
+import { createStore, applyMiddleware, combineReducers } from "redux";
+import { Provider, connect } from "react-redux";
+import ReduxThunk from "redux-thunk";
+import blackjackApp from "./reducers";
+import PlayerSectionContainer from "../player/PlayerSectionContainer";
+import { isStillPlaying } from "./game";
+import { RESULT, isTie } from "./score";
+import { playerHit, dealerHit, reset, checkPlayer, checkDealer } from "./actions";
+import { ACTION, PLAYER_TYPE } from "../player/player";
 
-class Game extends React.Component {
-    constructor(props) {
-        super(props);
+let store = createStore(blackjackApp, applyMiddleware(ReduxThunk));
 
-        this.playerTurn = this.playerTurn.bind(this);
-        this.init = this.init.bind(this);
+const Game = ({ dealer, players, onReset }) => {
+    const isTieValue = isTie(dealer, players);
 
-        this.isFirstLoad = true;
-        this.state = init();
-    }
+    return (
+        <div className="game-container">
+            <h2 className={"result-message tie-message" 
+                + (isTieValue ? "" : " hide")}>Tie</h2>
+                
+            <PlayerSectionContainer playerIndex={0} playerType={PLAYER_TYPE.player} />
+            <PlayerSectionContainer playerType={PLAYER_TYPE.dealer} />
 
-    componentDidMount() {
-        this.init();
-    }
+            {(true || isStillPlaying(dealer, players)) &&
+                <button onClick={onReset} className="btn">Reset</button>
+            }
+        </div>
+    );
+};
 
-    init() {
-        const playIfPlayerBlackjacks = () => {
-            if (this.state.keepPlaying && this.state.player.status === ACTION.stand)
-                this.dealerTurn();
-        };
+const mapStateToProps = (state, ownProps) => {
+    return {
+        dealer: state.dealer,
+        players: state.players,
+    };
+};
 
-        if (!this.isFirstLoad)
-            this.setState(init(), playIfPlayerBlackjacks);        
-        else {
-            this.isFirstLoad = false;
-            playIfPlayerBlackjacks();
-        }
-    }
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        onReset: () => {
+            // Initial deal
+            dispatch(reset());
+            dispatch(playerHit(0));
+            //dispatch(dealerHit());
+            dispatch(playerHit(0));
+            //dispatch(dealerHit());
 
-    render() {
-        const gameResult = getResult(this.state.player, this.state.dealer);
+            dispatch(checkPlayer(0));
+            dispatch(checkDealer());
+        },
+    };
+};
 
-        return (
-            <div className="game-container">
-                <h2 className={"result-message tie-message" 
-                    + (gameResult !== RESULT.tie ? " hide" : "")}>Tie</h2>
-                    
-                <PlayerSection player={this.state.player} onPlayerAction={this.playerTurn}
-                    isWinner={gameResult === RESULT.player_wins}></PlayerSection>
-                <PlayerSection player={this.state.dealer} isWinner={gameResult === RESULT.dealer_wins}></PlayerSection>
-
-                {gameResult !== RESULT.still_playing &&
-                    <button onClick={this.init} className="btn">Reset</button>
-                }
-            </div>
-        );
-    }
-
-    playerTurn(action) {
-        const updatedPlayer = playTurn(this.state.player, action, this.state.dealer);
-        this.setState({ player: updatedPlayer }, this.dealerTurn);
-    }
-    
-    dealerTurn() {
-        const updatedDealer =  playTurn(this.state.dealer, null, this.state.player);
-        const keepPlaying = shouldPlayAnotherRound(this.state.player, updatedDealer);
-
-        this.setState({ dealer: updatedDealer, keepPlaying: keepPlaying }, () => {
-            if (this.state.keepPlaying && this.state.player.status === ACTION.stand)
-                this.dealerTurn();
-        });
-    }
-}
-
-function printResult(result) {
-    switch (result) {
-        case RESULT.dealer_wins:
-            return "Dealer wins";
-        case RESULT.player_wins:
-            return "Player wins";
-        case RESULT.tie:
-            return "Tie";
-        case RESULT.still_playing:
-            return "";
-        default:
-            throw "Invalid result";
-    }
-}
+const GameContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Game);
 
 export default function playGame(elementId) {
-    ReactDOM.render(
-        <Game></Game>,
-        document.getElementById(elementId)
+    render(
+        <Provider store={store}>
+            <GameContainer />
+        </Provider>,
+        document.getElementById(elementId),
     );
 }

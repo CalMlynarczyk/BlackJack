@@ -1,13 +1,13 @@
 import React from "react";
-import { CARD_SUITS, CARD_VALUES } from "./cards.js";
+import { CARD_SUITS, CARD_VALUES } from "./cards";
 
-export default class Card extends React.Component {
-    render() {
-        return (
-            <li><img src={`${SVG_CARD_DIR}${mapCardToCode(this.props.card)}.svg`} /></li>
-        );
-    }
-}
+const Card = ({ card }) => {
+    return (
+        <li><img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} /></li>
+    );
+};
+
+export default Card;
 
 const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
 
