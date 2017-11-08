@@ -4,6 +4,7 @@ import React from "react";
 import { ACTION, PLAYER_TYPE } from "./player";
 import { MAX_SCORE, getFinalHandValue } from "../game/score";
 import Hand from "../hand/hand.jsx";
+import hitSound from "../audio/audioLoader";
 
 const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
     const playerTypeLabel = (() => {
@@ -18,6 +19,7 @@ const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
     })();
 
     const hit = () => {
+        hitSound().play();
         onPlayerAction(ACTION.hit);
     };
 
