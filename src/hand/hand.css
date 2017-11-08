@@ -3,13 +3,22 @@
     padding: 0;
     margin-bottom: 0;
 
-    & > li {
-        display: inline-block;
+    & > .card {
         margin-right: -50px;
+    }
+}
 
-        & > img {
-            width: 100px;
-            box-shadow: 0 0 7px 0 hsl(0, 0%, 62%);
-        }
+.card {
+    display: inline-block;
+
+    & > img {
+        width: 100px;
+        box-shadow: 0 0 7px 0 hsl(0, 0%, 62%);
+    }
+
+    &.card__placeholder {
+        visibility: hidden;
+        width: 0;
+        margin-right: 0;
     }
 }
