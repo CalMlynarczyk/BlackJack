@@ -17,18 +17,29 @@ export default class Hand extends React.Component {
     }
 
     willEnter() {
-        return { opacity: 0, translateX: 300 };
+        return { opacity: 0, translateX: 300, rotate: 0 };
     }
 
     render() {
         return (
             <TransitionMotion
                 willEnter={this.willEnter}
-                styles={this.props.hand.map(card => ({
-                    key: mapCardToCode(card),
-                    style: { opacity: spring(1), translateX: spring(0) },
-                    data: card,
-                }))}>
+                styles={this.props.hand.map((card, index) => {
+                    // Assign the rotation value only the first time
+                    // so it does not change on each re-render
+                    if (!card.rotateVal)
+                        card.rotateVal = getRandomRotateVal();
+
+                    return {
+                        key: mapCardToCode(card),
+                        style: { 
+                            opacity: spring(1), 
+                            translateX: spring(0), 
+                            rotate: spring(card.rotateVal),
+                        },
+                        data: card,
+                    };
+                })}>
                 {interpolatedStyles =>
                     <ul className="hand">
                         <Card card={placeholderCard} isHidden={true} />
@@ -36,11 +47,17 @@ export default class Hand extends React.Component {
                         {interpolatedStyles.map(card =>
                             <Card card={card.data} key={card.key} 
                                 style={{opacity: card.style.opacity, 
-                                    transform: `translateX(${card.style.translateX}px)`}} />
+                                    transform: `translateX(${card.style.translateX}px)
+                                        rotate(${card.style.rotate}deg)`
+                                }} />
                         )}
                     </ul>
                 }
             </TransitionMotion>
         );
     }
+}
+
+function getRandomRotateVal() {
+    return Math.random() * 12 - 6;
 }
