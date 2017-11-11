@@ -1,9 +1,9 @@
 import React from "react";
 import { CARD_SUITS, CARD_VALUES } from "./cards";
 
-const Card = ({ card, isHidden }) => {
+const Card = ({ card, isHidden, style }) => {
     return (
-        <li className={"card" + (isHidden ? " card__placeholder" : "")}>
+        <li className={"card" + (isHidden ? " card__placeholder" : "")} style={style}>
             <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
         </li>
     );

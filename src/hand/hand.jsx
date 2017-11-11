@@ -1,6 +1,7 @@
 import "./hand.css";
 
 import React from "react";
+import { TransitionMotion, spring } from "react-motion";
 import { default as Card, mapCardToCode } from "./card.jsx";
 
 // Keep the game board a consistent height using a
@@ -10,16 +11,36 @@ const placeholderCard = {
     value: { key: "two", val: 2 },
 };
 
-const Hand = ({ hand }) => {
-    return (
-        <ul className="hand">
-            <Card card={placeholderCard} isHidden={true} />
+export default class Hand extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
-            {hand.map(card =>
-                <Card card={card} key={mapCardToCode(card)} />
-            )}
-        </ul>
-    );
-};
+    willEnter() {
+        return { opacity: 0, translateX: 300 };
+    }
 
-export default Hand;
+    render() {
+        return (
+            <TransitionMotion
+                willEnter={this.willEnter}
+                styles={this.props.hand.map(card => ({
+                    key: mapCardToCode(card),
+                    style: { opacity: spring(1), translateX: spring(0) },
+                    data: card,
+                }))}>
+                {interpolatedStyles =>
+                    <ul className="hand">
+                        <Card card={placeholderCard} isHidden={true} />
+
+                        {interpolatedStyles.map(card =>
+                            <Card card={card.data} key={card.key} 
+                                style={{opacity: card.style.opacity, 
+                                    transform: `translateX(${card.style.translateX}px)`}} />
+                        )}
+                    </ul>
+                }
+            </TransitionMotion>
+        );
+    }
+}
