@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(reset());
             dispatch(playerHit(0));
             //dispatch(dealerHit());
-            dispatch(playerHit(0));
+            setTimeout(() => dispatch(playerHit(0)), 700);
             //dispatch(dealerHit());
 
             dispatch(checkPlayer(0));

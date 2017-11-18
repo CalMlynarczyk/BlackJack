@@ -10,10 +10,15 @@
 
 .card {
     display: inline-block;
+    box-shadow: 0 0 7px 0 hsl(0, 0%, 62%);
+    overflow: hidden;
+    border-radius: 4px;
 
     & > img {
         width: 100px;
-        box-shadow: 0 0 7px 0 hsl(0, 0%, 62%);
+
+        /* Compensate for overflowing path in card SVG */
+        margin-bottom: -4px;
     }
 
     &.card__placeholder {
