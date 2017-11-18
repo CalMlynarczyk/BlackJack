@@ -40,14 +40,31 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
+    // Track all timed actions so we can cancel them
+    // if another reset is triggered.
+    let timerIds = [];
+
     return {
         onReset: () => {
+            // Cancel all previous timed actions
+            timerIds.forEach(clearTimeout);
+            timerIds = [];
+
+            const dealInterval = 550;
+
             // Initial deal
             dispatch(reset());
-            dispatch(playerHit(0));
-            //dispatch(dealerHit());
-            setTimeout(() => dispatch(playerHit(0)), 700);
-            //dispatch(dealerHit());
+            dispatch(playerHit(0, false));
+
+            timerIds.push(setTimeout(() => {
+                dispatch(dealerHit());
+
+                timerIds.push(setTimeout(() => {
+                    dispatch(playerHit(0, false));
+
+                    timerIds.push(setTimeout(() => dispatch(dealerHit()), dealInterval));
+                }, dealInterval));
+            }, dealInterval));
 
             dispatch(checkPlayer(0));
             dispatch(checkDealer());

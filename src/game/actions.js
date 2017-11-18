@@ -9,19 +9,21 @@ export const CHECK_PLAYER = "CHECK_PLAYER";
 export const CHECK_DEALER = "CHECK_DEALER";
 export const RESET = "RESET";
 
-export function playerHit(index) {
+export function playerHit(index, noDealerTurn) {
     return (dispatch, getState) => { 
         dispatch({
             type: PLAYER_HIT,
             index,
         });
 
-        const state = getState();
+        if (noDealerTurn) {
+            const state = getState();
 
-        if (state.playerTurn < 0
-            && (state.dealer.status === ACTION.hit
-                || state.players.some(player => player.status === ACTION.hit))) {
-            dispatch(dealerTurn());
+            if (state.playerTurn < 0
+                && (state.dealer.status === ACTION.hit
+                    || state.players.some(player => player.status === ACTION.hit))) {
+                dispatch(dealerTurn());
+            }
         }
     };
 }
