@@ -1,5 +1,4 @@
-import { PLAYER_HIT, PLAYER_STAND, DEALER_TURN, DEALER_HIT, RESET, NEXT_TURN, CHECK_PLAYER, CHECK_DEALER } from "./actions";
-import { getShuffledDeck } from "../hand/cards";
+import { PLAYER_HIT, PLAYER_STAND, DEALER_TURN, DEALER_HIT, RESET, CHECK_PLAYER, CHECK_DEALER } from "./actions";
 import { doesDealerStand, doesPlayerStand, doesPlayerBustOrHave21, ACTION } from "../player/player";
 import { getInitialState } from "./game";
 
@@ -89,7 +88,7 @@ function playerStand(state, action) {
     });
 }
 
-function dealerTurn(state, action) {
+function dealerTurn(state) {
     if (doesDealerStand(state.dealer, state.players)) {
         return Object.assign({}, state, {
             dealer: Object.assign({}, state.dealer, {
@@ -126,7 +125,7 @@ function dealerTurn(state, action) {
     }
 }
 
-function dealerHit(state, action) {
+function dealerHit(state) {
     if (!state.deck || state.deck.length <= 0)
         throw "Can not deal card; deck is empty.";
 
