@@ -15,29 +15,33 @@ export default function blackjackApp(state = initialState, action) {
         case DEALER_HIT:
             return dealerHit(state, action);
         case CHECK_PLAYER:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 players: state.players.map((player, index) => {
                     if (index !== action.index)
                         return player;
                     else {
-                        return Object.assign({}, player, {
+                        return {
+                            ...player,
                             action: doesPlayerStand(player, state.dealer)
                                 ? ACTION.stand
                                 : ACTION.hit,
-                        });
+                        };
                     }
                 }),
-            });
+            };
         case CHECK_DEALER:
-            return Object.assign({}, state, {
-                dealer: Object.assign({}, state.dealer, {
+            return {
+                ...state,
+                dealer: {
+                    ...state.dealer,
                     action: doesDealerStand(state.dealer, state.players)
                         ? ACTION.stand
                         : ACTION.hit,
-                }),
-            });
+                },
+            };
         case RESET:
-            return Object.assign({}, getInitialState());
+            return {...getInitialState()};
         default:
             return state;
     }
@@ -49,79 +53,88 @@ function playerHit(state, action) {
 
     const newCard = state.deck[0];
 
-    return Object.assign({}, state, {
+    return {
+        ...state,
         deck: state.deck.slice(1),
         players: state.players.map((player, index) => {
             if (index !== action.index)
                 return player;
             else {
-                let updatedPlayer = Object.assign({}, player, {
+                let updatedPlayer = {
+                    ...player,
                     hand: [...player.hand, newCard],
-                });
+                };
         
                 if (doesPlayerBustOrHave21(updatedPlayer))
                     updatedPlayer.status = ACTION.stand;
 
-                return Object.assign({}, updatedPlayer);
+                return {...updatedPlayer};
             }
         }),
         playerTurn: action.index >= state.players.length - 1
             ? -1
             : state.playerTurn + 1,
-    });
+    };
 }
 
 function playerStand(state, action) {
-    return Object.assign({}, state, {
+    return {
+        ...state,
         players: state.players.map((player, index) => {
             if (index !== action.index)
                 return player;
             else {
-                return Object.assign({}, player, {
+                return {
+                    ...player,
                     status: ACTION.stand,
-                });
+                };
             }
         }),
         playerTurn: action.index >= state.players.length - 1
             ? -1
             : state.playerTurn + 1,
-    });
+    };
 }
 
 function dealerTurn(state) {
     if (doesDealerStand(state.dealer, state.players)) {
-        return Object.assign({}, state, {
-            dealer: Object.assign({}, state.dealer, {
+        return {
+            ...state,
+            dealer: {
+                ...state.dealer,
                 status: ACTION.stand,
-            }),
+            },
             playerTurn: 0,
-        });
+        };
     } else {
         if (!state.deck || state.deck.length <= 0)
             throw "Can not deal card; deck is empty.";
 
         const newCard = state.deck[0];
-        let updatedDealer = Object.assign({}, state.dealer, {
+        let updatedDealer = {
+            ...state.dealer,
             hand: [...state.dealer.hand, newCard],
-        });
+        };
 
         if (doesPlayerBustOrHave21(updatedDealer))
             updatedDealer.status = ACTION.stand;
 
-        return Object.assign({}, state, {
+        return {
+            ...state,
             deck: state.deck.slice(1),
             dealer: updatedDealer,
             players: state.players.map(player => {
                 if (!doesPlayerStand(player, updatedDealer)) {
                     return player;
                 } else {
-                    return Object.assign({}, player, {
+                    return {
+                        ...player,
                         status: ACTION.stand,
-                    });
+                    };
                 }
             }),
             playerTurn: 0,
-        });
+        };
     }
 }
 
@@ -131,11 +144,13 @@ function dealerHit(state) {
 
     const newCard = state.deck[0];
 
-    return Object.assign({}, state, {
+    return {
+        ...state,
         deck: state.deck.slice(1),
-        dealer: Object.assign({}, state.dealer, {
+        dealer: {
+            ...state.dealer,
             hand: [...state.dealer.hand, newCard],
-        }),
+        },
         playerTurn: 0,
-    });
+    };
 }
