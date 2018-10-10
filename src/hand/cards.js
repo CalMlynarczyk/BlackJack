@@ -30,7 +30,7 @@ export const CARD_VALUES = {
 const DECK = createDeck();
 
 function createDeck() {
-    let deck = [];
+    const deck = [];
 
     for (const suit of Object.keys(CARD_SUITS)) {
         for (const value of Object.keys(CARD_VALUES)) {
@@ -42,7 +42,7 @@ function createDeck() {
     return deck;
 }
 
-function createCard(suit, value) {
+export function createCard(suit, value) {
     return { suit: suit, value: value };
 }
 
@@ -52,7 +52,7 @@ function createCard(suit, value) {
  * @returns A shuffled copy of the given array
  */
 function shuffle(array) {
-    let shuffledArray = Array.from(array);
+    const shuffledArray = Array.from(array);
     let currentIndex = array.length;
 
     while (0 !== currentIndex) {

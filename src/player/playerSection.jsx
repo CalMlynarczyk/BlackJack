@@ -31,12 +31,12 @@ const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
 
     return (
         <section className="player-section">
-            <h2 className={"result-message winner-message" + (isWinner ? "" : " hide")}>Winner</h2>
+            <h2 className={`result-message winner-message ${isWinner ? "" : " hide"}`}>Winner</h2>
 
             <div className="player-section__board">
                 <div>
                     <h2 className="player-header">{playerTypeLabel}</h2>
-                    <h2 className={"player-score" + (score > MAX_SCORE ? " player-score--bust" : "")}>{score}</h2>
+                    <h2 className={`player-score ${score > MAX_SCORE ? " player-score--bust" : ""}`}>{score}</h2>
                     
                     {playerType === PLAYER_TYPE.player && player.status !== ACTION.stand &&
                         <div className="player-controls">

@@ -60,7 +60,7 @@ function playerHit(state, action) {
             if (index !== action.index)
                 return player;
             else {
-                let updatedPlayer = {
+                const updatedPlayer = {
                     ...player,
                     hand: [...player.hand, newCard],
                 };
@@ -111,7 +111,7 @@ function dealerTurn(state) {
             throw "Can not deal card; deck is empty.";
 
         const newCard = state.deck[0];
-        let updatedDealer = {
+        const updatedDealer = {
             ...state.dealer,
             hand: [...state.dealer.hand, newCard],
         };

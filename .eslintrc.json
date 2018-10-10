@@ -33,6 +33,12 @@
     "semi": [
       "error",
       "always"
-    ]
+    ],
+    "prefer-const": "error",
+    "prefer-spread": "error",
+    "prefer-template": "error",
+    "react/jsx-uses-react": 1,
+    "react/jsx-uses-vars": 1,
+    "react/jsx-no-target-blank": "error"
   }
 }

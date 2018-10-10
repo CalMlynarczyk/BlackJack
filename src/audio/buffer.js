@@ -8,7 +8,7 @@ export default class Buffer {
     }
 
     loadSound(url, index) {
-        let request = new XMLHttpRequest();
+        const request = new XMLHttpRequest();
         request.open("get", url, true);
         request.responseType = "arraybuffer";
 
