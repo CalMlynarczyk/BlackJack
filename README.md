@@ -10,8 +10,8 @@ The styling is sometimes flashy and obnoxious.
 
 ## Running the application
 
-1. `npm install`
-2. `npm start`
+1. `yarn install`
+2. `yarn start`
 
 ### Running the application in Docker
 
@@ -19,4 +19,4 @@ The styling is sometimes flashy and obnoxious.
 
 ## Running automated tests
 
-`npm test`
+`yarn test`
