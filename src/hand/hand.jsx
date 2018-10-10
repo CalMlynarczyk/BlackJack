@@ -24,7 +24,7 @@ export default class Hand extends React.Component {
         return (
             <TransitionMotion
                 willEnter={this.willEnter}
-                styles={this.props.hand.map((card, index) => {
+                styles={this.props.hand.map((card) => {
                     // Assign the rotation value only the first time
                     // so it does not change on each re-render
                     if (!card.rotateVal)
@@ -46,10 +46,13 @@ export default class Hand extends React.Component {
 
                         {interpolatedStyles.map(card =>
                             <Card card={card.data} key={card.key} 
-                                style={{opacity: card.style.opacity, 
-                                    transform: `translateX(${card.style.translateX}px)
-                                        rotate(${card.style.rotate}deg)`
-                                }} />
+                                style={
+                                    {
+                                        opacity: card.style.opacity,
+                                        transform: `translateX(${card.style.translateX}px) rotate(${card.style.rotate}deg)`,
+                                    }
+                                }
+                            />
                         )}
                     </ul>
                 }
