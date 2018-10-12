@@ -1,13 +1,13 @@
 body {
-    font-family: sans-serif;
+  font-family: sans-serif;
 }
 
 main {
-    width: 76vw;
-    min-width: 800px;
-    margin: 0 auto;
+  width: 76vw;
+  min-width: 800px;
+  margin: 0 auto;
 }
 
 .hide {
-    visibility: hidden;
+  visibility: hidden;
 }

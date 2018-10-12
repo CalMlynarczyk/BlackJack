@@ -1,39 +1,39 @@
 .btn {
-    font-size: 1.2rem;
-    padding: 0.3em 0.5em;
-    min-width: 3em;
-    background: hsl(0, 0%, 45%);
-    color: hsl(0, 0%, 100%);
-    box-shadow: 0 1px 1px 0 hsl(0, 0%, 0%);
-    border: 0;
-    border-radius: 4px;
-    cursor: pointer;
-    transition-property: transform, box-shadow;
-    transition-duration: 0.1s;
-    transition-timing-function: ease-out;
+  font-size: 1.2rem;
+  padding: 0.3em 0.5em;
+  min-width: 3em;
+  background: hsl(0, 0%, 45%);
+  color: hsl(0, 0%, 100%);
+  box-shadow: 0 1px 1px 0 hsl(0, 0%, 0%);
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  transition-property: transform, box-shadow;
+  transition-duration: 0.1s;
+  transition-timing-function: ease-out;
 
-    &:hover {
-        background: hsl(0, 0%, 40%);
-    }
+  &:hover {
+    background: hsl(0, 0%, 40%);
+  }
 
-    &:active {
-        transform: translateY(1px);
-        box-shadow: none;
-    }
+  &:active {
+    transform: translateY(1px);
+    box-shadow: none;
+  }
 }
 
 .btn--green {
-    background: hsl(106, 92%, 41%);
+  background: hsl(106, 92%, 41%);
 
-    &:hover {
-        background: hsl(106, 92%, 36%);
-    }
+  &:hover {
+    background: hsl(106, 92%, 36%);
+  }
 }
 
 .btn--red {
-    background: hsl(357, 100%, 47%);
+  background: hsl(357, 100%, 47%);
 
-    &:hover {
-        background: hsl(357, 100%, 41%);
-    }
+  &:hover {
+    background: hsl(357, 100%, 41%);
+  }
 }

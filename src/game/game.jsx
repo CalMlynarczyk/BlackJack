@@ -15,73 +15,72 @@ import { ACTION, PLAYER_TYPE } from "../player/player";
 let store = createStore(blackjackApp, applyMiddleware(ReduxThunk));
 
 const Game = ({ dealer, players, onReset }) => {
-    const isTieValue = isTie(dealer, players);
+  const isTieValue = isTie(dealer, players);
 
-    return (
-        <div className="game-container">
-            <h2 className={"result-message tie-message" 
-                + (isTieValue ? "" : " hide")}>Tie</h2>
-                
-            <PlayerSectionContainer playerIndex={0} playerType={PLAYER_TYPE.player} />
-            <PlayerSectionContainer playerType={PLAYER_TYPE.dealer} />
+  return (
+    <div className="game-container">
+      <h2 className={`result-message tie-message ${isTieValue ? "" : "hide"}`}>Tie</h2>
 
-            {(true || isStillPlaying(dealer, players)) &&
-                <button onClick={onReset} className="btn">Reset</button>
-            }
-        </div>
-    );
+      <PlayerSectionContainer playerIndex={0} playerType={PLAYER_TYPE.player} />
+      <PlayerSectionContainer playerType={PLAYER_TYPE.dealer} />
+
+      {(true || isStillPlaying(dealer, players)) &&
+        <button onClick={onReset} className="btn">Reset</button>
+      }
+    </div>
+  );
 };
 
-const mapStateToProps = (state, ownProps) => {
-    return {
-        dealer: state.dealer,
-        players: state.players,
-    };
+const mapStateToProps = (state) => {
+  return {
+    dealer: state.dealer,
+    players: state.players,
+  };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    // Track all timed actions so we can cancel them
-    // if another reset is triggered.
-    let timerIds = [];
+const mapDispatchToProps = (dispatch) => {
+  // Track all timed actions so we can cancel them
+  // if another reset is triggered.
+  let timerIds = [];
 
-    return {
-        onReset: () => {
-            // Cancel all previous timed actions
-            timerIds.forEach(clearTimeout);
-            timerIds = [];
+  return {
+    onReset: () => {
+      // Cancel all previous timed actions
+      timerIds.forEach(clearTimeout);
+      timerIds = [];
 
-            const dealInterval = 550;
+      const dealInterval = 550;
 
-            // Initial deal
-            dispatch(reset());
-            dispatch(playerHit(0, false));
+      // Initial deal
+      dispatch(reset());
+      dispatch(playerHit(0, false));
 
-            timerIds.push(setTimeout(() => {
-                dispatch(dealerHit());
+      timerIds.push(setTimeout(() => {
+        dispatch(dealerHit());
 
-                timerIds.push(setTimeout(() => {
-                    dispatch(playerHit(0, false));
+        timerIds.push(setTimeout(() => {
+          dispatch(playerHit(0, false));
 
-                    timerIds.push(setTimeout(() => dispatch(dealerHit()), dealInterval));
-                }, dealInterval));
-            }, dealInterval));
+          timerIds.push(setTimeout(() => dispatch(dealerHit()), dealInterval));
+        }, dealInterval));
+      }, dealInterval));
 
-            dispatch(checkPlayer(0));
-            dispatch(checkDealer());
-        },
-    };
+      dispatch(checkPlayer(0));
+      dispatch(checkDealer());
+    },
+  };
 };
 
 const GameContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps,
 )(Game);
 
 export default function playGame(elementId) {
-    render(
-        <Provider store={store}>
-            <GameContainer />
-        </Provider>,
-        document.getElementById(elementId),
-    );
+  render(
+    <Provider store={store}>
+      <GameContainer />
+    </Provider>,
+    document.getElementById(elementId),
+  );
 }

@@ -5,12 +5,12 @@ import { isPlayerWinner, isDealerWinner } from "../game/score";
 import PlayerSection from "./playerSection.jsx";
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-        player: ownProps.playerType === PLAYER_TYPE.player
-            ? state.players[ownProps.playerIndex]
-            : state.dealer,
-        playerType: ownProps.playerType,
-        isWinner: 
+  return {
+    player: ownProps.playerType === PLAYER_TYPE.player
+      ? state.players[ownProps.playerIndex]
+      : state.dealer,
+    playerType: ownProps.playerType,
+    isWinner: 
             (ownProps.playerType === PLAYER_TYPE.player
                 && state.dealer.status === ACTION.stand
                 && state.players[ownProps.playerIndex].status === ACTION.stand
@@ -19,22 +19,22 @@ const mapStateToProps = (state, ownProps) => {
                 && state.players.every(player => player.status === ACTION.stand)
                 && state.dealer.status === ACTION.stand
                 && isDealerWinner(state.dealer, state.players)),
-    };
+  };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        onPlayerAction: action => {
-            action === ACTION.hit
-                ? dispatch(playerHit(ownProps.playerIndex))
-                : dispatch(playerStand(ownProps.playerIndex));
-        },
-    };
+  return {
+    onPlayerAction: action => {
+      action === ACTION.hit
+        ? dispatch(playerHit(ownProps.playerIndex))
+        : dispatch(playerStand(ownProps.playerIndex));
+    },
+  };
 };
 
 const PlayerSectionContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps,
+  mapStateToProps,
+  mapDispatchToProps,
 )(PlayerSection);
 
 export default PlayerSectionContainer;

@@ -1,49 +1,49 @@
 .player-section {
-    box-sizing: border-box;
-    display: inline-block;
-    width: 38vw;
-    min-width: 400px;
-    vertical-align: top;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 38vw;
+  min-width: 400px;
+  vertical-align: top;
 }
 
 .player-section__board {
-    padding: 25px 40px;
-    background: hsl(0, 0% 92%);
-    border: 1px solid hsl(0, 0%, 0%);
+  padding: 25px 40px;
+  background: hsl(0, 0% 92%);
+  border: 1px solid hsl(0, 0%, 0%);
 }
 
 .winner-message {
-    color: hsl(128, 99%, 34%);
+  color: hsl(128, 99%, 34%);
 }
 
 .player-header,
 .player-score {
-    display: inline-block;
-    font-size: 1.75em;
-    margin: 0 0 0.8em 0;
+  display: inline-block;
+  font-size: 1.75em;
+  margin: 0 0 0.8em 0;
 }
 
 .player-score::before {
-    content: ":";
-    display: inline-block;
-    width: 2em;
-    text-align: center;
+  content: ":";
+  display: inline-block;
+  width: 2em;
+  text-align: center;
 }
 
 .player-score--bust {
-    color: hsl(4, 100%, 48%);
+  color: hsl(4, 100%, 48%);
 
-    &::before {
-        color: hsl(0, 0%, 0%);
-    }
+  &::before {
+    color: hsl(0, 0%, 0%);
+  }
 }
 
 .player-controls {
-    float: right;
+  float: right;
 }
 
 .player-status {
-    font-size: 1.2em;
-    margin: 0;
-    color: hsl(216, 100%, 51%);
+  font-size: 1.2em;
+  margin: 0;
+  color: hsl(216, 100%, 51%);
 }

@@ -5,10 +5,10 @@ import { ACTION } from "../player/player";
  * The game result enumeration
  */
 export const RESULT = {
-    player_wins: 0,
-    dealer_wins: 1,
-    tie: 2,
-    still_playing: 3,
+  player_wins: 0,
+  dealer_wins: 1,
+  tie: 2,
+  still_playing: 3,
 };
 
 /**
@@ -22,22 +22,22 @@ export const MAX_SCORE = 21;
 export const DEALER_MAX_SCORE = 17;
 
 function getHandValue(hand) {
-    const startingTotal = createTotal(0, 0);
+  const startingTotal = createTotal(0, 0);
 
-    return hand.reduce((total, card) => { 
-        // We are evaluating an Ace
-        if (card.value.key === CARD_VALUES.ace.key) {
-            const hardValue = card.value.val[0];
-            const softValue = card.value.val[1];
+  return hand.reduce((total, card) => { 
+    // We are evaluating an Ace
+    if (card.value.key === CARD_VALUES.ace.key) {
+      const hardValue = card.value.val[0];
+      const softValue = card.value.val[1];
 
-            // Determine if we have already calculated for an Ace in the hand
-            return total.hard !== total.soft
-                ? createTotal(total.hard + hardValue, total.soft + hardValue)
-                : createTotal(total.hard + hardValue, total.soft + softValue);
-        } else {
-            return createTotal(total.hard + card.value.val, total.soft + card.value.val);
-        }
-    }, startingTotal); 
+      // Determine if we have already calculated for an Ace in the hand
+      return total.hard !== total.soft
+        ? createTotal(total.hard + hardValue, total.soft + hardValue)
+        : createTotal(total.hard + hardValue, total.soft + softValue);
+    } else {
+      return createTotal(total.hard + card.value.val, total.soft + card.value.val);
+    }
+  }, startingTotal); 
 }
 
 /**
@@ -46,15 +46,15 @@ function getHandValue(hand) {
  * @param {*} hand The hand to total
  */
 export function getFinalHandValue(hand) {
-    const total = getHandValue(hand);
+  const total = getHandValue(hand);
 
-    return total.soft <= MAX_SCORE
-        ? total.soft
-        : total.hard;
+  return total.soft <= MAX_SCORE
+    ? total.soft
+    : total.hard;
 }
 
 function createTotal(hardTotal, softTotal) {
-    return { hard: hardTotal, soft: softTotal };
+  return { hard: hardTotal, soft: softTotal };
 }
 
 /**
@@ -63,10 +63,10 @@ function createTotal(hardTotal, softTotal) {
  * @param {*} dealer The dealer
  */
 export function isPlayerWinner(player, dealer) {
-    const playerTotal = getFinalHandValue(player.hand);
-    const dealerTotal = getFinalHandValue(dealer.hand);
+  const playerTotal = getFinalHandValue(player.hand);
+  const dealerTotal = getFinalHandValue(dealer.hand);
 
-    return playerTotal <= MAX_SCORE 
+  return playerTotal <= MAX_SCORE 
         && (dealerTotal > MAX_SCORE || playerTotal > dealerTotal);
 }
 
@@ -76,24 +76,24 @@ export function isPlayerWinner(player, dealer) {
  * @param {*} dealer The dealer
  */
 export function isDealerWinner(dealer, players) {
-    const dealerTotal = getFinalHandValue(dealer.hand);
+  const dealerTotal = getFinalHandValue(dealer.hand);
 
-    return players.every(player => {
-        const playerTotal = getFinalHandValue(player.hand);
+  return players.every(player => {
+    const playerTotal = getFinalHandValue(player.hand);
 
-        return playerTotal > MAX_SCORE 
+    return playerTotal > MAX_SCORE 
             || (dealerTotal <= MAX_SCORE && playerTotal < dealerTotal);
-    });
+  });
 }
 
 export function isTie(dealer, players) {
-    const dealerTotal = getFinalHandValue(dealer.hand);
+  const dealerTotal = getFinalHandValue(dealer.hand);
 
-    return dealer.status === ACTION.stand
+  return dealer.status === ACTION.stand
         && players.every(player => {
-            const playerTotal = getFinalHandValue(player.hand);
+          const playerTotal = getFinalHandValue(player.hand);
 
-            return player.status === ACTION.stand
+          return player.status === ACTION.stand
                 && dealerTotal === playerTotal
                 || (playerTotal > MAX_SCORE && dealerTotal > MAX_SCORE);
         });

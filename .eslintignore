@@ -1,5 +1,4 @@
 node_modules/*
 dist/*
-src/**/_test/*.js
 webpack.config.js
 postcss.config.js
