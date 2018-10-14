@@ -51,7 +51,7 @@ const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
             </div>
           }
         </div>
-        <Hand hand={player.hand}></Hand>
+        <Hand hand={player.hand} />
       </div>
     </section>
   );

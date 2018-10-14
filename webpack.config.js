@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   mode: isProd ? "production" : "development",
-  entry: "./src/index.js",
   module: {
     rules: [
       {
@@ -11,6 +10,14 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           "babel-loader",
+        ],
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          "babel-loader",
+          "awesome-typescript-loader",
         ],
       },
       {

@@ -11,14 +11,14 @@ const mapStateToProps = (state, ownProps) => {
       : state.dealer,
     playerType: ownProps.playerType,
     isWinner: 
-            (ownProps.playerType === PLAYER_TYPE.player
-                && state.dealer.status === ACTION.stand
-                && state.players[ownProps.playerIndex].status === ACTION.stand
-                && isPlayerWinner(state.players[ownProps.playerIndex], state.dealer))
-            || (ownProps.playerType === PLAYER_TYPE.dealer
-                && state.players.every(player => player.status === ACTION.stand)
-                && state.dealer.status === ACTION.stand
-                && isDealerWinner(state.dealer, state.players)),
+      (ownProps.playerType === PLAYER_TYPE.player
+        && state.dealer.status === ACTION.stand
+        && state.players[ownProps.playerIndex].status === ACTION.stand
+        && isPlayerWinner(state.players[ownProps.playerIndex], state.dealer))
+      || (ownProps.playerType === PLAYER_TYPE.dealer
+          && state.players.every(player => player.status === ACTION.stand)
+          && state.dealer.status === ACTION.stand
+          && isDealerWinner(state.dealer, state.players)),
   };
 };
 

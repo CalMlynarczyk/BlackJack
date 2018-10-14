@@ -8,7 +8,7 @@ import { default as Card, mapCardToCode } from "./card.jsx";
 // hidden placeholder card element.
 const placeholderCard = {
   suit: 0,
-  value: { key: "two", val: 2 },
+  value: 0,
 };
 
 export default class Hand extends React.Component {

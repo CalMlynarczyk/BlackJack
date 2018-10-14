@@ -1,4 +1,4 @@
-import { getShuffledDeck } from "../hand/cards";
+import { getShuffledDeck } from "../hand/cards.ts";
 import { ACTION } from "../player/player";
 
 export function getInitialState() {
@@ -26,5 +26,5 @@ export function getInitialState() {
  */
 export function isStillPlaying(dealer, players) {
   return dealer.status === ACTION.hit
-        || players.some(player => player.status === ACTION.hit);
+    || players.some(player => player.status === ACTION.hit);
 }

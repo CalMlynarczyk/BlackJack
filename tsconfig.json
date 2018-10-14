@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "target": "es2018"
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "webpack.config.js",
+    "postcss.config.js"
+  ]
+}
