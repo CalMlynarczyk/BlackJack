@@ -1,4 +1,5 @@
 node_modules/*
 dist/*
+babel.config.js
 webpack.config.js
 postcss.config.js
