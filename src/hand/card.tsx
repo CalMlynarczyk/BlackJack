@@ -1,26 +1,24 @@
-import React from "react";
-import { CardSuit, CardValue, mapCardValues } from "./cards.ts";
+import * as React from "react";
+import { Card as CardEnum, CardSuit, CardValue, mapCardValues } from "./cards";
 
-const Card = ({ card, isHidden, style }) => {
-  return (
-    <li className={`card ${isHidden ? "card__placeholder" : ""}`} style={style}>
-      <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
-    </li>
-  );
-};
+const Card = ({ card, isHidden, style }: {card: CardEnum, isHidden?: boolean, style?: object, [key: string]: any}) => (
+  <li className={`card ${isHidden ? "card__placeholder" : ""}`} style={style}>
+    <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
+  </li>
+);
 
 export default Card;
 
 const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
 
-export function mapCardToCode(card) {
+export function mapCardToCode(card: CardEnum) {
   const suitCode = mapSuitToCode(card.suit);
   const valueCode = mapValueToCode(card.value);
 
   return `${valueCode}${suitCode}`;
 }
 
-function mapSuitToCode(suit) {
+function mapSuitToCode(suit: CardSuit) {
   switch (suit) {
     case CardSuit.Club:
       return "C";
@@ -35,7 +33,7 @@ function mapSuitToCode(suit) {
   }
 }
 
-function mapValueToCode(cardValue) {
+function mapValueToCode(cardValue: CardValue) {
   switch (cardValue) {
     case CardValue.Two:
     case CardValue.Three:

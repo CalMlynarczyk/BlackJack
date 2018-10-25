@@ -1,17 +1,20 @@
 import "./hand.css";
 
-import React from "react";
+import * as React from "react";
 import { TransitionMotion, spring } from "react-motion";
-import { default as Card, mapCardToCode } from "./card.jsx";
+import { default as Card, mapCardToCode } from "./card";
+import { Card as CardEnum } from "./cards";
 
 // Keep the game board a consistent height using a
 // hidden placeholder card element.
-const placeholderCard = {
+const placeholderCard: CardEnum = {
   suit: 0,
   value: 0,
 };
 
-export default class Hand extends React.Component {
+interface HandProps { hand: CardEnum[] };
+
+export default class Hand extends React.Component<HandProps, {}> {
   constructor(props) {
     super(props);
   }

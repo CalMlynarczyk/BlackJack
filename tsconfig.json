@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "target": "es2018"
+    "target": "es2018",
+    "moduleResolution": "node",
+    "jsx": "preserve"
   },
   "exclude": [
     "node_modules",

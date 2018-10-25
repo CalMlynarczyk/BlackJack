@@ -3,7 +3,7 @@ import "./playerSection.css";
 import React from "react";
 import { ACTION, PLAYER_TYPE } from "./player";
 import { MAX_SCORE, getFinalHandValue } from "../game/score";
-import Hand from "../hand/hand.jsx";
+import Hand from "../hand/hand.tsx";
 import hitSound from "../audio/audioLoader";
 
 const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {

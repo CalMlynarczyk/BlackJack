@@ -21,7 +21,7 @@ export enum CardValue {
   King,
 }
 
-interface Card {
+export interface Card {
   suit: CardSuit;
   value: CardValue;
 }
