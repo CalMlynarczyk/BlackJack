@@ -3,6 +3,6 @@ FROM node
 # Copy source code
 COPY . /app
 WORKDIR /app
-RUN npm install
+RUN yarn
 
-CMD ["npm", "run", "start:docker"]
+CMD ["yarn", "start:docker"]
