@@ -13,6 +13,7 @@ module.exports = {
   entry: {
     "main.js": path.resolve(__dirname, "src/index.js"),
     images: glob.sync(path.resolve(__dirname, "Vector-Playing-Cards/cards-svg/**/*.*")),
+    sounds: glob.sync(path.resolve(__dirname, "src/audio/**/*.wav")),
   },
   module: {
     rules: [
@@ -40,7 +41,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|wav)$/,
         use: [
           {
             loader: "file-loader",
