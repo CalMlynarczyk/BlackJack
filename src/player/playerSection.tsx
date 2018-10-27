@@ -6,12 +6,15 @@ import { getFinalHandValue, MAX_SCORE } from "../game/score";
 import Hand from "../hand/hand";
 import { Action, Player, PlayerType } from "./player";
 
-const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }: {
-  player: Player,
-  playerType: PlayerType,
-  isWinner: boolean,
-  onPlayerAction: any,
-}) => {
+export interface PlayerSectionProps {
+  player: Player;
+  playerIndex: number;
+  playerType: PlayerType;
+  isWinner: boolean;
+  onPlayerAction: any;
+}
+
+const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }: PlayerSectionProps) => {
   const playerTypeLabel = (() => {
     switch (playerType) {
       case PlayerType.player:
