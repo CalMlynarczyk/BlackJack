@@ -1,5 +1,7 @@
-const isProd = process.argv.indexOf("-p") !== -1;
+const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const isProd = process.argv.indexOf("-p") !== -1;
 
 module.exports = {
   mode: isProd ? "production" : "development",
@@ -34,11 +36,12 @@ module.exports = {
     ],
   },
   output: {
-    filename: "./dist/bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "./dist/style.css",
+      filename: "style.css",
     }),
   ],
 };
