@@ -1,5 +1,5 @@
 import { PLAYER_HIT, PLAYER_STAND, DEALER_TURN, DEALER_HIT, RESET, CHECK_PLAYER, CHECK_DEALER } from "./actions";
-import { doesDealerStand, doesPlayerStand, doesPlayerBustOrHave21, ACTION } from "../player/player";
+import { doesDealerStand, doesPlayerStand, doesPlayerBustOrHave21, Action } from "../player/player";
 import { getInitialState } from "./game";
 
 const initialState = getInitialState();
@@ -24,8 +24,8 @@ export default function blackjackApp(state = initialState, action) {
             return {
               ...player,
               action: doesPlayerStand(player, state.dealer)
-                ? ACTION.stand
-                : ACTION.hit,
+                ? Action.stand
+                : Action.hit,
             };
           }
         }),
@@ -36,8 +36,8 @@ export default function blackjackApp(state = initialState, action) {
         dealer: {
           ...state.dealer,
           action: doesDealerStand(state.dealer, state.players)
-            ? ACTION.stand
-            : ACTION.hit,
+            ? Action.stand
+            : Action.hit,
         },
       };
     case RESET:
@@ -66,7 +66,7 @@ function playerHit(state, action) {
         };
         
         if (doesPlayerBustOrHave21(updatedPlayer))
-          updatedPlayer.status = ACTION.stand;
+          updatedPlayer.status = Action.stand;
 
         return {...updatedPlayer};
       }
@@ -86,7 +86,7 @@ function playerStand(state, action) {
       else {
         return {
           ...player,
-          status: ACTION.stand,
+          status: Action.stand,
         };
       }
     }),
@@ -102,7 +102,7 @@ function dealerTurn(state) {
       ...state,
       dealer: {
         ...state.dealer,
-        status: ACTION.stand,
+        status: Action.stand,
       },
       playerTurn: 0,
     };
@@ -117,7 +117,7 @@ function dealerTurn(state) {
     };
 
     if (doesPlayerBustOrHave21(updatedDealer))
-      updatedDealer.status = ACTION.stand;
+      updatedDealer.status = Action.stand;
 
     return {
       ...state,
@@ -129,7 +129,7 @@ function dealerTurn(state) {
         } else {
           return {
             ...player,
-            status: ACTION.stand,
+            status: Action.stand,
           };
         }
       }),

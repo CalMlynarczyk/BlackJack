@@ -1,17 +1,17 @@
 import { getShuffledDeck } from "../hand/cards.ts";
-import { ACTION } from "../player/player";
+import { Action } from "../player/player";
 
 export function getInitialState() {
   return {
     deck: getShuffledDeck(),
     dealer: {
       hand: [],
-      status: ACTION.hit,
+      status: Action.hit,
     },
     players: [
       {
         hand: [],
-        status: ACTION.hit,
+        status: Action.hit,
       },
     ],
     playerTurn: 0,
@@ -25,6 +25,6 @@ export function getInitialState() {
  * @returns 'True' if the game should go another round
  */
 export function isStillPlaying(dealer, players) {
-  return dealer.status === ACTION.hit
-    || players.some(player => player.status === ACTION.hit);
+  return dealer.status === Action.hit
+    || players.some(player => player.status === Action.hit);
 }

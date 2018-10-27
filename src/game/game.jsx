@@ -10,7 +10,7 @@ import PlayerSectionContainer from "../player/PlayerSectionContainer";
 import { isStillPlaying } from "./game";
 import { RESULT, isTie } from "./score";
 import { playerHit, dealerHit, reset, checkPlayer, checkDealer } from "./actions";
-import { ACTION, PLAYER_TYPE } from "../player/player";
+import { Action, PlayerType } from "../player/player";
 
 let store = createStore(blackjackApp, applyMiddleware(ReduxThunk));
 
@@ -21,8 +21,8 @@ const Game = ({ dealer, players, onReset }) => {
     <div className="game-container">
       <h2 className={`result-message tie-message ${isTieValue ? "" : "hide"}`}>Tie</h2>
 
-      <PlayerSectionContainer playerIndex={0} playerType={PLAYER_TYPE.player} />
-      <PlayerSectionContainer playerType={PLAYER_TYPE.dealer} />
+      <PlayerSectionContainer playerIndex={0} playerType={PlayerType.player} />
+      <PlayerSectionContainer playerType={PlayerType.dealer} />
 
       {(true || isStillPlaying(dealer, players)) &&
         <button onClick={onReset} className="btn">Reset</button>

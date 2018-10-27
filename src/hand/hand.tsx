@@ -3,7 +3,7 @@ import "./hand.css";
 import * as React from "react";
 import { spring, TransitionMotion } from "react-motion";
 import { default as CardComponent, mapCardToCode } from "./card";
-import { Card } from "./cards";
+import { Card, Hand as HandType } from "./cards";
 
 // Keep the game board a consistent height using a
 // hidden placeholder card element.
@@ -20,7 +20,7 @@ const willEnter = () => ({
 
 interface DisplayCard extends Card { rotateVal: number; }
 
-interface HandProps { hand: Card[]; }
+interface HandProps { hand: HandType; }
 
 export default class Hand extends React.Component<HandProps, {displayHand: DisplayCard[]}> {
   constructor(props) {

@@ -2,7 +2,7 @@ import { describe, it } from "mocha";
 import { expect } from "chai";
 
 import { CardSuit, CardValue, createCard } from "../../hand/cards.ts";
-import { getFinalHandValue } from "../score.js";
+import { getFinalHandValue } from "../score.ts";
 
 describe("Scores module", () => {
   describe("Hand total", () => {

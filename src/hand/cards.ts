@@ -26,6 +26,8 @@ export interface Card {
   value: CardValue;
 }
 
+export type Hand = Card[];
+
 export const mapCardValues = new Map<CardValue, number | number[]>([
   [CardValue.Ace, [1, 11]],
   [CardValue.Two, 2],

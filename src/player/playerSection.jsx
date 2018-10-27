@@ -1,7 +1,7 @@
 import "./playerSection.css";
 
 import React from "react";
-import { ACTION, PLAYER_TYPE } from "./player";
+import { Action, PlayerType } from "./player";
 import { MAX_SCORE, getFinalHandValue } from "../game/score";
 import Hand from "../hand/hand.tsx";
 import hitSound from "../audio/audioLoader";
@@ -9,9 +9,9 @@ import hitSound from "../audio/audioLoader";
 const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
   const playerTypeLabel = (() => {
     switch (playerType) {
-      case PLAYER_TYPE.player:
+      case PlayerType.player:
         return "Player";
-      case PLAYER_TYPE.dealer:
+      case PlayerType.dealer:
         return "Dealer";
       default:
         throw `Invalid player type: ${playerType}`;
@@ -20,11 +20,11 @@ const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
 
   const hit = () => {
     hitSound().play();
-    onPlayerAction(ACTION.hit);
+    onPlayerAction(Action.hit);
   };
 
   const stand = () => {
-    onPlayerAction(ACTION.stand);
+    onPlayerAction(Action.stand);
   };
 
   const score = getFinalHandValue(player.hand);
@@ -38,14 +38,14 @@ const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
           <h2 className="player-header">{playerTypeLabel}</h2>
           <h2 className={`player-score ${score > MAX_SCORE ? " player-score--bust" : ""}`}>{score}</h2>
 
-          {playerType === PLAYER_TYPE.player && player.status !== ACTION.stand &&
+          {playerType === PlayerType.player && player.status !== Action.stand &&
             <div className="player-controls">
               <button onClick={hit} className="btn btn--green">Hit</button>
               <button onClick={stand} className="btn btn--red">Stand</button>
             </div>
           }
 
-          {player.status === ACTION.stand &&
+          {player.status === Action.stand &&
             <div className="player-controls">
               <h4 className="player-status">Stand</h4>
             </div>

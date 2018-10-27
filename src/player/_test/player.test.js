@@ -1,45 +1,63 @@
 import { describe, it } from "mocha";
 import { expect } from "chai";
 
-import { PLAYER_TYPE, ACTION, doesPlayerStand } from "../player.js";
+import { PlayerType, Action, doesPlayerStand } from "../player.ts";
 import { CardSuit, CardValue, createCard } from "../../hand/cards.ts";
 
 describe("Player module", () => {
   describe("Dealer", () => {
     it("should stand when score is 17 or above", () => {
       const dealer = {
-        type: PLAYER_TYPE.dealer,
-        action: ACTION.hit,
+        type: PlayerType.dealer,
+        status: Action.hit,
         hand: [
           createCard(CardSuit.Spade, CardValue.Ten),
           createCard(CardSuit.Spade, CardValue.Ten),
         ]
       };
 
-      const result = doesPlayerStand(dealer);
+      const opponent = {
+        type: PlayerType.player,
+        status: Action.stand,
+        hand: [
+          createCard(CardSuit.Clubs, CardValue.Ten),
+          createCard(CardSuit.Clubs, CardValue.Six),
+        ]
+      };
+
+      const result = doesPlayerStand(dealer, opponent);
 
       expect(result).to.be.true;
     });
 
     it("should hit when score is below 17", () => {
       const dealer = {
-        type: PLAYER_TYPE.dealer,
-        action: ACTION.hit,
+        type: PlayerType.dealer,
+        status: Action.hit,
         hand: [
           createCard(CardSuit.Spade, CardValue.Ten),
           createCard(CardSuit.Spade, CardValue.Five),
         ]
       };
 
-      const result = doesPlayerStand(dealer);
+      const opponent = {
+        type: PlayerType.player,
+        status: Action.hit,
+        hand: [
+          createCard(CardSuit.Clubs, CardValue.Ten),
+          createCard(CardSuit.Clubs, CardValue.Seven),
+        ]
+      };
+
+      const result = doesPlayerStand(dealer, opponent);
 
       expect(result).to.be.false;
     });
 
     it("should stand when other player busts", () => {
       const dealer = {
-        type: PLAYER_TYPE.dealer,
-        action: ACTION.hit,
+        type: PlayerType.dealer,
+        status: Action.hit,
         hand: [
           createCard(CardSuit.Diamond, CardValue.Ten),
           createCard(CardSuit.Spade, CardValue.Five),
@@ -47,8 +65,8 @@ describe("Player module", () => {
       };
 
       const player = {
-        type: PLAYER_TYPE.player,
-        action: ACTION.stand,
+        type: PlayerType.player,
+        status: Action.stand,
         hand: [
           createCard(CardSuit.Spade, CardValue.Ten),
           createCard(CardSuit.Heart, CardValue.Ten),
@@ -63,8 +81,8 @@ describe("Player module", () => {
 
     it("should stand when hand total is higher than other player's hand", () => {
       const dealer = {
-        type: PLAYER_TYPE.dealer,
-        action: ACTION.hit,
+        type: PlayerType.dealer,
+        status: Action.hit,
         hand: [
           createCard(CardSuit.Diamond, CardValue.Ten),
           createCard(CardSuit.Spade, CardValue.Eight),
@@ -72,8 +90,8 @@ describe("Player module", () => {
       };
 
       const player = {
-        type: PLAYER_TYPE.player,
-        action: ACTION.stand,
+        type: PlayerType.player,
+        status: Action.stand,
         hand: [
           createCard(CardSuit.Spade, CardValue.Ten),
           createCard(CardSuit.Club, CardValue.Four),
@@ -88,8 +106,8 @@ describe("Player module", () => {
 
     it("should hit when hand total is lower than other player's hand and 17", () => {
       const dealer = {
-        type: PLAYER_TYPE.dealer,
-        action: ACTION.hit,
+        type: PlayerType.dealer,
+        status: Action.hit,
         hand: [
           createCard(CardSuit.Diamond, CardValue.Ten),
           createCard(CardSuit.Spade, CardValue.Four),
@@ -97,8 +115,8 @@ describe("Player module", () => {
       };
 
       const player = {
-        type: PLAYER_TYPE.player,
-        action: ACTION.stand,
+        type: PlayerType.player,
+        status: Action.stand,
         hand: [
           createCard(CardSuit.Spade, CardValue.Ten),
           createCard(CardSuit.Club, CardValue.Eight),
@@ -115,8 +133,8 @@ describe("Player module", () => {
   describe("Player", () => {
     it("should stand when dealer busts", () => {
       const player = {
-        type: PLAYER_TYPE.player,
-        action: ACTION.stand,
+        type: PlayerType.player,
+        status: Action.stand,
         hand: [
           createCard(CardSuit.Spade, CardValue.Ten),
           createCard(CardSuit.Club, CardValue.Eight),
@@ -125,8 +143,8 @@ describe("Player module", () => {
       };
 
       const dealer = {
-        type: PLAYER_TYPE.dealer,
-        action: ACTION.hit,
+        type: PlayerType.dealer,
+        status: Action.hit,
         hand: [
           createCard(CardSuit.Diamond, CardValue.Ten),
           createCard(CardSuit.Spade, CardValue.Ten),

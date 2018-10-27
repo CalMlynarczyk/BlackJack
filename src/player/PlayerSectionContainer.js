@@ -1,23 +1,23 @@
 import { connect } from "react-redux";
 import { playerHit, playerStand } from "../game/actions";
-import { ACTION, PLAYER_TYPE } from "./player";
+import { Action, PlayerType } from "./player";
 import { isPlayerWinner, isDealerWinner } from "../game/score";
 import PlayerSection from "./playerSection.jsx";
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    player: ownProps.playerType === PLAYER_TYPE.player
+    player: ownProps.playerType === PlayerType.player
       ? state.players[ownProps.playerIndex]
       : state.dealer,
     playerType: ownProps.playerType,
     isWinner: 
-      (ownProps.playerType === PLAYER_TYPE.player
-        && state.dealer.status === ACTION.stand
-        && state.players[ownProps.playerIndex].status === ACTION.stand
+      (ownProps.playerType === PlayerType.player
+        && state.dealer.status === Action.stand
+        && state.players[ownProps.playerIndex].status === Action.stand
         && isPlayerWinner(state.players[ownProps.playerIndex], state.dealer))
-      || (ownProps.playerType === PLAYER_TYPE.dealer
-          && state.players.every(player => player.status === ACTION.stand)
-          && state.dealer.status === ACTION.stand
+      || (ownProps.playerType === PlayerType.dealer
+          && state.players.every(player => player.status === Action.stand)
+          && state.dealer.status === Action.stand
           && isDealerWinner(state.dealer, state.players)),
   };
 };
@@ -25,7 +25,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onPlayerAction: action => {
-      action === ACTION.hit
+      action === Action.hit
         ? dispatch(playerHit(ownProps.playerIndex))
         : dispatch(playerStand(ownProps.playerIndex));
     },

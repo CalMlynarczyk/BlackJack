@@ -1,4 +1,4 @@
-import { ACTION } from "../player/player";
+import { Action } from "../player/player";
 
 export const PLAYER_HIT = "PLAYER_HIT";
 export const PLAYER_STAND = "PLAYER_STAND";
@@ -20,8 +20,8 @@ export function playerHit(index, noDealerTurn) {
       const state = getState();
 
       if (state.playerTurn < 0
-                && (state.dealer.status === ACTION.hit
-                    || state.players.some(player => player.status === ACTION.hit))) {
+                && (state.dealer.status === Action.hit
+                    || state.players.some(player => player.status === Action.hit))) {
         dispatch(dealerTurn());
       }
     }
@@ -38,8 +38,8 @@ export function playerStand(index) {
     const state = getState();
 
     if (state.playerTurn < 0
-            && (state.dealer.status === ACTION.hit
-                || state.players.some(player => player.status === ACTION.hit))) {
+            && (state.dealer.status === Action.hit
+                || state.players.some(player => player.status === Action.hit))) {
       dispatch(dealerTurn());
     }
   };
@@ -49,12 +49,12 @@ export function dealerTurn() {
   return (dispatch, getState) => {
     const state = getState();
 
-    if (state.dealer.status === ACTION.hit) {
+    if (state.dealer.status === Action.hit) {
       dispatch({ 
         type: DEALER_TURN,
       });
 
-      if (state.players.every(player => player.status === ACTION.stand)) {
+      if (state.players.every(player => player.status === Action.stand)) {
         dispatch({
           type: DEALER_TURN,
         });
