@@ -3,6 +3,7 @@
     "allowJs": true,
     "target": "es2018",
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "jsx": "preserve",
     "noEmit": true
   },
