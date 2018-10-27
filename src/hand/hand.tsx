@@ -1,54 +1,63 @@
 import "./hand.css";
 
 import * as React from "react";
-import { TransitionMotion, spring } from "react-motion";
-import { default as Card, mapCardToCode } from "./card";
-import { Card as CardEnum } from "./cards";
+import { spring, TransitionMotion } from "react-motion";
+import { default as CardComponent, mapCardToCode } from "./card";
+import { Card } from "./cards";
 
 // Keep the game board a consistent height using a
 // hidden placeholder card element.
-const placeholderCard: CardEnum = {
+const placeholderCard: Card = {
   suit: 0,
   value: 0,
 };
 
-interface HandProps { hand: CardEnum[] };
+const willEnter = () => ({
+  opacity: 0,
+  rotate: 0,
+  translateX: 300,
+});
 
-export default class Hand extends React.Component<HandProps, {}> {
+interface DisplayCard extends Card { rotateVal: number; }
+
+interface HandProps { hand: Card[]; }
+
+export default class Hand extends React.Component<HandProps, {displayHand: DisplayCard[]}> {
   constructor(props) {
     super(props);
+
+    this.state = {
+      displayHand: this.props.hand.map((card) => ({
+        // Assign the rotation value only the first time
+        // so it does not change on each re-render
+        ...card,
+        rotateVal: getRandomRotateVal(),
+      })),
+    };
   }
 
-  willEnter() {
-    return { opacity: 0, translateX: 300, rotate: 0 };
-  }
-
-  render() {
+  public render() {
     return (
       <TransitionMotion
-        willEnter={this.willEnter}
-        styles={this.props.hand.map((card) => {
-          // Assign the rotation value only the first time
-          // so it does not change on each re-render
-          if (!card.rotateVal)
-            card.rotateVal = getRandomRotateVal();
-
-          return {
-            key: mapCardToCode(card),
-            style: {
-              opacity: spring(1),
-              translateX: spring(0),
-              rotate: spring(card.rotateVal),
-            },
-            data: card,
-          };
-        })}>
-        {interpolatedStyles =>
+        willEnter={willEnter}
+        styles={this.state.displayHand.map((card) => ({
+          data: card,
+          key: mapCardToCode(card),
+          style: {
+            opacity: spring(1),
+            rotate: spring(card.rotateVal),
+            translateX: spring(0),
+          },
+        }))}
+      >
+        {(interpolatedStyles) =>
           <ul className="hand">
-            <Card card={placeholderCard} isHidden={true} />
+            <CardComponent card={placeholderCard} isHidden={true} />
 
-            {interpolatedStyles.map(card =>
-              <Card card={card.data} key={card.key}
+            {interpolatedStyles.map((card) => (
+              <CardComponent
+                card={card.data}
+                key={card.key}
                 style={
                   {
                     opacity: card.style.opacity,
@@ -56,7 +65,7 @@ export default class Hand extends React.Component<HandProps, {}> {
                   }
                 }
               />
-            )}
+            ))}
           </ul>
         }
       </TransitionMotion>

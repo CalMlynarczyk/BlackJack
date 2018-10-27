@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Card as CardEnum, CardSuit, CardValue, mapCardValues } from "./cards";
 
+const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
+
 const Card = ({ card, isHidden, style }: {card: CardEnum, isHidden?: boolean, style?: object, [key: string]: any}) => (
   <li className={`card ${isHidden ? "card__placeholder" : ""}`} style={style}>
     <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
@@ -8,8 +10,6 @@ const Card = ({ card, isHidden, style }: {card: CardEnum, isHidden?: boolean, st
 );
 
 export default Card;
-
-const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
 
 export function mapCardToCode(card: CardEnum) {
   const suitCode = mapSuitToCode(card.suit);
@@ -29,7 +29,7 @@ function mapSuitToCode(suit: CardSuit) {
     case CardSuit.Spade:
       return "S";
     default:
-      throw "Invalid card suit";
+      throw new Error("Invalid card suit");
   }
 }
 
@@ -54,6 +54,6 @@ function mapValueToCode(cardValue: CardValue) {
     case CardValue.Ace:
       return "A";
     default:
-      throw "Invalid card value";
+      throw new Error("Invalid card value");
   }
 }
