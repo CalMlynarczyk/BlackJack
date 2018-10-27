@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Card as CardEnum, CardSuit, CardValue, mapCardValues } from "./cards";
 
 const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";

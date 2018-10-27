@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { playerHit, playerStand } from "../game/actions";
 import { Action, PlayerType } from "./player";
 import { isPlayerWinner, isDealerWinner } from "../game/score";
-import PlayerSection from "./playerSection.jsx";
+import PlayerSection from "./playerSection.tsx";
 
 const mapStateToProps = (state, ownProps) => {
   return {

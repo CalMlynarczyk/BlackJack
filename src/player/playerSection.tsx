@@ -1,12 +1,17 @@
 import "./playerSection.css";
 
 import React from "react";
-import { Action, PlayerType } from "./player";
-import { MAX_SCORE, getFinalHandValue } from "../game/score";
-import Hand from "../hand/hand.tsx";
 import hitSound from "../audio/audioLoader";
+import { getFinalHandValue, MAX_SCORE } from "../game/score";
+import Hand from "../hand/hand";
+import { Action, Player, PlayerType } from "./player";
 
-const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
+const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }: {
+  player: Player,
+  playerType: PlayerType,
+  isWinner: boolean,
+  onPlayerAction: any,
+}) => {
   const playerTypeLabel = (() => {
     switch (playerType) {
       case PlayerType.player:
@@ -14,7 +19,7 @@ const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }) => {
       case PlayerType.dealer:
         return "Dealer";
       default:
-        throw `Invalid player type: ${playerType}`;
+        throw new Error(`Invalid player type: ${playerType}`);
     }
   })();
 
