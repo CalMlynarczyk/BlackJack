@@ -11,9 +11,9 @@ module.exports = {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   entry: {
-    "main.js": path.resolve(__dirname, "src/index.js"),
+    main: path.resolve(__dirname, "src/index.js"),
     images: glob.sync(path.resolve(__dirname, "Vector-Playing-Cards/cards-svg/**/*.*")),
-    sounds: glob.sync(path.resolve(__dirname, "src/audio/**/*.wav")),
+    audio: glob.sync(path.resolve(__dirname, "audio/**/*.wav")),
   },
   module: {
     rules: [
@@ -55,7 +55,7 @@ module.exports = {
     ],
   },
   output: {
-    filename: "[name]",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
     publicPath: "",
   },

@@ -4,7 +4,7 @@ import Buffer from "./buffer";
 const context = new (window.AudioContext || window.webkitAudioContext)();
 
 const sounds = [
-  "/src/audio/another.wav",
+  "audio/another.wav",
 ];
 
 const buffer = new Buffer(context, sounds);
