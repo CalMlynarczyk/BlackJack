@@ -1,6 +1,6 @@
 # BlackJack
 
-[![Build Status](https://travis-ci.com/CalMlynarczyk/BlackJack.svg?branch=master)](https://travis-ci.com/CalMlynarczyk/BlackJack)
+[![Build Status](https://travis-ci.org/CalMlynarczyk/BlackJack.svg?branch=master)](https://travis-ci.org/CalMlynarczyk/BlackJack)
 
 This is a portfolio project of mine. It is designed to demonstrate my
 web frontend skillset. It is not necessarily made with cost-effective
