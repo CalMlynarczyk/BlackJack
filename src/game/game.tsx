@@ -2,15 +2,15 @@ import "./game.css";
 
 import React from "react";
 import { render } from "react-dom";
-import { connect, MapDispatchToProps, MapStateToProps, Provider } from "react-redux";
+import { connect, MapStateToProps, Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import ReduxThunk, { ThunkDispatch } from "redux-thunk";
 import { Action, Player } from "../player/player";
 import PlayerSection from "../player/PlayerSection";
 import { checkDealer, checkPlayer, dealerHit, GameAction, playerHit, playerStand, reset } from "./actions";
-import { GameState, isStillPlaying } from "./game";
 import blackjackApp from "./reducers";
 import { isDealerWinner, isPlayerWinner, isTie } from "./score";
+import { GameState, isStillPlaying } from "./store";
 
 const store = createStore(blackjackApp, applyMiddleware(ReduxThunk));
 

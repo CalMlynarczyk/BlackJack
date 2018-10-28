@@ -1,8 +1,8 @@
 import "./hand.css";
 
-import * as React from "react";
+import React from "react";
 import { spring, TransitionMotion } from "react-motion";
-import { default as CardComponent, mapCardToCode } from "./card";
+import { default as CardComponent, mapCardToCode } from "./Card";
 import { Card, Hand as HandType } from "./cards";
 
 // Keep the game board a consistent height using a

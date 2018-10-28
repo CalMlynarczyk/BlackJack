@@ -3,7 +3,7 @@ import "./playerSection.css";
 import React from "react";
 import hitSound from "../audio/audioLoader";
 import { getFinalHandValue, MAX_SCORE } from "../game/score";
-import Hand from "../hand/hand";
+import Hand from "../hand/Hand";
 import { Action, Player, PlayerType } from "./player";
 
 export interface PlayerSectionStateProps {

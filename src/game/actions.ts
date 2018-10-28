@@ -1,7 +1,7 @@
 import { Action as ReduxAction, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { Action } from "../player/player";
-import { GameState } from "./game";
+import { GameState } from "./store";
 
 export enum ActionTypes {
   PLAYER_HIT,

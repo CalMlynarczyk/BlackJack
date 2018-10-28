@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import { Action, doesDealerStand, doesPlayerBustOrHave21, doesPlayerStand } from "../player/player";
 import { ActionTypes, GameAction } from "./actions";
-import { GameState, getInitialState } from "./game";
+import { GameState, getInitialState } from "./store";
 
 const initialState = getInitialState();
 

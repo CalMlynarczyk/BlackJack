@@ -1,8 +1,8 @@
-import "./style.css";
-import "./header.css";
 import "./buttons.css";
+import "./header.css";
+import "./style.css";
 
-import playGame from "./game/game.tsx";
+import playGame from "./game/Game";
 
 const mainHeader = document.getElementsByClassName("main-header");
 
