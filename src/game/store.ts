@@ -8,32 +8,30 @@ export interface GameState {
   playerTurn: number;
 }
 
-export function getInitialState(): GameState {
-  return {
-    deck: getShuffledDeck(),
-    dealer: {
-      type: PlayerType.dealer,
+export const getInitialState = (): GameState => ({
+  deck: getShuffledDeck(),
+  dealer: {
+    type: PlayerType.dealer,
+    hand: [],
+    status: Action.hit,
+  },
+  players: [
+    {
+      type: PlayerType.player,
       hand: [],
       status: Action.hit,
     },
-    players: [
-      {
-        type: PlayerType.player,
-        hand: [],
-        status: Action.hit,
-      },
-    ],
-    playerTurn: 0,
-  };
-}
+  ],
+  playerTurn: 0,
+});
 
 /**
- * Determine if the game should go for around round.
+ * Determine if the game should go for another round.
  * @param dealer
  * @param players
  * @returns 'True' if the game should go another round
  */
-export function isStillPlaying(dealer, players) {
+export function isStillPlaying(dealer: Player, players: Player[]) {
   return dealer.status === Action.hit
     || players.some((player) => player.status === Action.hit);
 }

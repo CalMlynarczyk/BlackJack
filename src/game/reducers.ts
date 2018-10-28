@@ -34,7 +34,7 @@ const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, acti
         ...state,
         dealer: {
           ...state.dealer,
-          action: doesDealerStand(state.dealer, state.players)
+          state: doesDealerStand(state.dealer, state.players)
             ? Action.stand
             : Action.hit,
         },
@@ -48,7 +48,7 @@ const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, acti
 
 export default blackjackApp;
 
-function playerHit(state, action) {
+function playerHit(state: GameState, action: GameAction) {
   if (!state.deck || state.deck.length <= 0) {
     throw new Error("Can not deal card; deck is empty.");
   }
@@ -97,7 +97,7 @@ function playerStand(state: GameState, action: GameAction) {
   };
 }
 
-function dealerTurn(state) {
+function dealerTurn(state: GameState) {
   if (doesDealerStand(state.dealer, state.players)) {
     return {
       ...state,
@@ -141,7 +141,7 @@ function dealerTurn(state) {
   }
 }
 
-function dealerHit(state) {
+function dealerHit(state: GameState) {
   if (!state.deck || state.deck.length <= 0) {
     throw new Error("Can not deal card; deck is empty.");
   }

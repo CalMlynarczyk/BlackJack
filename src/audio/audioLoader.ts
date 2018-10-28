@@ -3,14 +3,12 @@ import Sound from "./sound";
 
 declare global {
   interface Window {
-    AudioContext(): void;
-    webkitAudioContext(): void;
+    AudioContext: typeof AudioContext;
+    webkitAudioContext: typeof AudioContext;
   }
 }
 
-window.AudioContext = window.AudioContext || window.webkitAudioContext;
-
-const context: AudioContext = new window.AudioContext();
+const context = new (window.AudioContext || window.webkitAudioContext)();
 
 const sounds = [
   "audio/another.wav",

@@ -33,6 +33,19 @@ export default class Hand extends React.Component<HandProps, HandState> {
     })),
   };
 
+  public componentDidUpdate(prevProps: Readonly<HandProps>, prevState: Readonly<HandState>) {
+    if (this.props.hand.length <= 0 && this.state.displayHand.length > 0) {
+      this.setState({ displayHand: [] });
+    } else if (this.state.displayHand.length < this.props.hand.length) {
+      this.setState({
+        displayHand: this.state.displayHand.concat([{
+          ...this.props.hand[this.props.hand.length - 1],
+          rotateVal: getRandomRotateVal(),
+        }]),
+      });
+    }
+  }
+
   public render() {
     return (
       <TransitionMotion

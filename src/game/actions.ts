@@ -38,7 +38,7 @@ export function playerHit(index: number, noDealerTurn?: boolean): ThunkAction<vo
   };
 }
 
-export function playerStand(index): ThunkAction<void, GameState, void, GameAction> {
+export function playerStand(index: number): ThunkAction<void, GameState, void, GameAction> {
   return (dispatch, getState) => {
     dispatch({
       type: ActionTypes.PLAYER_STAND,

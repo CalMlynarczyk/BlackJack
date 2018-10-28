@@ -4,9 +4,12 @@ export default class Sound {
   private gainNode: GainNode;
   private source: AudioBufferSourceNode;
 
-  constructor(context, buffer) {
+  constructor(context: AudioContext, buffer: AudioBuffer) {
     this.context = context;
     this.buffer = buffer;
+    this.gainNode = this.context.createGain();
+    this.source = this.context.createBufferSource();
+    this.source.buffer = this.buffer;
   }
 
   public play() {
@@ -20,9 +23,6 @@ export default class Sound {
   }
 
   private init() {
-    this.gainNode = this.context.createGain();
-    this.source = this.context.createBufferSource();
-    this.source.buffer = this.buffer;
     this.source.connect(this.gainNode);
     this.gainNode.connect(this.context.destination);
     this.gainNode.gain.setValueAtTime(0.8, this.context.currentTime);

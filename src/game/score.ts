@@ -29,8 +29,8 @@ function getHandValue(hand: Hand) {
 
     // We are evaluating an Ace
     if (card.value === CardValue.Ace) {
-      const hardValue = cardNumericValue[0];
-      const softValue = cardNumericValue[1];
+      const hardValue = (cardNumericValue as number[])[0];
+      const softValue = (cardNumericValue as number[])[1];
 
       // Determine if we have already calculated for an Ace in the hand
       return total.hard !== total.soft
@@ -60,7 +60,7 @@ interface HandTotal {
   soft: number;
 }
 
-function createTotal(hardTotal, softTotal): HandTotal {
+function createTotal(hardTotal: number, softTotal: number): HandTotal {
   return { hard: hardTotal, soft: softTotal };
 }
 

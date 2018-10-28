@@ -3,7 +3,7 @@ export default class Buffer {
   private urls: string[];
   private buffer: AudioBuffer[];
 
-  constructor(context, urls) {
+  constructor(context: AudioContext, urls: string[]) {
     this.context = context;
     this.urls = urls;
     this.buffer = [];
@@ -29,7 +29,7 @@ export default class Buffer {
     this.urls.forEach(this.loadSound);
   }
 
-  public getSoundByIndex(index) {
+  public getSoundByIndex(index: number) {
     return this.buffer[index];
   }
 }

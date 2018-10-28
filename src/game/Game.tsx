@@ -2,8 +2,9 @@ import "./game.css";
 
 import React from "react";
 import { render } from "react-dom";
-import { connect, MapStateToProps, Provider } from "react-redux";
+import { connect, MapDispatchToProps, MapStateToProps, Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk, { ThunkDispatch } from "redux-thunk";
 import { Action, Player } from "../player/player";
 import PlayerSection from "../player/PlayerSection";
@@ -12,7 +13,7 @@ import blackjackApp from "./reducers";
 import { isDealerWinner, isPlayerWinner, isTie } from "./score";
 import { GameState, isStillPlaying } from "./store";
 
-const store = createStore(blackjackApp, applyMiddleware(ReduxThunk));
+const store = createStore(blackjackApp, composeWithDevTools(applyMiddleware(ReduxThunk)));
 
 export interface GameStateProps {
   dealer: Player;
@@ -60,16 +61,16 @@ const Game: React.SFC<GameProps> = ({ dealer, players, onReset, onPlayerAction }
   );
 };
 
-const mapStateToProps: MapStateToProps<GameStateProps, GameProps, GameState> = (state) => ({
+const mapStateToProps: MapStateToProps<GameStateProps, {}, GameState> = (state) => ({
   dealer: state.dealer,
   players: state.players,
 });
 
-const mapDispatchToProps =
-  (dispatch: ThunkDispatch<GameState, void, GameAction>, ownProps) => {
+const mapDispatchToProps: MapDispatchToProps<GameDispatchProps, {}> =
+  (dispatch: ThunkDispatch<GameState, void, GameAction>) => {
     // Track all timed actions so we can cancel them
     // if another reset is triggered.
-    let timerIds = [];
+    let timerIds: NodeJS.Timeout[] = [];
 
     return {
       onReset: () => {
@@ -96,7 +97,7 @@ const mapDispatchToProps =
         dispatch(checkPlayer(0));
         dispatch(checkDealer());
       },
-      onPlayerAction: (action) => {
+      onPlayerAction: (action: Action) => {
         action === Action.hit
           ? dispatch(playerHit(0))
           : dispatch(playerStand(0));
