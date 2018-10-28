@@ -1,4 +1,8 @@
 export default class Buffer {
+  private context: AudioContext;
+  private urls: string[];
+  private buffer: AudioBuffer[];
+
   constructor(context, urls) {
     this.context = context;
     this.urls = urls;
@@ -7,13 +11,13 @@ export default class Buffer {
     this.loadSound = this.loadSound.bind(this);
   }
 
-  loadSound(url, index) {
+  public loadSound(url: string, index: number) {
     const request = new XMLHttpRequest();
     request.open("get", url, true);
     request.responseType = "arraybuffer";
 
     request.onload = () => {
-      this.context.decodeAudioData(request.response, buffer => {
+      this.context.decodeAudioData(request.response, (buffer) => {
         this.buffer[index] = buffer;
       });
     };
@@ -21,11 +25,11 @@ export default class Buffer {
     request.send();
   }
 
-  loadAll() {
+  public loadAll() {
     this.urls.forEach(this.loadSound);
   }
 
-  getSoundByIndex(index) {
+  public getSoundByIndex(index) {
     return this.buffer[index];
   }
 }
