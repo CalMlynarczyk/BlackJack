@@ -21,20 +21,17 @@ const willEnter = () => ({
 interface DisplayCard extends Card { rotateVal: number; }
 
 interface HandProps { hand: HandType; }
+interface HandState { displayHand: DisplayCard[]; }
 
-export default class Hand extends React.Component<HandProps, {displayHand: DisplayCard[]}> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      displayHand: this.props.hand.map((card) => ({
-        // Assign the rotation value only the first time
-        // so it does not change on each re-render
-        ...card,
-        rotateVal: getRandomRotateVal(),
-      })),
-    };
-  }
+export default class Hand extends React.Component<HandProps, HandState> {
+  public readonly state: HandState = {
+    displayHand: this.props.hand.map((card) => ({
+      // Assign the rotation value only the first time
+      // so it does not change on each re-render
+      ...card,
+      rotateVal: getRandomRotateVal(),
+    })),
+  };
 
   public render() {
     return (

@@ -3,7 +3,14 @@ import { Card as CardEnum, CardSuit, CardValue, mapCardValues } from "./cards";
 
 const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
 
-const Card = ({ card, isHidden, style }: {card: CardEnum, isHidden?: boolean, style?: object, [key: string]: any}) => (
+interface CardProps {
+  card: CardEnum;
+  isHidden?: boolean;
+  style?: object;
+  [key: string]: any;
+}
+
+const Card: React.SFC<CardProps> = ({ card, isHidden, style }) => (
   <li className={`card ${isHidden ? "card__placeholder" : ""}`} style={style}>
     <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
   </li>

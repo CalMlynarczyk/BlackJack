@@ -6,23 +6,26 @@ import { getFinalHandValue, MAX_SCORE } from "../game/score";
 import Hand from "../hand/hand";
 import { Action, Player, PlayerType } from "./player";
 
-export interface PlayerSectionProps {
+export interface PlayerSectionStateProps {
   player: Player;
-  playerIndex: number;
-  playerType: PlayerType;
   isWinner: boolean;
-  onPlayerAction: any;
 }
 
-const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }: PlayerSectionProps) => {
+export interface PlayerSectionDispatchProps {
+  onPlayerAction: (action: Action) => void;
+}
+
+export interface PlayerSectionProps extends PlayerSectionStateProps, PlayerSectionDispatchProps {}
+
+const PlayerSection: React.SFC<PlayerSectionProps> = ({ player, isWinner, onPlayerAction }) => {
   const playerTypeLabel = (() => {
-    switch (playerType) {
+    switch (player.type) {
       case PlayerType.player:
         return "Player";
       case PlayerType.dealer:
         return "Dealer";
       default:
-        throw new Error(`Invalid player type: ${playerType}`);
+        throw new Error(`Invalid player type: ${player.type}`);
     }
   })();
 
@@ -46,7 +49,7 @@ const PlayerSection = ({ player, playerType, isWinner, onPlayerAction }: PlayerS
           <h2 className="player-header">{playerTypeLabel}</h2>
           <h2 className={`player-score ${score > MAX_SCORE ? " player-score--bust" : ""}`}>{score}</h2>
 
-          {playerType === PlayerType.player && player.status !== Action.stand &&
+          {player.type === PlayerType.player && player.status !== Action.stand &&
             <div className="player-controls">
               <button onClick={hit} className="btn btn--green">Hit</button>
               <button onClick={stand} className="btn btn--red">Stand</button>

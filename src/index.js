@@ -2,7 +2,7 @@ import "./style.css";
 import "./header.css";
 import "./buttons.css";
 
-import playGame from "./game/game.jsx";
+import playGame from "./game/game.tsx";
 
 const mainHeader = document.getElementsByClassName("main-header");
 

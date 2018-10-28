@@ -1,36 +1,35 @@
-import { PLAYER_HIT, PLAYER_STAND, DEALER_TURN, DEALER_HIT, RESET, CHECK_PLAYER, CHECK_DEALER } from "./actions";
-import { doesDealerStand, doesPlayerStand, doesPlayerBustOrHave21, Action } from "../player/player";
-import { getInitialState } from "./game";
+import { Reducer } from "redux";
+import { Action, doesDealerStand, doesPlayerBustOrHave21, doesPlayerStand } from "../player/player";
+import { ActionTypes, GameAction } from "./actions";
+import { GameState, getInitialState } from "./game";
 
 const initialState = getInitialState();
 
-export default function blackjackApp(state = initialState, action) {
+const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, action) => {
   switch (action.type) {
-    case PLAYER_HIT:
+    case ActionTypes.PLAYER_HIT:
       return playerHit(state, action);
-    case PLAYER_STAND:
+    case ActionTypes.PLAYER_STAND:
       return playerStand(state, action);
-    case DEALER_TURN:
-      return dealerTurn(state, action);
-    case DEALER_HIT:
-      return dealerHit(state, action);
-    case CHECK_PLAYER:
+    case ActionTypes.DEALER_TURN:
+      return dealerTurn(state);
+    case ActionTypes.DEALER_HIT:
+      return dealerHit(state);
+    case ActionTypes.CHECK_PLAYER:
       return {
         ...state,
-        players: state.players.map((player, index) => {
-          if (index !== action.index)
-            return player;
-          else {
-            return {
+        players: state.players.map((player, index) =>
+          index !== action.index
+            ? player
+            : {
               ...player,
-              action: doesPlayerStand(player, state.dealer)
+              status: doesPlayerStand(player, state.dealer)
                 ? Action.stand
                 : Action.hit,
-            };
-          }
-        }),
+            },
+        ),
       };
-    case CHECK_DEALER:
+    case ActionTypes.CHECK_DEALER:
       return {
         ...state,
         dealer: {
@@ -40,16 +39,19 @@ export default function blackjackApp(state = initialState, action) {
             : Action.hit,
         },
       };
-    case RESET:
+    case ActionTypes.RESET:
       return {...getInitialState()};
     default:
       return state;
   }
-}
+};
+
+export default blackjackApp;
 
 function playerHit(state, action) {
-  if (!state.deck || state.deck.length <= 0)
-    throw "Can not deal card; deck is empty.";
+  if (!state.deck || state.deck.length <= 0) {
+    throw new Error("Can not deal card; deck is empty.");
+  }
 
   const newCard = state.deck[0];
 
@@ -57,16 +59,17 @@ function playerHit(state, action) {
     ...state,
     deck: state.deck.slice(1),
     players: state.players.map((player, index) => {
-      if (index !== action.index)
+      if (index !== action.index) {
         return player;
-      else {
+      } else {
         const updatedPlayer = {
           ...player,
           hand: [...player.hand, newCard],
         };
-        
-        if (doesPlayerBustOrHave21(updatedPlayer))
+
+        if (doesPlayerBustOrHave21(updatedPlayer)) {
           updatedPlayer.status = Action.stand;
+        }
 
         return {...updatedPlayer};
       }
@@ -77,19 +80,17 @@ function playerHit(state, action) {
   };
 }
 
-function playerStand(state, action) {
+function playerStand(state: GameState, action: GameAction) {
   return {
     ...state,
-    players: state.players.map((player, index) => {
-      if (index !== action.index)
-        return player;
-      else {
-        return {
+    players: state.players.map((player, index) =>
+      index !== action.index
+        ? player
+        : {
           ...player,
           status: Action.stand,
-        };
-      }
-    }),
+        },
+    ),
     playerTurn: action.index >= state.players.length - 1
       ? -1
       : state.playerTurn + 1,
@@ -107,8 +108,9 @@ function dealerTurn(state) {
       playerTurn: 0,
     };
   } else {
-    if (!state.deck || state.deck.length <= 0)
-      throw "Can not deal card; deck is empty.";
+    if (!state.deck || state.deck.length <= 0) {
+      throw new Error("Can not deal card; deck is empty.");
+    }
 
     const newCard = state.deck[0];
     const updatedDealer = {
@@ -116,14 +118,15 @@ function dealerTurn(state) {
       hand: [...state.dealer.hand, newCard],
     };
 
-    if (doesPlayerBustOrHave21(updatedDealer))
+    if (doesPlayerBustOrHave21(updatedDealer)) {
       updatedDealer.status = Action.stand;
+    }
 
     return {
       ...state,
       deck: state.deck.slice(1),
       dealer: updatedDealer,
-      players: state.players.map(player => {
+      players: state.players.map((player) => {
         if (!doesPlayerStand(player, updatedDealer)) {
           return player;
         } else {
@@ -139,8 +142,9 @@ function dealerTurn(state) {
 }
 
 function dealerHit(state) {
-  if (!state.deck || state.deck.length <= 0)
-    throw "Can not deal card; deck is empty.";
+  if (!state.deck || state.deck.length <= 0) {
+    throw new Error("Can not deal card; deck is empty.");
+  }
 
   const newCard = state.deck[0];
 
