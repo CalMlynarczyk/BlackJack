@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "allowJs": true,
     "target": "es2018",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "noEmit": true
   },
   "exclude": [

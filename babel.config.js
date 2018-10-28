@@ -7,6 +7,5 @@ module.exports = {
         useBuiltIns: "usage",
       },
     ],
-    "@babel/react",
   ],
 };
