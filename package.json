@@ -8,11 +8,10 @@
     "build:prod": "webpack -p",
     "start": "webpack-dev-server --open",
     "start:docker": "webpack-dev-server --host 0.0.0.0",
-    "test": "mocha --require ts-node/register \"src/**/*.test.js\"",
-    "lint:js": "eslint --color src/",
+    "test": "mocha --require ts-node/register \"src/**/*.test.ts\"",
     "lint:ts": "tslint 'src/**/*.ts' 'src/**/*.tsx'",
     "lint:css": "stylelint --color src/**/*.css",
-    "lint": "yarn lint:js && yarn lint:ts && yarn lint:css"
+    "lint": "yarn lint:ts && yarn lint:css"
   },
   "keywords": [
     "blackjack",

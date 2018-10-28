@@ -1,8 +1,8 @@
-import { describe, it } from "mocha";
 import { expect } from "chai";
+import { describe, it } from "mocha";
 
-import { CardSuit, CardValue, createCard } from "../../hand/cards.ts";
-import { getFinalHandValue } from "../score.ts";
+import { CardSuit, CardValue, createCard } from "../../hand/cards";
+import { getFinalHandValue } from "../score";
 
 describe("Scores module", () => {
   describe("Hand total", () => {
