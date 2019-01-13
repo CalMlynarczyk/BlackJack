@@ -9,9 +9,9 @@ import ReduxThunk, { ThunkDispatch } from "redux-thunk";
 import { Action, Player } from "../player/player";
 import PlayerSection from "../player/PlayerSection";
 import { checkDealer, checkPlayer, dealerHit, GameAction, playerHit, playerStand, reset } from "./actions";
-import blackjackApp from "./reducers";
+import blackjackApp, { GameState } from "./reducers";
 import { isDealerWinner, isPlayerWinner, isTie } from "./score";
-import { GameState, isStillPlaying } from "./store";
+import { isStillPlaying } from "./store";
 
 const store = createStore(blackjackApp, composeWithDevTools(applyMiddleware(ReduxThunk)));
 

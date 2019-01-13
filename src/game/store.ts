@@ -1,29 +1,4 @@
-import { Card, getShuffledDeck } from "../hand/cards";
-import { Action, Player, PlayerType } from "../player/player";
-
-export interface GameState {
-  deck: Card[];
-  dealer: Player;
-  players: Player[];
-  playerTurn: number;
-}
-
-export const getInitialState = (): GameState => ({
-  deck: getShuffledDeck(),
-  dealer: {
-    type: PlayerType.dealer,
-    hand: [],
-    status: Action.hit,
-  },
-  players: [
-    {
-      type: PlayerType.player,
-      hand: [],
-      status: Action.hit,
-    },
-  ],
-  playerTurn: 0,
-});
+import { Action, Player } from "../player/player";
 
 /**
  * Determine if the game should go for another round.

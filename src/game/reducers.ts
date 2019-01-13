@@ -1,9 +1,31 @@
 import { Reducer } from "redux";
-import { Action, doesDealerStand, doesPlayerBustOrHave21, doesPlayerStand } from "../player/player";
+import { Card, getShuffledDeck } from "../hand/cards";
+import { Action, doesDealerStand, doesPlayerBustOrHave21, doesPlayerStand, Player, PlayerType } from "../player/player";
 import { ActionTypes, GameAction } from "./actions";
-import { GameState, getInitialState } from "./store";
 
-const initialState = getInitialState();
+export interface GameState {
+  deck: Card[];
+  dealer: Player;
+  players: Player[];
+  playerTurn: number;
+}
+
+const initialState = {
+  deck: getShuffledDeck(),
+  dealer: {
+    type: PlayerType.dealer,
+    hand: [],
+    status: Action.hit,
+  },
+  players: [
+    {
+      type: PlayerType.player,
+      hand: [],
+      status: Action.hit,
+    },
+  ],
+  playerTurn: 0,
+};
 
 const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, action) => {
   switch (action.type) {
@@ -40,7 +62,7 @@ const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, acti
         },
       };
     case ActionTypes.RESET:
-      return {...getInitialState()};
+      return {...initialState};
     default:
       return state;
   }
