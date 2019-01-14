@@ -25,17 +25,15 @@ interface HandState { displayHand: DisplayCard[]; }
 
 export default class Hand extends React.Component<HandProps, HandState> {
   public readonly state: HandState = {
-    displayHand: this.props.hand.map((card) => ({
-      // Assign the rotation value only the first time
-      // so it does not change on each re-render
-      ...card,
-      rotateVal: getRandomRotateVal(),
-    })),
+    displayHand: this.mapHandToDisplayHand(),
   };
 
-  public componentDidUpdate() {
-    if (this.props.hand.length <= 0 && this.state.displayHand.length > 0) {
-      this.setState({ displayHand: [] });
+  public componentDidUpdate(prevProps: Readonly<HandProps>) {
+    if (
+      prevProps.hand.length > this.props.hand.length
+        && this.props.hand.length < this.state.displayHand.length
+    ) {
+      this.setState({ displayHand: this.mapHandToDisplayHand() });
     } else if (this.state.displayHand.length < this.props.hand.length) {
       this.setState({
         displayHand: this.state.displayHand.concat([{
@@ -80,6 +78,15 @@ export default class Hand extends React.Component<HandProps, HandState> {
         )}
       </TransitionMotion>
     );
+  }
+
+  private mapHandToDisplayHand() {
+    return this.props.hand.map((card) => ({
+      // Assign the rotation value only the first time
+      // so it does not change on each re-render
+      ...card,
+      rotateVal: getRandomRotateVal(),
+    }));
   }
 }
 
