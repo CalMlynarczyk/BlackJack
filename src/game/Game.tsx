@@ -8,12 +8,29 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk, { ThunkDispatch } from "redux-thunk";
 import { Player, PlayerType } from "../player/player";
 import { ConnectedDealerSection, ConnectedPlayerSection } from "../player/PlayerSection";
-import { checkDealer, checkPlayer, dealerHit, GameAction, playerHit, reset, shuffleDeck } from "./actions";
+import { ActionTypes, checkDealer, checkPlayer, dealerHit, GameAction, playerHit, reset, shuffleDeck } from "./actions";
 import blackjackApp, { GameState } from "./reducers";
 import { isTie } from "./score";
 import { isStillPlaying } from "./store";
 
-const store = createStore(blackjackApp, composeWithDevTools(applyMiddleware(ReduxThunk)));
+// Transform actions-type to a string if the action type is a
+// number and we defined an actiontype for that.
+// Else, use the unsanitized action as normal. The reason
+// for the checks is to escape dispatched actions from
+// packages like react-router or redux-form.
+const actionTypeEnumToString = (action: any): any => {
+  return typeof action.type === "number" && ActionTypes[action.type]
+    ? {
+      ...action,
+      type: ActionTypes[action.type],
+    }
+    : action;
+};
+
+const store = createStore(
+  blackjackApp,
+  composeWithDevTools({ actionSanitizer: actionTypeEnumToString })(applyMiddleware(ReduxThunk)),
+);
 
 export interface GameStateProps {
   dealer: Player;
