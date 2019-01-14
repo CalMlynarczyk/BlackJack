@@ -6,11 +6,11 @@ import { connect, MapDispatchToProps, MapStateToProps, Provider } from "react-re
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk, { ThunkDispatch } from "redux-thunk";
-import { Action, Player } from "../player/player";
-import PlayerSection from "../player/PlayerSection";
-import { checkDealer, checkPlayer, dealerHit, GameAction, playerHit, playerStand, reset } from "./actions";
+import { Player, PlayerType } from "../player/player";
+import { ConnectedDealerSection, ConnectedPlayerSection } from "../player/PlayerSection";
+import { checkDealer, checkPlayer, dealerHit, GameAction, playerHit, reset, shuffleDeck } from "./actions";
 import blackjackApp, { GameState } from "./reducers";
-import { isDealerWinner, isPlayerWinner, isTie } from "./score";
+import { isTie } from "./score";
 import { isStillPlaying } from "./store";
 
 const store = createStore(blackjackApp, composeWithDevTools(applyMiddleware(ReduxThunk)));
@@ -22,44 +22,33 @@ export interface GameStateProps {
 
 export interface GameDispatchProps {
   onReset: () => void;
-  onPlayerAction: (action: Action) => void;
 }
 
 export interface GameProps extends GameStateProps, GameDispatchProps {}
 
-const Game: React.SFC<GameProps> = ({ dealer, players, onReset, onPlayerAction }) => {
-  const isTieValue = isTie(dealer, players);
-  const currentPlayer = players[0];
+class Game extends React.Component<GameProps> {
+  public componentDidMount() {
+    this.props.onReset();
+  }
 
-  return (
-    <div className="game-container">
-      <h2 className={`result-message tie-message ${isTieValue ? "" : "hide"}`}>Tie</h2>
+  public render() {
+    const { dealer, players, onReset } = this.props;
+    const isTieValue = isTie(dealer, players);
 
-      <PlayerSection
-        player={currentPlayer}
-        isWinner={
-          dealer.status === Action.stand
-            && currentPlayer.status === Action.stand
-            && isPlayerWinner(currentPlayer, dealer)
+    return (
+      <div className="game-container">
+        <h2 className={`result-message tie-message ${isTieValue ? "" : "hide"}`}>Tie</h2>
+
+        <ConnectedPlayerSection playerType={PlayerType.player} playerIndex={0} />
+        <ConnectedDealerSection playerType={PlayerType.dealer} />
+
+        {(true || isStillPlaying(dealer, players)) &&
+          <button onClick={onReset} className="btn">Reset</button>
         }
-        onPlayerAction={onPlayerAction}
-      />
-      <PlayerSection
-        player={dealer}
-        isWinner={
-          players.every((player) => player.status === Action.stand)
-            && dealer.status === Action.stand
-            && isDealerWinner(dealer, players)
-        }
-        onPlayerAction={onPlayerAction}
-      />
-
-      {(true || isStillPlaying(dealer, players)) &&
-        <button onClick={onReset} className="btn">Reset</button>
-      }
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 const mapStateToProps: MapStateToProps<GameStateProps, {}, GameState> = (state) => ({
   dealer: state.dealer,
@@ -82,6 +71,7 @@ const mapDispatchToProps: MapDispatchToProps<GameDispatchProps, {}> =
 
         // Initial deal
         dispatch(reset());
+        dispatch(shuffleDeck());
         dispatch(playerHit(0, false));
 
         timerIds.push(setTimeout(() => {
@@ -97,15 +87,10 @@ const mapDispatchToProps: MapDispatchToProps<GameDispatchProps, {}> =
         dispatch(checkPlayer(0));
         dispatch(checkDealer());
       },
-      onPlayerAction: (action: Action) => {
-        action === Action.hit
-          ? dispatch(playerHit(0))
-          : dispatch(playerStand(0));
-      },
     };
   };
 
-const GameContainer = connect(
+const ConnectedGameContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Game);
@@ -113,7 +98,7 @@ const GameContainer = connect(
 export default function playGame(elementId: string) {
   render(
     <Provider store={store}>
-      <GameContainer />
+      <ConnectedGameContainer />
     </Provider>,
     document.getElementById(elementId),
   );

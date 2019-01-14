@@ -12,7 +12,6 @@ export enum PlayerType {
 }
 
 export interface Player {
-  type: PlayerType;
   hand: Hand;
   status: Action;
 }

@@ -33,7 +33,7 @@ export default class Hand extends React.Component<HandProps, HandState> {
     })),
   };
 
-  public componentDidUpdate(prevProps: Readonly<HandProps>, prevState: Readonly<HandState>) {
+  public componentDidUpdate() {
     if (this.props.hand.length <= 0 && this.state.displayHand.length > 0) {
       this.setState({ displayHand: [] });
     } else if (this.state.displayHand.length < this.props.hand.length) {

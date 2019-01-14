@@ -1,42 +1,52 @@
 import "./playerSection.css";
 
 import React from "react";
+import {connect, MapDispatchToProps, MapStateToProps} from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
 import hitSound from "../audio/audioLoader";
-import { getFinalHandValue, MAX_SCORE } from "../game/score";
+import { GameAction, playerHit, playerStand } from "../game/actions";
+import { GameState } from "../game/reducers";
+import { getFinalHandValue, isDealerWinner, isPlayerWinner, MAX_SCORE } from "../game/score";
 import Hand from "../hand/Hand";
 import { Action, Player, PlayerType } from "./player";
 
 export interface PlayerSectionStateProps {
   player: Player;
+  playerType: PlayerType;
   isWinner: boolean;
 }
 
 export interface PlayerSectionDispatchProps {
-  onPlayerAction: (action: Action) => void;
+  onHit?: () => void;
+  onStand?: () => void;
 }
 
-export interface PlayerSectionProps extends PlayerSectionStateProps, PlayerSectionDispatchProps {}
+interface PlayerSectionProps extends PlayerSectionStateProps, PlayerSectionDispatchProps {}
 
-const PlayerSection: React.SFC<PlayerSectionProps> = ({ player, isWinner, onPlayerAction }) => {
+const hit = (onHit: () => void) =>
+  () => {
+    hitSound().play();
+    onHit();
+  };
+
+const stand = (onStand: () => void) =>
+  () => {
+    onStand();
+  };
+
+const PlayerSection: React.SFC<PlayerSectionProps> = ({
+  player, playerType, isWinner, onHit = () => null, onStand = () => null,
+}) => {
   const playerTypeLabel = (() => {
-    switch (player.type) {
+    switch (playerType) {
       case PlayerType.player:
         return "Player";
       case PlayerType.dealer:
         return "Dealer";
       default:
-        throw new Error(`Invalid player type: ${player.type}`);
+        throw new Error(`Invalid player type: ${playerType}`);
     }
   })();
-
-  const hit = () => {
-    hitSound().play();
-    onPlayerAction(Action.hit);
-  };
-
-  const stand = () => {
-    onPlayerAction(Action.stand);
-  };
 
   const score = getFinalHandValue(player.hand);
 
@@ -49,10 +59,10 @@ const PlayerSection: React.SFC<PlayerSectionProps> = ({ player, isWinner, onPlay
           <h2 className="player-header">{playerTypeLabel}</h2>
           <h2 className={`player-score ${score > MAX_SCORE ? " player-score--bust" : ""}`}>{score}</h2>
 
-          {player.type === PlayerType.player && player.status !== Action.stand &&
+          {playerType === PlayerType.player && player.status !== Action.stand &&
             <div className="player-controls">
-              <button onClick={hit} className="btn btn--green">Hit</button>
-              <button onClick={stand} className="btn btn--red">Stand</button>
+              <button onClick={hit(onHit)} className="btn btn--green">Hit</button>
+              <button onClick={stand(onStand)} className="btn btn--red">Stand</button>
             </div>
           }
 
@@ -69,3 +79,44 @@ const PlayerSection: React.SFC<PlayerSectionProps> = ({ player, isWinner, onPlay
 };
 
 export default PlayerSection;
+
+interface PlayerSectionOwnProps {
+  playerType: PlayerType;
+}
+
+interface PlayerSectionOwnPropsPlayer extends PlayerSectionOwnProps {
+  playerIndex: number;
+}
+
+const mapStateToPropsPlayer: MapStateToProps<PlayerSectionStateProps, PlayerSectionOwnPropsPlayer, GameState> = (
+  state, ownProps,
+) => ({
+  player: state.players[ownProps.playerIndex],
+  playerType: ownProps.playerType,
+  isWinner:
+    state.dealer.status === Action.stand
+      && state.players[ownProps.playerIndex].status === Action.stand
+      && isPlayerWinner(state.players[ownProps.playerIndex], state.dealer),
+});
+
+const mapDispatchToPropsPlayer: MapDispatchToProps<PlayerSectionDispatchProps, PlayerSectionOwnPropsPlayer> = (
+  dispatch: ThunkDispatch<GameState, void, GameAction>, ownProps,
+) => ({
+  onHit: () => dispatch(playerHit(ownProps.playerIndex)),
+  onStand: () => dispatch(playerStand(ownProps.playerIndex)),
+});
+
+export const ConnectedPlayerSection = connect(mapStateToPropsPlayer, mapDispatchToPropsPlayer)(PlayerSection);
+
+const mapStateToPropsDealer: MapStateToProps<PlayerSectionStateProps, PlayerSectionOwnProps, GameState> = (
+  state, ownProps,
+) => ({
+  player: state.dealer,
+  playerType: ownProps.playerType,
+  isWinner:
+    state.players.every((player) => player.status === Action.stand)
+      && state.dealer.status === Action.stand
+      && isDealerWinner(state.dealer, state.players),
+});
+
+export const ConnectedDealerSection = connect(mapStateToPropsDealer)(PlayerSection);

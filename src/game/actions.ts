@@ -12,6 +12,7 @@ export enum ActionTypes {
   CHECK_PLAYER,
   CHECK_DEALER,
   RESET,
+  SHUFFLE_DECK,
 }
 
 export interface GameAction extends ReduxAction<ActionTypes> {
@@ -52,9 +53,13 @@ export const reset: ActionCreator<GameAction> = () => ({
   type: ActionTypes.RESET,
 });
 
+export const shuffleDeck: ActionCreator<GameAction> = () => ({
+  type: ActionTypes.SHUFFLE_DECK,
+});
+
 export function playerHit(
   index: number,
-  noDealerTurn?: boolean,
+  noDealerTurn = false,
 ): ThunkAction<void, GameState, void, GameAction> {
   return (dispatch, getState) => {
     dispatch(playerHitAction(index));
@@ -92,14 +97,12 @@ export function playerStand(
 
 function dealerTurn(): ThunkAction<void, GameState, void, GameAction> {
   return (dispatch, getState) => {
-    const state = getState();
-
-    if (state.dealer.status === Action.stand) {
+    if (getState().dealer.status === Action.stand) {
       dispatch(nextTurn());
     } else {
       dispatch(dealerTurnAction());
 
-      if (state.players.every((player) => player.status === Action.stand)) {
+      if (getState().players.every((player) => player.status === Action.stand)) {
         dispatch(dealerTurnAction());
         dispatch(dealerTurn());
       }

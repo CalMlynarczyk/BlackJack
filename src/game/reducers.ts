@@ -1,6 +1,6 @@
 import { Reducer } from "redux";
 import { Card, getShuffledDeck } from "../hand/cards";
-import { Action, doesDealerStand, doesPlayerBustOrHave21, doesPlayerStand, Player, PlayerType } from "../player/player";
+import { Action, doesDealerStand, doesPlayerBustOrHave21, doesPlayerStand, Player } from "../player/player";
 import { ActionTypes, GameAction } from "./actions";
 
 export interface GameState {
@@ -11,15 +11,13 @@ export interface GameState {
 }
 
 const initialState = {
-  deck: getShuffledDeck(),
+  deck: [],
   dealer: {
-    type: PlayerType.dealer,
     hand: [],
     status: Action.hit,
   },
   players: [
     {
-      type: PlayerType.player,
       hand: [],
       status: Action.hit,
     },
@@ -63,6 +61,11 @@ const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, acti
       };
     case ActionTypes.RESET:
       return {...initialState};
+    case ActionTypes.SHUFFLE_DECK:
+      return {
+        ...state,
+        deck: getShuffledDeck(),
+      };
     default:
       return state;
   }
