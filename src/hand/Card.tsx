@@ -10,7 +10,7 @@ interface CardProps {
 }
 
 const Card: React.SFC<CardProps> = ({ card, isHidden, style }) => (
-  <li className={`card ${isHidden ? "card__placeholder" : ""}`} style={style}>
+  <li className={`card ${isHidden ? "card--placeholder" : ""}`} style={style}>
     <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
   </li>
 );

@@ -40,6 +40,10 @@
 
 .player-controls {
   float: right;
+
+  & > .btn {
+    margin-left: 0.4em;
+  }
 }
 
 .player-status {

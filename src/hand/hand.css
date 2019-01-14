@@ -10,12 +10,11 @@
     /* Compensate for overflowing path in card SVG */
     margin-bottom: -4px;
   }
+}
 
-  &.card__placeholder {
-    visibility: hidden;
-    width: 0;
-    margin-right: 0;
-  }
+.card--placeholder {
+  visibility: hidden;
+  width: 0;
 }
 
 .hand {
@@ -25,5 +24,9 @@
 
   & > .card {
     margin-right: -50px;
+  }
+
+  & > .card--placeholder {
+    margin-right: 0;
   }
 }

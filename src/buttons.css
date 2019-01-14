@@ -1,5 +1,6 @@
 .btn {
   font-size: 1.2rem;
+  margin: 0;
   padding: 0.3em 0.5em;
   min-width: 3em;
   background: hsl(0, 0%, 45%);
