@@ -14,6 +14,7 @@ export interface PlayerSectionStateProps {
   player: Player;
   playerType: PlayerType;
   isWinner: boolean;
+  showControls: boolean;
 }
 
 export interface PlayerSectionDispatchProps {
@@ -35,7 +36,7 @@ const stand = (onStand: () => void) =>
   };
 
 const PlayerSection: React.SFC<PlayerSectionProps> = ({
-  player, playerType, isWinner, onHit = () => null, onStand = () => null,
+  player, playerType, isWinner, showControls = false, onHit = () => null, onStand = () => null,
 }) => {
   const playerTypeLabel = (() => {
     switch (playerType) {
@@ -59,18 +60,18 @@ const PlayerSection: React.SFC<PlayerSectionProps> = ({
           <h2 className="player-header">{playerTypeLabel}</h2>
           <h2 className={`player-score ${score > MAX_SCORE ? " player-score--bust" : ""}`}>{score}</h2>
 
-          {playerType === PlayerType.player && player.status !== Action.stand &&
+          {showControls && (
             <div className="player-controls">
               <button onClick={hit(onHit)} className="btn btn--green">Hit</button>
               <button onClick={stand(onStand)} className="btn btn--red">Stand</button>
             </div>
-          }
+          )}
 
-          {player.status === Action.stand &&
+          {player.status === Action.stand && (
             <div className="player-controls">
               <h4 className="player-status">Stand</h4>
             </div>
-          }
+          )}
         </div>
         <Hand hand={player.hand} />
       </div>
@@ -90,14 +91,22 @@ interface PlayerSectionOwnPropsPlayer extends PlayerSectionOwnProps {
 
 const mapStateToPropsPlayer: MapStateToProps<PlayerSectionStateProps, PlayerSectionOwnPropsPlayer, GameState> = (
   state, ownProps,
-) => ({
-  player: state.players[ownProps.playerIndex],
-  playerType: ownProps.playerType,
-  isWinner:
-    state.dealer.status === Action.stand
-      && state.players[ownProps.playerIndex].status === Action.stand
-      && isPlayerWinner(state.players[ownProps.playerIndex], state.dealer),
-});
+) => {
+  const currentPlayer = state.players[ownProps.playerIndex];
+
+  return {
+    player: currentPlayer,
+    playerType: ownProps.playerType,
+    isWinner:
+      state.dealer.status === Action.stand
+        && currentPlayer.status === Action.stand
+        && isPlayerWinner(currentPlayer, state.dealer),
+    showControls:
+      currentPlayer.status !== Action.stand
+        && state.dealer.hand.length >= 2
+        && state.players.every((player) => player.hand.length >= 2),
+  };
+};
 
 const mapDispatchToPropsPlayer: MapDispatchToProps<PlayerSectionDispatchProps, PlayerSectionOwnPropsPlayer> = (
   dispatch: ThunkDispatch<GameState, void, GameAction>, ownProps,
@@ -117,6 +126,7 @@ const mapStateToPropsDealer: MapStateToProps<PlayerSectionStateProps, PlayerSect
     state.players.every((player) => player.status === Action.stand)
       && state.dealer.status === Action.stand
       && isDealerWinner(state.dealer, state.players),
+  showControls: false,
 });
 
 export const ConnectedDealerSection = connect(mapStateToPropsDealer)(PlayerSection);

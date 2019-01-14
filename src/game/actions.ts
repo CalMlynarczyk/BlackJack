@@ -67,7 +67,7 @@ export function playerHit(
     const state = getState();
 
     if (
-      noDealerTurn &&
+      !noDealerTurn &&
       state.playerTurn < 0 &&
       (state.dealer.status === Action.hit ||
         state.players.some((player) => player.status === Action.hit))

@@ -72,13 +72,13 @@ const mapDispatchToProps: MapDispatchToProps<GameDispatchProps, {}> =
         // Initial deal
         dispatch(reset());
         dispatch(shuffleDeck());
-        dispatch(playerHit(0, false));
+        dispatch(playerHit(0, true));
 
         timerIds.push(setTimeout(() => {
           dispatch(dealerHit());
 
           timerIds.push(setTimeout(() => {
-            dispatch(playerHit(0, false));
+            dispatch(playerHit(0, true));
 
             timerIds.push(setTimeout(() => dispatch(dealerHit()), dealInterval));
           }, dealInterval));

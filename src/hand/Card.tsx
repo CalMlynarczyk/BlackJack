@@ -7,7 +7,6 @@ interface CardProps {
   card: CardEnum;
   isHidden?: boolean;
   style?: object;
-  [key: string]: any;
 }
 
 const Card: React.SFC<CardProps> = ({ card, isHidden, style }) => (

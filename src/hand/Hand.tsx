@@ -60,7 +60,7 @@ export default class Hand extends React.Component<HandProps, HandState> {
           },
         }))}
       >
-        {(interpolatedStyles) =>
+        {(interpolatedStyles) => (
           <ul className="hand">
             <CardComponent card={placeholderCard} isHidden={true} />
 
@@ -77,7 +77,7 @@ export default class Hand extends React.Component<HandProps, HandState> {
               />
             ))}
           </ul>
-        }
+        )}
       </TransitionMotion>
     );
   }
