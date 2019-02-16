@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:11.10
+      - image: circleci/node:11.9
     environment:
       NODE_ENV: production
     steps:
