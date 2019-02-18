@@ -44,11 +44,18 @@ jobs:
             rm -rf dist # Clean the output directory before building
             yarn build:prod
 
+      - add_ssh_keys:
+          fingerprints:
+            - "0c:c4:cb:fa:ee:79:ec:11:47:22:a1:7c:fd:11:54:6b"
+
       - deploy:
           name: Deploy client assets to GitHub Pages
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              
+              yarn add --pure-lockfile --silent gh-pages
+              git config user.email "deploy@circleci.com"
+              git config user.name "circleci"
+              yarn gh-pages --message "[skip ci] Deploy" --dist dist/
             fi
 
       - store_artifacts:
