@@ -50,12 +50,3 @@ jobs:
       - store_artifacts:
           path: dist
           destination: dist
-
-workflows:
-  build-deploy:
-    jobs:
-      - build:
-          filters:
-            branches:
-              ignore:
-                - gh-pages
