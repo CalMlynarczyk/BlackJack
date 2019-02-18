@@ -38,7 +38,7 @@ jobs:
           name: Build client package
           command: |
             rm -rf dist # Clean the output directory before building
-            yarn build:prod --verbose
+            yarn build:prod
 
       - deploy:
           name: Deploy client assets to GitHub Pages
