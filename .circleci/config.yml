@@ -6,6 +6,10 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          name: Checkout submodules
+          command: git submodule update --init
+
       - restore_cache:
           key: yarn_lock-{{ checksum "yarn.lock" }}
 
