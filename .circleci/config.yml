@@ -46,7 +46,7 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - "0c:c4:cb:fa:ee:79:ec:11:47:22:a1:7c:fd:11:54:6b"
+            - "5e:90:1a:fd:8f:62:d7:11:ba:18:1b:20:a5:49:e6:78"
 
       - deploy:
           name: Deploy client assets to GitHub Pages
