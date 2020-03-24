@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/node:13.8
+    resource_class: small
     steps:
       - checkout
 
