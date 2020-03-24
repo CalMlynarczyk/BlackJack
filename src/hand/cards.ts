@@ -51,8 +51,12 @@ export function createCard(suit: CardSuit, value: CardValue): Card {
 function createDeck() {
   const deck: Card[] = [];
 
-  for (const suit of Object.values(CardSuit).slice(Object.values(CardSuit).length / 2)) {
-    for (const value of Object.values(CardValue).slice(Object.values(CardValue).length / 2)) {
+  for (const suit of Object.values(CardSuit).slice(
+    Object.values(CardSuit).length / 2
+  )) {
+    for (const value of Object.values(CardValue).slice(
+      Object.values(CardValue).length / 2
+    )) {
       const card = createCard(suit, value);
       deck.push(card);
     }

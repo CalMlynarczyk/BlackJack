@@ -1,6 +1,12 @@
 import { Reducer } from "redux";
 import { Card, getShuffledDeck } from "../hand/cards";
-import { Action, doesDealerStand, doesPlayerBustOrHave21, doesPlayerStand, Player } from "../player/player";
+import {
+  Action,
+  doesDealerStand,
+  doesPlayerBustOrHave21,
+  doesPlayerStand,
+  Player,
+} from "../player/player";
 import { ActionTypes, GameAction } from "./actions";
 
 export interface GameState {
@@ -48,12 +54,11 @@ function playerHit(state: GameState, action: GameAction) {
           updatedPlayer.status = Action.stand;
         }
 
-        return {...updatedPlayer};
+        return { ...updatedPlayer };
       }
     }),
-    playerTurn: action.index >= state.players.length - 1
-      ? -1
-      : state.playerTurn + 1,
+    playerTurn:
+      action.index >= state.players.length - 1 ? -1 : state.playerTurn + 1,
   };
 }
 
@@ -64,13 +69,12 @@ function playerStand(state: GameState, action: GameAction) {
       index !== action.index
         ? player
         : {
-          ...player,
-          status: Action.stand,
-        },
+            ...player,
+            status: Action.stand,
+          }
     ),
-    playerTurn: action.index >= state.players.length - 1
-      ? -1
-      : state.playerTurn + 1,
+    playerTurn:
+      action.index >= state.players.length - 1 ? -1 : state.playerTurn + 1,
   };
 }
 
@@ -136,7 +140,10 @@ function dealerHit(state: GameState) {
   };
 }
 
-const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, action) => {
+const blackjackApp: Reducer<GameState, GameAction> = (
+  state = initialState,
+  action
+) => {
   switch (action.type) {
     case ActionTypes.PLAYER_HIT:
       return playerHit(state, action);
@@ -153,11 +160,11 @@ const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, acti
           index !== action.index
             ? player
             : {
-              ...player,
-              status: doesPlayerStand(player, state.dealer)
-                ? Action.stand
-                : Action.hit,
-            },
+                ...player,
+                status: doesPlayerStand(player, state.dealer)
+                  ? Action.stand
+                  : Action.hit,
+              }
         ),
       };
     case ActionTypes.CHECK_DEALER:
@@ -171,7 +178,7 @@ const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, acti
         },
       };
     case ActionTypes.RESET:
-      return {...initialState};
+      return { ...initialState };
     case ActionTypes.SHUFFLE_DECK:
       return {
         ...state,

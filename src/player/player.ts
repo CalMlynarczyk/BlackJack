@@ -25,13 +25,15 @@ export function doesPlayerStand(player: Player, opponent: Player) {
   const opponentHandTotal = getFinalHandValue(opponent.hand);
 
   const isScoreHigherThanOpponent =
-    opponentHandTotal > MAX_SCORE
-      || (opponent.status === Action.stand && playerHandTotal > opponentHandTotal);
+    opponentHandTotal > MAX_SCORE ||
+    (opponent.status === Action.stand && playerHandTotal > opponentHandTotal);
 
   return isScoreHigherThanOpponent || doesPlayerBustOrHave21(player);
 }
 
 export function doesDealerStand(dealer: Player, players: Player[]) {
-  return getFinalHandValue(dealer.hand) >= DEALER_MAX_SCORE
-    || players.every((player) => doesPlayerStand(dealer, player));
+  return (
+    getFinalHandValue(dealer.hand) >= DEALER_MAX_SCORE ||
+    players.every((player) => doesPlayerStand(dealer, player))
+  );
 }

@@ -46,7 +46,10 @@ function getHandValue(hand: Hand) {
         ? createTotal(total.hard + hardValue, total.soft + hardValue)
         : createTotal(total.hard + hardValue, total.soft + softValue);
     } else {
-      return createTotal(total.hard + (cardNumericValue as number), total.soft + (cardNumericValue as number));
+      return createTotal(
+        total.hard + (cardNumericValue as number),
+        total.soft + (cardNumericValue as number)
+      );
     }
   }, startingTotal);
 }
@@ -59,9 +62,7 @@ function getHandValue(hand: Hand) {
 export function getFinalHandValue(hand: Hand) {
   const total = getHandValue(hand);
 
-  return total.soft <= MAX_SCORE
-    ? total.soft
-    : total.hard;
+  return total.soft <= MAX_SCORE ? total.soft : total.hard;
 }
 
 /**
@@ -73,8 +74,10 @@ export function isPlayerWinner(player: Player, dealer: Player) {
   const playerTotal = getFinalHandValue(player.hand);
   const dealerTotal = getFinalHandValue(dealer.hand);
 
-  return playerTotal <= MAX_SCORE
-    && (dealerTotal > MAX_SCORE || playerTotal > dealerTotal);
+  return (
+    playerTotal <= MAX_SCORE &&
+    (dealerTotal > MAX_SCORE || playerTotal > dealerTotal)
+  );
 }
 
 /**
@@ -88,20 +91,25 @@ export function isDealerWinner(dealer: Player, players: Player[]) {
   return players.every((player) => {
     const playerTotal = getFinalHandValue(player.hand);
 
-    return playerTotal > MAX_SCORE
-      || (dealerTotal <= MAX_SCORE && playerTotal < dealerTotal);
+    return (
+      playerTotal > MAX_SCORE ||
+      (dealerTotal <= MAX_SCORE && playerTotal < dealerTotal)
+    );
   });
 }
 
 export function isTie(dealer: Player, players: Player[]) {
   const dealerTotal = getFinalHandValue(dealer.hand);
 
-  return dealer.status === Action.stand
-    && players.every((player) => {
+  return (
+    dealer.status === Action.stand &&
+    players.every((player) => {
       const playerTotal = getFinalHandValue(player.hand);
 
-      return player.status === Action.stand
-        && dealerTotal === playerTotal
-        || (playerTotal > MAX_SCORE && dealerTotal > MAX_SCORE);
-    });
+      return (
+        (player.status === Action.stand && dealerTotal === playerTotal) ||
+        (playerTotal > MAX_SCORE && dealerTotal > MAX_SCORE)
+      );
+    })
+  );
 }

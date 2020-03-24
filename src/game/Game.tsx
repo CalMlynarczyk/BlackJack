@@ -2,13 +2,30 @@ import "./game.css";
 
 import React from "react";
 import { render } from "react-dom";
-import { connect, MapDispatchToProps, MapStateToProps, Provider } from "react-redux";
+import {
+  connect,
+  MapDispatchToProps,
+  MapStateToProps,
+  Provider,
+} from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import ReduxThunk, { ThunkDispatch } from "redux-thunk";
 import { Player, PlayerType } from "../player/player";
-import { ConnectedDealerSection, ConnectedPlayerSection } from "../player/PlayerSection";
-import { ActionTypes, checkDealer, checkPlayer, dealerHit, GameAction, playerHit, reset, shuffleDeck } from "./actions";
+import {
+  ConnectedDealerSection,
+  ConnectedPlayerSection,
+} from "../player/PlayerSection";
+import {
+  ActionTypes,
+  checkDealer,
+  checkPlayer,
+  dealerHit,
+  GameAction,
+  playerHit,
+  reset,
+  shuffleDeck,
+} from "./actions";
 import blackjackApp, { GameState } from "./reducers";
 import { isTie } from "./score";
 import { isStillPlaying } from "./store";
@@ -21,15 +38,17 @@ import { isStillPlaying } from "./store";
 const actionTypeEnumToString = (action: any): any => {
   return typeof action.type === "number" && ActionTypes[action.type]
     ? {
-      ...action,
-      type: ActionTypes[action.type],
-    }
+        ...action,
+        type: ActionTypes[action.type],
+      }
     : action;
 };
 
 const store = createStore(
   blackjackApp,
-  composeWithDevTools({ actionSanitizer: actionTypeEnumToString })(applyMiddleware(ReduxThunk)),
+  composeWithDevTools({ actionSanitizer: actionTypeEnumToString })(
+    applyMiddleware(ReduxThunk)
+  )
 );
 
 export interface GameStateProps {
@@ -54,62 +73,80 @@ class Game extends React.Component<GameProps> {
 
     return (
       <div className="game-container">
-        <h2 className={`result-message tie-message ${isTieValue ? "" : "hide"}`}>Tie</h2>
+        <h2
+          className={`result-message tie-message ${isTieValue ? "" : "hide"}`}
+        >
+          Tie
+        </h2>
 
-        <ConnectedPlayerSection playerType={PlayerType.player} playerIndex={0} />
+        <ConnectedPlayerSection
+          playerType={PlayerType.player}
+          playerIndex={0}
+        />
         <ConnectedDealerSection playerType={PlayerType.dealer} />
 
-        {(true || isStillPlaying(dealer, players)) &&
-          <button onClick={onReset} className="btn">Reset</button>
-        }
+        {(true || isStillPlaying(dealer, players)) && (
+          <button onClick={onReset} className="btn">
+            Reset
+          </button>
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps: MapStateToProps<GameStateProps, {}, GameState> = (state) => ({
+const mapStateToProps: MapStateToProps<GameStateProps, {}, GameState> = (
+  state
+) => ({
   dealer: state.dealer,
   players: state.players,
 });
 
-const mapDispatchToProps: MapDispatchToProps<GameDispatchProps, {}> =
-  (dispatch: ThunkDispatch<GameState, void, GameAction>) => {
-    // Track all timed actions so we can cancel them
-    // if another reset is triggered.
-    let timerIds: NodeJS.Timeout[] = [];
+const mapDispatchToProps: MapDispatchToProps<GameDispatchProps, {}> = (
+  dispatch: ThunkDispatch<GameState, void, GameAction>
+) => {
+  // Track all timed actions so we can cancel them
+  // if another reset is triggered.
+  let timerIds: NodeJS.Timeout[] = [];
 
-    return {
-      onReset: () => {
-        // Cancel all previous timed actions
-        timerIds.forEach(clearTimeout);
-        timerIds = [];
+  return {
+    onReset: () => {
+      // Cancel all previous timed actions
+      timerIds.forEach(clearTimeout);
+      timerIds = [];
 
-        const dealInterval = 550;
+      const dealInterval = 550;
 
-        // Initial deal
-        dispatch(reset());
-        dispatch(shuffleDeck());
-        dispatch(playerHit(0, true));
+      // Initial deal
+      dispatch(reset());
+      dispatch(shuffleDeck());
+      dispatch(playerHit(0, true));
 
-        timerIds.push(setTimeout(() => {
+      timerIds.push(
+        setTimeout(() => {
           dispatch(dealerHit());
 
-          timerIds.push(setTimeout(() => {
-            dispatch(playerHit(0, true));
+          timerIds.push(
+            setTimeout(() => {
+              dispatch(playerHit(0, true));
 
-            timerIds.push(setTimeout(() => dispatch(dealerHit()), dealInterval));
-          }, dealInterval));
-        }, dealInterval));
+              timerIds.push(
+                setTimeout(() => dispatch(dealerHit()), dealInterval)
+              );
+            }, dealInterval)
+          );
+        }, dealInterval)
+      );
 
-        dispatch(checkPlayer(0));
-        dispatch(checkDealer());
-      },
-    };
+      dispatch(checkPlayer(0));
+      dispatch(checkDealer());
+    },
   };
+};
 
 const ConnectedGameContainer = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Game);
 
 export default function playGame(elementId: string) {
@@ -117,6 +154,6 @@ export default function playGame(elementId: string) {
     <Provider store={store}>
       <ConnectedGameContainer />
     </Provider>,
-    document.getElementById(elementId),
+    document.getElementById(elementId)
   );
 }

@@ -18,7 +18,10 @@ export default class Sound {
   }
 
   public stop() {
-    this.gainNode.gain.exponentialRampToValueAtTime(0.001, this.context.currentTime + 0.5);
+    this.gainNode.gain.exponentialRampToValueAtTime(
+      0.001,
+      this.context.currentTime + 0.5
+    );
     this.source.stop(this.context.currentTime + 0.5);
   }
 

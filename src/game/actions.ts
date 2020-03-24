@@ -25,7 +25,9 @@ export const playerHitAction: ActionCreator<GameAction> = (index: number) => ({
   index,
 });
 
-export const playerStandAction: ActionCreator<GameAction> = (index: number) => ({
+export const playerStandAction: ActionCreator<GameAction> = (
+  index: number
+) => ({
   type: ActionTypes.PLAYER_STAND,
   index,
 });
@@ -64,7 +66,9 @@ function dealerTurn(): ThunkAction<void, GameState, void, GameAction> {
     } else {
       dispatch(dealerTurnAction());
 
-      if (getState().players.every((player) => player.status === Action.stand)) {
+      if (
+        getState().players.every((player) => player.status === Action.stand)
+      ) {
         dispatch(dealerTurnAction());
         dispatch(dealerTurn());
       }
@@ -74,7 +78,7 @@ function dealerTurn(): ThunkAction<void, GameState, void, GameAction> {
 
 export function playerHit(
   index: number,
-  noDealerTurn = false,
+  noDealerTurn = false
 ): ThunkAction<void, GameState, void, GameAction> {
   return (dispatch, getState) => {
     dispatch(playerHitAction(index));
@@ -93,7 +97,7 @@ export function playerHit(
 }
 
 export function playerStand(
-  index: number,
+  index: number
 ): ThunkAction<void, GameState, void, GameAction> {
   return (dispatch, getState) => {
     dispatch(playerStandAction(index));
