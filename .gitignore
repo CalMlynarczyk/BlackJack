@@ -1,5 +1,6 @@
-node_modules/
+.awcache/
+.vscode/
 dist/
+node_modules/
 reports/
 .DS_Store
-.awcache/

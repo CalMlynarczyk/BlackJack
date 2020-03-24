@@ -27,13 +27,5 @@ module.exports = {
   ],
   "rules": {
     "react/prop-types": "off"
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "rules": {
-        
-      }
-    }
-  ]
+  }
 };
