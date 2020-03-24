@@ -44,7 +44,9 @@ export const mapCardValues = new Map<CardValue, number | number[]>([
   [CardValue.King, 10],
 ]);
 
-const DECK = createDeck();
+export function createCard(suit: CardSuit, value: CardValue): Card {
+  return { suit, value };
+}
 
 function createDeck() {
   const deck: Card[] = [];
@@ -59,9 +61,7 @@ function createDeck() {
   return deck;
 }
 
-export function createCard(suit: CardSuit, value: CardValue): Card {
-  return { suit, value };
-}
+const DECK = createDeck();
 
 /**
  * Knuth Shuffle Algorithm borrowed from https://git.daplie.com/Daplie/knuth-shuffle.

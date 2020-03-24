@@ -18,10 +18,14 @@ const willEnter = () => ({
   translateX: 300,
 });
 
-interface DisplayCard extends Card { rotateVal: number; }
+function getRandomRotateVal() {
+  return Math.random() * 12 - 6;
+}
 
-interface HandProps { hand: HandType; }
-interface HandState { displayHand: DisplayCard[]; }
+interface DisplayCard extends Card {rotateVal: number}
+
+interface HandProps {hand: HandType}
+interface HandState {displayHand: DisplayCard[]}
 
 export default class Hand extends React.Component<HandProps, HandState> {
   public readonly state: HandState = {
@@ -88,8 +92,4 @@ export default class Hand extends React.Component<HandProps, HandState> {
       rotateVal: getRandomRotateVal(),
     }));
   }
-}
-
-function getRandomRotateVal() {
-  return Math.random() * 12 - 6;
 }

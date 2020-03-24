@@ -5,10 +5,15 @@ import { Action, Player } from "../player/player";
  * The game result enumeration
  */
 export enum RESULT {
-  player_wins,
-  dealer_wins,
-  tie,
-  still_playing,
+  PlayerWins,
+  DealerWins,
+  Tie,
+  StillPlaying,
+}
+
+interface HandTotal {
+  hard: number;
+  soft: number;
 }
 
 /**
@@ -20,6 +25,10 @@ export const MAX_SCORE = 21;
  * The threshold score for the dealer before they stand
  */
 export const DEALER_MAX_SCORE = 17;
+
+function createTotal(hardTotal: number, softTotal: number): HandTotal {
+  return { hard: hardTotal, soft: softTotal };
+}
 
 function getHandValue(hand: Hand) {
   const startingTotal = createTotal(0, 0);
@@ -53,15 +62,6 @@ export function getFinalHandValue(hand: Hand) {
   return total.soft <= MAX_SCORE
     ? total.soft
     : total.hard;
-}
-
-interface HandTotal {
-  hard: number;
-  soft: number;
-}
-
-function createTotal(hardTotal: number, softTotal: number): HandTotal {
-  return { hard: hardTotal, soft: softTotal };
 }
 
 /**

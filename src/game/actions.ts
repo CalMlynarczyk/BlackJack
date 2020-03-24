@@ -57,6 +57,21 @@ export const shuffleDeck: ActionCreator<GameAction> = () => ({
   type: ActionTypes.SHUFFLE_DECK,
 });
 
+function dealerTurn(): ThunkAction<void, GameState, void, GameAction> {
+  return (dispatch, getState) => {
+    if (getState().dealer.status === Action.stand) {
+      dispatch(nextTurn());
+    } else {
+      dispatch(dealerTurnAction());
+
+      if (getState().players.every((player) => player.status === Action.stand)) {
+        dispatch(dealerTurnAction());
+        dispatch(dealerTurn());
+      }
+    }
+  };
+}
+
 export function playerHit(
   index: number,
   noDealerTurn = false,
@@ -91,21 +106,6 @@ export function playerStand(
         state.players.some((player) => player.status === Action.hit))
     ) {
       dispatch(dealerTurn());
-    }
-  };
-}
-
-function dealerTurn(): ThunkAction<void, GameState, void, GameAction> {
-  return (dispatch, getState) => {
-    if (getState().dealer.status === Action.stand) {
-      dispatch(nextTurn());
-    } else {
-      dispatch(dealerTurnAction());
-
-      if (getState().players.every((player) => player.status === Action.stand)) {
-        dispatch(dealerTurnAction());
-        dispatch(dealerTurn());
-      }
     }
   };
 }

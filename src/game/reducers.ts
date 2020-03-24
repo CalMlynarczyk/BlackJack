@@ -25,54 +25,6 @@ const initialState = {
   playerTurn: 0,
 };
 
-const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionTypes.PLAYER_HIT:
-      return playerHit(state, action);
-    case ActionTypes.PLAYER_STAND:
-      return playerStand(state, action);
-    case ActionTypes.DEALER_TURN:
-      return dealerTurn(state);
-    case ActionTypes.DEALER_HIT:
-      return dealerHit(state);
-    case ActionTypes.CHECK_PLAYER:
-      return {
-        ...state,
-        players: state.players.map((player, index) =>
-          index !== action.index
-            ? player
-            : {
-              ...player,
-              status: doesPlayerStand(player, state.dealer)
-                ? Action.stand
-                : Action.hit,
-            },
-        ),
-      };
-    case ActionTypes.CHECK_DEALER:
-      return {
-        ...state,
-        dealer: {
-          ...state.dealer,
-          state: doesDealerStand(state.dealer, state.players)
-            ? Action.stand
-            : Action.hit,
-        },
-      };
-    case ActionTypes.RESET:
-      return {...initialState};
-    case ActionTypes.SHUFFLE_DECK:
-      return {
-        ...state,
-        deck: getShuffledDeck(),
-      };
-    default:
-      return state;
-  }
-};
-
-export default blackjackApp;
-
 function playerHit(state: GameState, action: GameAction) {
   if (!state.deck || state.deck.length <= 0) {
     throw new Error("Can not deal card; deck is empty.");
@@ -183,3 +135,51 @@ function dealerHit(state: GameState) {
     playerTurn: 0,
   };
 }
+
+const blackjackApp: Reducer<GameState, GameAction> = (state = initialState, action) => {
+  switch (action.type) {
+    case ActionTypes.PLAYER_HIT:
+      return playerHit(state, action);
+    case ActionTypes.PLAYER_STAND:
+      return playerStand(state, action);
+    case ActionTypes.DEALER_TURN:
+      return dealerTurn(state);
+    case ActionTypes.DEALER_HIT:
+      return dealerHit(state);
+    case ActionTypes.CHECK_PLAYER:
+      return {
+        ...state,
+        players: state.players.map((player, index) =>
+          index !== action.index
+            ? player
+            : {
+              ...player,
+              status: doesPlayerStand(player, state.dealer)
+                ? Action.stand
+                : Action.hit,
+            },
+        ),
+      };
+    case ActionTypes.CHECK_DEALER:
+      return {
+        ...state,
+        dealer: {
+          ...state.dealer,
+          state: doesDealerStand(state.dealer, state.players)
+            ? Action.stand
+            : Action.hit,
+        },
+      };
+    case ActionTypes.RESET:
+      return {...initialState};
+    case ActionTypes.SHUFFLE_DECK:
+      return {
+        ...state,
+        deck: getShuffledDeck(),
+      };
+    default:
+      return state;
+  }
+};
+
+export default blackjackApp;

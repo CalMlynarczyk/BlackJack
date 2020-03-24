@@ -3,27 +3,6 @@ import { Card as CardEnum, CardSuit, CardValue, mapCardValues } from "./cards";
 
 const SVG_CARD_DIR = "Vector-Playing-Cards/cards-svg/";
 
-interface CardProps {
-  card: CardEnum;
-  isHidden?: boolean;
-  style?: object;
-}
-
-const Card: React.SFC<CardProps> = ({ card, isHidden, style }) => (
-  <li className={`card ${isHidden ? "card--placeholder" : ""}`} style={style}>
-    <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
-  </li>
-);
-
-export default Card;
-
-export function mapCardToCode(card: CardEnum) {
-  const suitCode = mapSuitToCode(card.suit);
-  const valueCode = mapValueToCode(card.value);
-
-  return `${valueCode}${suitCode}`;
-}
-
 function mapSuitToCode(suit: CardSuit) {
   switch (suit) {
     case CardSuit.Club:
@@ -63,3 +42,24 @@ function mapValueToCode(cardValue: CardValue) {
       throw new Error("Invalid card value");
   }
 }
+
+export function mapCardToCode(card: CardEnum) {
+  const suitCode = mapSuitToCode(card.suit);
+  const valueCode = mapValueToCode(card.value);
+
+  return `${valueCode}${suitCode}`;
+}
+
+interface CardProps {
+  card: CardEnum;
+  isHidden?: boolean;
+  style?: object;
+}
+
+const Card: React.SFC<CardProps> = ({ card, isHidden, style }) => (
+  <li className={`card ${isHidden ? "card--placeholder" : ""}`} style={style}>
+    <img src={`${SVG_CARD_DIR}${mapCardToCode(card)}.svg`} />
+  </li>
+);
+
+export default Card;
