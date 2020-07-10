@@ -52,12 +52,19 @@ jobs:
           name: distributable
           path: dist/
 
-      # - deploy:
-      #     name: Deploy client assets to GitHub Pages
-      #     command: |
-      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
-      #         yarn add --pure-lockfile --silent gh-pages
-      #         git config user.email "deploy@circleci.com"
-      #         git config user.name "circleci"
-      #         yarn gh-pages --message "[skip ci] Deploy" --dist dist/
-      #       fi
+  deploy:
+    name: Deploy
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download distributable
+        uses: actions/download-artifact@v2
+        with:
+          name: distributable
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
