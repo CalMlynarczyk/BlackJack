@@ -10,7 +10,9 @@ declare global {
 
 const context = new (window.AudioContext || window.webkitAudioContext)();
 
-const sounds = ["audio/another.wav"];
+const sounds = [
+  "audio/another.wav",
+];
 
 const buffer = new Buffer(context, sounds);
 buffer.loadAll();

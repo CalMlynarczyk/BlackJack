@@ -2,8 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:13.8
-    resource_class: small
+      - image: circleci/node:11.9
     steps:
       - checkout
 

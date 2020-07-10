@@ -12,9 +12,7 @@ module.exports = {
   },
   entry: {
     main: path.resolve(__dirname, "src/index.ts"),
-    images: glob.sync(
-      path.resolve(__dirname, "Vector-Playing-Cards/cards-svg/**/*.*")
-    ),
+    images: glob.sync(path.resolve(__dirname, "Vector-Playing-Cards/cards-svg/**/*.*")),
     audio: glob.sync(path.resolve(__dirname, "audio/**/*.wav")),
   },
   module: {
@@ -22,7 +20,10 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: ["babel-loader", "awesome-typescript-loader"],
+        use: [
+          "babel-loader",
+          "awesome-typescript-loader",
+        ],
       },
       {
         test: /\.css$/,

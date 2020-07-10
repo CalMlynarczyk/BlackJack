@@ -18,20 +18,10 @@ const willEnter = () => ({
   translateX: 300,
 });
 
-function getRandomRotateVal() {
-  return Math.random() * 12 - 6;
-}
+interface DisplayCard extends Card { rotateVal: number; }
 
-interface DisplayCard extends Card {
-  rotateVal: number;
-}
-
-interface HandProps {
-  hand: HandType;
-}
-interface HandState {
-  displayHand: DisplayCard[];
-}
+interface HandProps { hand: HandType; }
+interface HandState { displayHand: DisplayCard[]; }
 
 export default class Hand extends React.Component<HandProps, HandState> {
   public readonly state: HandState = {
@@ -40,18 +30,16 @@ export default class Hand extends React.Component<HandProps, HandState> {
 
   public componentDidUpdate(prevProps: Readonly<HandProps>) {
     if (
-      prevProps.hand.length > this.props.hand.length &&
-      this.props.hand.length < this.state.displayHand.length
+      prevProps.hand.length > this.props.hand.length
+        && this.props.hand.length < this.state.displayHand.length
     ) {
       this.setState({ displayHand: this.mapHandToDisplayHand() });
     } else if (this.state.displayHand.length < this.props.hand.length) {
       this.setState({
-        displayHand: this.state.displayHand.concat([
-          {
-            ...this.props.hand[this.props.hand.length - 1],
-            rotateVal: getRandomRotateVal(),
-          },
-        ]),
+        displayHand: this.state.displayHand.concat([{
+          ...this.props.hand[this.props.hand.length - 1],
+          rotateVal: getRandomRotateVal(),
+        }]),
       });
     }
   }
@@ -78,10 +66,12 @@ export default class Hand extends React.Component<HandProps, HandState> {
               <CardComponent
                 card={card.data}
                 key={card.key}
-                style={{
-                  opacity: card.style.opacity,
-                  transform: `translateX(${card.style.translateX}px) rotate(${card.style.rotate}deg)`,
-                }}
+                style={
+                  {
+                    opacity: card.style.opacity,
+                    transform: `translateX(${card.style.translateX}px) rotate(${card.style.rotate}deg)`,
+                  }
+                }
               />
             ))}
           </ul>
@@ -98,4 +88,8 @@ export default class Hand extends React.Component<HandProps, HandState> {
       rotateVal: getRandomRotateVal(),
     }));
   }
+}
+
+function getRandomRotateVal() {
+  return Math.random() * 12 - 6;
 }

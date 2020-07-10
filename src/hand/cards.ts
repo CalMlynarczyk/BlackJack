@@ -44,72 +44,24 @@ export const mapCardValues = new Map<CardValue, number | number[]>([
   [CardValue.King, 10],
 ]);
 
+const DECK = createDeck();
+
+function createDeck() {
+  const deck: Card[] = [];
+
+  for (const suit of Object.values(CardSuit).slice(Object.values(CardSuit).length / 2)) {
+    for (const value of Object.values(CardValue).slice(Object.values(CardValue).length / 2)) {
+      const card = createCard(suit, value);
+      deck.push(card);
+    }
+  }
+
+  return deck;
+}
+
 export function createCard(suit: CardSuit, value: CardValue): Card {
   return { suit, value };
 }
-
-function createDeck() {
-  return [
-    // Clubs
-    createCard(CardSuit.Club, CardValue.Ace),
-    createCard(CardSuit.Club, CardValue.Two),
-    createCard(CardSuit.Club, CardValue.Three),
-    createCard(CardSuit.Club, CardValue.Four),
-    createCard(CardSuit.Club, CardValue.Five),
-    createCard(CardSuit.Club, CardValue.Six),
-    createCard(CardSuit.Club, CardValue.Seven),
-    createCard(CardSuit.Club, CardValue.Eight),
-    createCard(CardSuit.Club, CardValue.Nine),
-    createCard(CardSuit.Club, CardValue.Ten),
-    createCard(CardSuit.Club, CardValue.Jack),
-    createCard(CardSuit.Club, CardValue.Queen),
-    createCard(CardSuit.Club, CardValue.King),
-    // Spades
-    createCard(CardSuit.Spade, CardValue.Ace),
-    createCard(CardSuit.Spade, CardValue.Two),
-    createCard(CardSuit.Spade, CardValue.Three),
-    createCard(CardSuit.Spade, CardValue.Four),
-    createCard(CardSuit.Spade, CardValue.Five),
-    createCard(CardSuit.Spade, CardValue.Six),
-    createCard(CardSuit.Spade, CardValue.Seven),
-    createCard(CardSuit.Spade, CardValue.Eight),
-    createCard(CardSuit.Spade, CardValue.Nine),
-    createCard(CardSuit.Spade, CardValue.Ten),
-    createCard(CardSuit.Spade, CardValue.Jack),
-    createCard(CardSuit.Spade, CardValue.Queen),
-    createCard(CardSuit.Spade, CardValue.King),
-    // Hearts
-    createCard(CardSuit.Heart, CardValue.Ace),
-    createCard(CardSuit.Heart, CardValue.Two),
-    createCard(CardSuit.Heart, CardValue.Three),
-    createCard(CardSuit.Heart, CardValue.Four),
-    createCard(CardSuit.Heart, CardValue.Five),
-    createCard(CardSuit.Heart, CardValue.Six),
-    createCard(CardSuit.Heart, CardValue.Seven),
-    createCard(CardSuit.Heart, CardValue.Eight),
-    createCard(CardSuit.Heart, CardValue.Nine),
-    createCard(CardSuit.Heart, CardValue.Ten),
-    createCard(CardSuit.Heart, CardValue.Jack),
-    createCard(CardSuit.Heart, CardValue.Queen),
-    createCard(CardSuit.Heart, CardValue.King),
-    // Diamonds
-    createCard(CardSuit.Diamond, CardValue.Ace),
-    createCard(CardSuit.Diamond, CardValue.Two),
-    createCard(CardSuit.Diamond, CardValue.Three),
-    createCard(CardSuit.Diamond, CardValue.Four),
-    createCard(CardSuit.Diamond, CardValue.Five),
-    createCard(CardSuit.Diamond, CardValue.Six),
-    createCard(CardSuit.Diamond, CardValue.Seven),
-    createCard(CardSuit.Diamond, CardValue.Eight),
-    createCard(CardSuit.Diamond, CardValue.Nine),
-    createCard(CardSuit.Diamond, CardValue.Ten),
-    createCard(CardSuit.Diamond, CardValue.Jack),
-    createCard(CardSuit.Diamond, CardValue.Queen),
-    createCard(CardSuit.Diamond, CardValue.King),
-  ];
-}
-
-const DECK = createDeck();
 
 /**
  * Knuth Shuffle Algorithm borrowed from https://git.daplie.com/Daplie/knuth-shuffle.

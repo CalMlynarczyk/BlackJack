@@ -7,8 +7,6 @@ import { Action, Player } from "../player/player";
  * @returns 'True' if the game should go another round
  */
 export function isStillPlaying(dealer: Player, players: Player[]) {
-  return (
-    dealer.status === Action.hit ||
-    players.some((player) => player.status === Action.hit)
-  );
+  return dealer.status === Action.hit
+    || players.some((player) => player.status === Action.hit);
 }
