@@ -15,21 +15,19 @@ import {
 import Hand from "../hand/Hand";
 import { Action, Player, PlayerType } from "./player";
 
-export interface PlayerSectionStateProps {
+export type PlayerSectionStateProps = {
   player: Player;
   playerType: PlayerType;
   isWinner: boolean;
   showControls: boolean;
-}
+};
 
-export interface PlayerSectionDispatchProps {
+export type PlayerSectionDispatchProps = {
   onHit?: () => void;
   onStand?: () => void;
-}
+};
 
-interface PlayerSectionProps
-  extends PlayerSectionStateProps,
-    PlayerSectionDispatchProps {}
+type PlayerSectionProps = PlayerSectionStateProps & PlayerSectionDispatchProps;
 
 const hit = (onHit: () => void) => () => {
   hitSound().play();
@@ -40,68 +38,71 @@ const stand = (onStand: () => void) => () => {
   onStand();
 };
 
-const PlayerSection: React.SFC<PlayerSectionProps> = ({
-  player,
-  playerType,
-  isWinner,
-  showControls = false,
-  onHit = () => null,
-  onStand = () => null,
-}) => {
-  const playerTypeLabel = (() => {
-    switch (playerType) {
-      case PlayerType.player:
-        return "Player";
-      case PlayerType.dealer:
-        return "Dealer";
-      default:
-        throw new Error(`Invalid player type: ${playerType}`);
-    }
-  })();
+class PlayerSection extends React.Component<PlayerSectionProps> {
+  render() {
+    const {
+      player,
+      playerType,
+      isWinner,
+      showControls = false,
+      onHit = () => null,
+      onStand = () => null,
+    } = this.props;
+    const playerTypeLabel = (() => {
+      switch (playerType) {
+        case PlayerType.player:
+          return "Player";
+        case PlayerType.dealer:
+          return "Dealer";
+        default:
+          throw new Error(`Invalid player type: ${playerType}`);
+      }
+    })();
 
-  const score = getFinalHandValue(player.hand);
+    const score = getFinalHandValue(player.hand);
 
-  return (
-    <section className="player-section">
-      <h2
-        className={`result-message winner-message ${isWinner ? "" : " hide"}`}
-      >
-        Winner
-      </h2>
+    return (
+      <section className="player-section">
+        <h2
+          className={`result-message winner-message ${isWinner ? "" : " hide"}`}
+        >
+          Winner
+        </h2>
 
-      <div className="player-section__board">
-        <div>
-          <h2 className="player-header">{playerTypeLabel}</h2>
-          <h2
-            className={`player-score ${
-              score > MAX_SCORE ? " player-score--bust" : ""
-            }`}
-          >
-            {score}
-          </h2>
+        <div className="player-section__board">
+          <div>
+            <h2 className="player-header">{playerTypeLabel}</h2>
+            <h2
+              className={`player-score ${
+                score > MAX_SCORE ? " player-score--bust" : ""
+              }`}
+            >
+              {score}
+            </h2>
 
-          {showControls && (
-            <div className="player-controls">
-              <button onClick={hit(onHit)} className="btn btn--green">
-                Hit
-              </button>
-              <button onClick={stand(onStand)} className="btn btn--red">
-                Stand
-              </button>
-            </div>
-          )}
+            {showControls && (
+              <div className="player-controls">
+                <button onClick={hit(onHit)} className="btn btn--green">
+                  Hit
+                </button>
+                <button onClick={stand(onStand)} className="btn btn--red">
+                  Stand
+                </button>
+              </div>
+            )}
 
-          {player.status === Action.stand && (
-            <div className="player-controls">
-              <h4 className="player-status">Stand</h4>
-            </div>
-          )}
+            {player.status === Action.stand && (
+              <div className="player-controls">
+                <h4 className="player-status">Stand</h4>
+              </div>
+            )}
+          </div>
+          <Hand hand={player.hand} />
         </div>
-        <Hand hand={player.hand} />
-      </div>
-    </section>
-  );
-};
+      </section>
+    );
+  }
+}
 
 export default PlayerSection;
 
