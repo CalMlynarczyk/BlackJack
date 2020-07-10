@@ -1,6 +1,6 @@
 # BlackJack
 
-[![CircleCI](https://circleci.com/gh/CalMlynarczyk/BlackJack/tree/master.svg?style=svg)](https://circleci.com/gh/CalMlynarczyk/BlackJack/tree/master)
+![Continuous Integration](https://github.com/CalMlynarczyk/BlackJack/workflows/Continuous%20Integration/badge.svg)
 
 This is a portfolio project of mine. It is designed to demonstrate my
 web frontend skillset. It is not necessarily made with cost-effective
