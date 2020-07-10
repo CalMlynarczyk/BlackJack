@@ -63,6 +63,9 @@ jobs:
         with:
           name: distributable
 
+      - name: Ping directories
+        run: ls -a
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
