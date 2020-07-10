@@ -13,17 +13,21 @@ jobs:
       - name: Checkout submodules
         run: git submodule update --init
 
-      # - restore_cache:
-      #     key: yarn_lock-{{ checksum "yarn.lock" }}
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
 
       - name: Install Node dependencies
-        run: yarn --frozen-lockfile
-
-      # - save_cache:
-      #     key: yarn_lock-{{ checksum "yarn.lock" }}
-      #     paths:
-      #       - ~/.cache/yarn
-      #       - ./node_modules
+        run: yarn install --frozen-lockfile
 
       - name: Lint source code
         run: yarn lint
@@ -31,16 +35,18 @@ jobs:
       - name: Run unit tests
         run: yarn test --reporter xunit --reporter-options output=reports/mocha/test-results.xml
 
-      # - store_test_results:
-      #     path: ./reports
-      # - store_artifacts:
-      #     path: ./reports
-      #     destination: tests/
-
       - name: Build client package
         run: |
           rm -rf dist # Clean the output directory before building
           yarn build:prod
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: Distributable
+          path: |
+            - dist
+            - reports
 
       # - deploy:
       #     name: Deploy client assets to GitHub Pages
@@ -51,7 +57,3 @@ jobs:
       #         git config user.name "circleci"
       #         yarn gh-pages --message "[skip ci] Deploy" --dist dist/
       #       fi
-
-      # - store_artifacts:
-      #     path: dist
-      #     destination: dist
