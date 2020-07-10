@@ -35,18 +35,22 @@ jobs:
       - name: Run unit tests
         run: yarn test --reporter xunit --reporter-options output=reports/mocha/test-results.xml
 
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: reports/mocha/test-results.xml
+
       - name: Build client package
         run: |
           rm -rf dist # Clean the output directory before building
           yarn build:prod
 
-      - name: Upload artifacts
+      - name: Upload build output
         uses: actions/upload-artifact@v2
         with:
-          name: Distributable
-          path: |
-            dist/
-            reports/
+          name: distributable
+          path: dist/
 
       # - deploy:
       #     name: Deploy client assets to GitHub Pages
