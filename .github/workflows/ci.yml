@@ -62,6 +62,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: distributable
+          path: dist
 
       - name: Ping directories
         run: ls -a
