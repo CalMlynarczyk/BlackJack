@@ -45,8 +45,8 @@ jobs:
         with:
           name: Distributable
           path: |
-            - dist
-            - reports
+            dist/
+            reports/
 
       # - deploy:
       #     name: Deploy client assets to GitHub Pages
