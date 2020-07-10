@@ -44,15 +44,15 @@ jobs:
             rm -rf dist # Clean the output directory before building
             yarn build:prod
 
-      - deploy:
-          name: Deploy client assets to GitHub Pages
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              yarn add --pure-lockfile --silent gh-pages
-              git config user.email "deploy@circleci.com"
-              git config user.name "circleci"
-              yarn gh-pages --message "[skip ci] Deploy" --dist dist/
-            fi
+      # - deploy:
+      #     name: Deploy client assets to GitHub Pages
+      #     command: |
+      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
+      #         yarn add --pure-lockfile --silent gh-pages
+      #         git config user.email "deploy@circleci.com"
+      #         git config user.name "circleci"
+      #         yarn gh-pages --message "[skip ci] Deploy" --dist dist/
+      #       fi
 
       - store_artifacts:
           path: dist
