@@ -44,10 +44,6 @@ jobs:
             rm -rf dist # Clean the output directory before building
             yarn build:prod
 
-      - add_ssh_keys:
-          fingerprints:
-            - "5e:90:1a:fd:8f:62:d7:11:ba:18:1b:20:a5:49:e6:78"
-
       - deploy:
           name: Deploy client assets to GitHub Pages
           command: |
